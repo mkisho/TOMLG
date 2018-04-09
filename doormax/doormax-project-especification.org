@@ -1,0 +1,27 @@
+TODO LIST
+
+
+* Principios de modelagem
+
+- As definições do modelo e do formalismo da MDP e do DOORMAX devem ser
+o mais próximo possível das definições da programação
+
+- A conversão para a notação da lógica do Lorini deve ser a mais próxima
+possível.
+
+- Saída gráfica do aprendizado do Doormax para propósitos de debug e entendimento do código
+
+- O ambiente de simulação dos experimentos deve ser desacoplado do código 
+deste pacote.
+
+-> Ambiente de simulação recebe um OOMDPState e uma ação e retorna um novo
+OOMDPState, completamente desacoplado do código do DOORMAX geral
+
+
+* definir um ambiente de simulação genérico #10m                  OK
+* função para ler a definição de uma OOMDP de um arquivo #30m     NOK -> Implementar usando REGEX
+* implementar o resto do formalismo do Doormax(conditions, effects, predictions) #20 
+* implementar o doormax #1h30m
+* implementar o ambiente de simulação do TAXI 1h
+
+* 
