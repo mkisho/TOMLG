@@ -1,0 +1,3 @@
+TODO LIST
+
+Função para ler a definição de classe de um problema de um arquivo
