@@ -1,6 +1,4 @@
-
-OOMDP {
-	
+Taxi {
 	Actions{
 		taxiMoveNorth,
 		taxiMoveEast,
@@ -51,6 +49,6 @@ OOMDP {
 		passengerInTaxi, 
 		taxiAtPassenger
 	}
-	
+
 	gamma : 0.95
 }

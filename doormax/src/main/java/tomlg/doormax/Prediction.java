@@ -21,4 +21,35 @@ public class Prediction {
 		this.effect = effect;
 		this.condition = condition;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((action == null) ? 0 : action.hashCode());
+		result = prime * result + ((effect == null) ? 0 : effect.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Prediction other = (Prediction) obj;
+		if (action == null) {
+			if (other.action != null)
+				return false;
+		} else if (!action.equals(other.action))
+			return false;
+		if (effect == null) {
+			if (other.effect != null)
+				return false;
+		} else if (!effect.equals(other.effect))
+			return false;
+		return true;
+	}
 }

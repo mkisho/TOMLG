@@ -3,7 +3,9 @@ package tomlg.doormax.oomdpformalism;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 
+import tomlg.doormax.oomdpformalism.ObjectClass;
 /**
  * Defines a object instanciation as in the OO-MDP formalism
  * 
@@ -11,6 +13,8 @@ import java.util.Map;
  *
  */
 public class ObjectInstance {
+	private String id;
+	
 	public final ObjectClass objectClass;
 
 	public final Map<ObjectAttribute, Object> attributesVal;
@@ -31,6 +35,16 @@ public class ObjectInstance {
 		for (ObjectAttribute attribute : this.objectClass.attributes) {
 			this.attributesVal.put(attribute, attribute.domain.generateDomainValueInstanciation());
 		}
+		
+		this.id = this.objectClass.name +" - " + UUID.randomUUID().toString();
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public ObjectInstance makeCopy() {
@@ -43,6 +57,10 @@ public class ObjectInstance {
 			copy.attributesVal.put(key, value);
 		}
 		return copy;
+	}
+
+	public int compareTo(ObjectInstance o2) {
+		return this.id.compareTo(o2.id);
 	}
 
 }

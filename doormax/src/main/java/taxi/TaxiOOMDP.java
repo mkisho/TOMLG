@@ -1,15 +1,6 @@
 package taxi;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import tomlg.doormax.oomdpformalism.Action;
-import tomlg.doormax.oomdpformalism.OOMDP;
-import tomlg.doormax.oomdpformalism.ObjectAttribute;
-import tomlg.doormax.oomdpformalism.ObjectClass;
-import tomlg.doormax.oomdpformalism.domains.BooleanDomain;
-import tomlg.doormax.oomdpformalism.domains.IntegerDomain;
-
+/*
 //TODO Ler as definições de classes de arquivos
 public class TaxiOOMDP {
 
@@ -24,8 +15,8 @@ public class TaxiOOMDP {
 	}
 
 	public ObjectClass makeTaxi() {
-		ObjectAttribute x = new ObjectAttribute("x", new IntegerDomain(0, 100));
-		ObjectAttribute y = new ObjectAttribute("y", new IntegerDomain(0, 100));
+		ObjectAttribute x = new ObjectAttribute("x", new IntegerDomain());
+		ObjectAttribute y = new ObjectAttribute("y", new IntegerDomain());
 
 		List<ObjectAttribute> attributes = new ArrayList<ObjectAttribute>(2);
 		attributes.add(x);
@@ -81,3 +72,4 @@ public class TaxiOOMDP {
 	}
 
 }
+*/

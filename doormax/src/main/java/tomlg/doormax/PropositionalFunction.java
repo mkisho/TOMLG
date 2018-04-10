@@ -16,7 +16,6 @@ public abstract class PropositionalFunction {
 		this.name = name;
 	}
 
-
 	@Override
 	public String toString() {
 		return "PropositionalFunction [name=" + name + "]";

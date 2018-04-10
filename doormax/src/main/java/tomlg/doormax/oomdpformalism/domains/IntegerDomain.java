@@ -9,12 +9,14 @@ public class IntegerDomain extends ObjectDomain {
 		this.intervalStart = intervalStart;
 		this.intervalEnd = intervalEnd;
 	}
-	
+
 	public IntegerDomain() {
 		this.intervalStart = Integer.MIN_VALUE;
-		this.intervalEnd   = Integer.MAX_VALUE;
+		this.intervalEnd = Integer.MAX_VALUE;
 	}
+
 	@Override
+
 	public boolean valueInDomain(Object val) {
 		if (val instanceof Integer) {
 			if (((Integer) val) >= intervalStart && ((Integer) val <= intervalEnd)) {
