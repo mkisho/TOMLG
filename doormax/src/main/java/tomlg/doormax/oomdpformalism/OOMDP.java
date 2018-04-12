@@ -11,7 +11,11 @@ public class OOMDP {
 		this.actions = actions;
 		this.objectClasses = objectClasses;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "OOMDP [actions=" + actions + ", objectClasses=" + objectClasses + "]";
+	}
 	
 	
 	

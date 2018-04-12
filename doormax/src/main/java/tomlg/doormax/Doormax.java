@@ -63,7 +63,7 @@ public class Doormax {
 			}
 		}
 
-		this.doormaxState.α = new LinkedHashSet<Prediction>();
+//		this.doormaxState.α = new LinkedHashSet<Prediction>();
 		this.doormaxState.ω = new HashSet<Prediction>();
 	}
 
@@ -101,27 +101,27 @@ public class Doormax {
 				if(objInstance[0].attributesVal.get(att) == objInstance[0].attributesVal.get(1)) {
 					FailureConditions key = new FailureConditions(action, att, objInstance[0].objectClass);
 					this.doormaxState.f.get(key).add(s0.toCondition());
-				}else 
+				}//else 
 					//se não for uma condição de falha, então atualizar as condições para as predições que predizem os efeitos apropriados
 					//através da operação bitwise entre a condição do espaço s'.
 					//Se não existirem predições, então inicializar uma nova predição com o efeito correspondente e a representação da condição de s
 					//para o novo preditor.
 
-					for(Effect hypEffect : Effect.possibleEffectsExplanation(objInstance[0], objInstance[1], att){
+//					for(Effect hypEffect : Effect.possibleEffectsExplanation(objInstance[0], objInstance[1], att){
 						//Check for existing predictions to update
 						//TODO mudar a estruta de dados de alfa
-						if(this.doormaxState.α.contains(predition)) {
+//						if(this.doormaxState.α.contains(predition)) {
 						//	UPdate prediction contition
-							this.doormaxState.α.get(hypEffect).condition.bitwise(s0.toCondition());
+//							this.doormaxState.α.get(hypEffect).condition.bitwise(s0.toCondition());
 							
 							
 							
-						}
+//						}
 						
 						//Lastly, we rule out contradictory
 //						object class, attribute, action, effect type tuples: namely those for which there are more than k predictions
 //						and those which have predictions with overlapping conditions
-					}
+//					}
 				}
 			
 		}
