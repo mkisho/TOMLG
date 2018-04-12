@@ -20,7 +20,7 @@ public class Effect {
 	public final EffectType type;
 	public final ObjectAttribute attribute;
 	public final ObjectClass objectClass;
-	public Double number;
+	public final Double number;
 
 	public Effect(EffectType type, ObjectAttribute attribute, ObjectClass objectClass, Double number) {
 		super();

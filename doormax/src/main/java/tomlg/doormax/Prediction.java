@@ -10,7 +10,7 @@ import tomlg.doormax.oomdpformalism.Action;
  which summarizes the condition under which an effect is thought to take place when a particular action is
 taken
  */
-public class Prediction {
+final public class Prediction {
 	public final Action action;
 	public final Effect effect;
 	public final Condition condition;
@@ -30,6 +30,15 @@ public class Prediction {
 		result = prime * result + ((effect == null) ? 0 : effect.hashCode());
 		return result;
 	}
+	
+	public Prediction bitwise(Prediction pred) {
+		return new Prediction(this.action, this.effect, this.condition.bitwise(pred.condition));
+	}
+
+	public Prediction bitwise(Condition cond) {
+		return new Prediction(this.action, this.effect, this.condition.bitwise(cond));
+	}
+
 
 	@Override
 	public boolean equals(Object obj) {

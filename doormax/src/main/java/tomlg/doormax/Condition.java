@@ -16,7 +16,7 @@ import tomlg.doormax.oomdpformalism.OOMDPState;
  * @author chronius
  *
  */
-public class Condition {
+final public class Condition {
 	public final PropositionalFunction[] bitStringPropositionsIndex;
 	public final String conditionEvaluated;
 	public final char[] conditionBitArray;
@@ -65,7 +65,7 @@ public class Condition {
 	 * @param condition
 	 * @return
 	 */
-	public String bitwise(Condition condition) {
+	public Condition bitwise(Condition condition) {
 		if (condition.conditionEvaluated.length() != conditionEvaluated.length()) {
 			/// TODO gerar uma exceção. Sobre hipotese alguma esse caso deve ocorrer
 			/// se ocorrer indica problemas no algoritmo
@@ -80,7 +80,7 @@ public class Condition {
 			} else
 				resultString[index] = '*';
 		}
-		return resultString.toString();
+		return new Condition(this.bitStringPropositionsIndex, resultString.toString());
 	}
 
 	public boolean overlaps(Condition condition) {
