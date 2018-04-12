@@ -20,8 +20,11 @@ OOMDPState, completamente desacoplado do código do DOORMAX geral
 
 * definir um ambiente de simulação genérico #10m                  OK
 * função para ler a definição de uma OOMDP de um arquivo #30m     NOK -> Implementar usando REGEX
-* implementar o resto do formalismo do Doormax(conditions, effects, predictions) #20 
-* implementar o doormax #1h30m
-* implementar o ambiente de simulação do TAXI 1h
+* implementar o resto do formalismo do Doormax(conditions, effects, predictions) #20  OK
 
-* 
+* Modificar as estruturas de dados sendo utilizadas no alfa e w para facilitar a escrita do código
+* implementar o learning do doormax  :30m~40m
+* implementar o prediction do doormax :1:00~1:30
+* implementar o laço principal do doormax -> finish doormax 1:00~1:00
+ 
+* implementar o ambiente de simulação do TAXI 1h
