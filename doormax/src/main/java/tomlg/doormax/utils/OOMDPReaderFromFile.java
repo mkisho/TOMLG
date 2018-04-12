@@ -33,7 +33,7 @@ public class OOMDPReaderFromFile {
 	
 	public OOMDPReaderFromFile() {
 		arquivo = "";
-	}
+	}  
 	
     public void leitura() throws FileNotFoundException, IOException {
 
