@@ -33,7 +33,7 @@ public class OOMDPReaderFromFile {
 	
 	public OOMDPReaderFromFile() {
 		arquivo = "";
-	}  
+	}   
 	
     public void leitura() throws FileNotFoundException, IOException {
 
@@ -55,7 +55,6 @@ public class OOMDPReaderFromFile {
         in.close();
         
         //TODO Remover Actions{}
-//        arquivo.split("\\{");
         Matcher actions_matcher = actions_pattern.matcher(arquivo);
         if (actions_matcher.find()) {
         	auxStringArray = actions_matcher.group().split(",");

@@ -12,7 +12,7 @@ public class ObjectClass {
 
 	public final List<ObjectAttribute> attributes;
 	public final String name;
-
+   
 	public List<ObjectAttribute> getAttributes() {
 		return attributes;
 	}

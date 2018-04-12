@@ -13,7 +13,7 @@ public class ObjectAttribute {
 	public final String name;
 
 	public ObjectAttribute(String name, ObjectDomain domain) {
-		super();
+		super();  
 		this.name = name;
 		this.domain = domain;
 	}
