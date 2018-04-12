@@ -65,11 +65,9 @@ public class OOMDPReaderFromFile {
        		}     	
             System.out.println(actions_matcher.group());
         }
-                
-        //TODO Remover Classes{}
+        
         //TODO separar Classes
         //TODO Remover ClassName{}
-        //TODO todo o resto
         Matcher classes_matcher = classes_pattern.matcher(arquivo);
         if (classes_matcher.find()) {
         	Matcher class_matcher = class_pattern.matcher(classes_matcher.group());
@@ -102,7 +100,6 @@ public class OOMDPReaderFromFile {
         	}
         }
        
-        //TODO Ler valor
         Matcher gamma_matcher = gamma_pattern.matcher(arquivo);
        	if (gamma_matcher.find()) {
         	gamma_string=gamma_matcher.group();
