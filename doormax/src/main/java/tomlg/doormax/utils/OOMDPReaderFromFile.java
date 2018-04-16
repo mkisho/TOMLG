@@ -2,14 +2,11 @@ package tomlg.doormax.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 
 
@@ -41,7 +38,7 @@ public class OOMDPReaderFromFile {
         String line;
         Pattern actions_pattern = Pattern.compile("((?!\\s*Actions\\s*\\{)\\s*(\\w*[\\,,\\s])+(?=\\}\\s+))"); //
         Pattern classes_pattern = Pattern.compile("(Classes\\s*\\{(\\s*(\\w+\\s*\\(\\s*(\\s*\\w+\\s*:\\s*\\w+[\\,,\\s])+\\s*\\))\\s)*\\s*\\})"); //
-        Pattern class_pattern = Pattern.compile("((?!(\\w)+\\s*\\(\\s*)(\\s*\\w+\\s*:\\s*\\w+[\\,,\\s])+\\s*(?!\\)))");
+        Pattern class_pattern = Pattern.compile("(((\\w)+\\s*\\(\\s*)(\\s*\\w+\\s*:\\s*\\w+[\\,,\\s])+\\s*(?!\\)))");
         Pattern propositions_pattern = Pattern.compile("(Propositions\\s*\\{\\s*(\\w*[\\,,\\s])*\\})"); //
         Pattern gamma_pattern = Pattern.compile("(gamma\\s*:\\s*\\d.\\d*)"); //
         Pattern class_name_pattern= Pattern.compile("((\\w)+(?!\\)))");
@@ -74,10 +71,10 @@ public class OOMDPReaderFromFile {
         		
         		String className=getclassName(class_matcher.group());
         		auxStringArray = class_matcher.group().split(",");
+        		auxStringArray[0] = auxStringArray[0].split("\\(")[1];
         		List<ObjectAttribute> attributes = new ArrayList<ObjectAttribute>();
         		for (String strTemp : auxStringArray){
         			attributes.add(makeAttribute(strTemp));
-        			
            		}   
         		createdClasses.add(new ObjectClass(attributes, className));
         	}
@@ -91,11 +88,11 @@ public class OOMDPReaderFromFile {
         if (propositions_matcher.find()) {
         	propositions = propositions_matcher.group().split(",");
  //       	List<Action> proposition_list = new ArrayList<Proposition>(4);
-        	for (String strTemp : auxStringArray){
+        	for (String strTemp : propositions){
         	// propositions_list.add(new Action("strTemp"));
         	
-        	propositions_matcher.group().split(",");
-            System.out.println(propositions_matcher.group());
+    //    	propositions_matcher.group().split(",");
+            System.out.println(strTemp);
         	}
         }
        
