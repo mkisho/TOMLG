@@ -71,5 +71,9 @@ public class OOMDPState {
 		return null; //TODO
 	}
 	
+	@Override
+	public String toString() {
+		return "OOMDPState [" + objects + "]";
+	}
 
 }

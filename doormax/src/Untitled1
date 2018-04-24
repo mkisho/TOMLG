@@ -24,7 +24,7 @@ Taxi {
 		passenger(
 			xLocation : IntegerDomain,
 			yLocation : IntegerDomain,
-			goalType  : StringDomain 
+			goalType  : StringDomain,
 			inTaxi    : BooleanDomain
 		)
 		
@@ -53,11 +53,6 @@ Taxi {
 	gamma : 0.95
 }
 
-
-(\s*Actions\s*\{\s*(\w*[\,,\s])*\}\s*)
-(Classes\s*\{(\s*(\w+\s*\(\s*(\s*\w+\s*:\s*\w+[\,,\s])+\s*\))\s)*)\s*\}
-(\s*Propositions\s*\{\s*(\w*[\,,\s])*\}\s*)
-(\s*gamma\s*:\s*\d.\d*\s*)
 
 
 

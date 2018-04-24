@@ -27,6 +27,7 @@ public class ObjectInstance {
 		return attributesVal;
 	}
 
+	
 	public ObjectInstance(ObjectClass objectClass) {
 		super();
 		this.objectClass = objectClass;
@@ -62,5 +63,11 @@ public class ObjectInstance {
 	public int compareTo(ObjectInstance o2) {
 		return this.id.compareTo(o2.id);
 	}
+	
+	@Override
+	public String toString() {
+		return "ObjectInstance [Name = " + objectClass.name + "] [attributesVal=" + attributesVal + "]";
+	}
+
 
 }

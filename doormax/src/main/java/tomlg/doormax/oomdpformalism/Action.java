@@ -10,7 +10,7 @@ public class Action {
 
 	@Override
 	public String toString() {
-		return "Action [name=" + name + "]";
+		return "Action (name=" + name + ")";
 	}
  
 	
