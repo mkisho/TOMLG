@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import tomlg.doormax.oomdpformalism.ObjectClass;
 /**
- * Defines a object instanciation as in the OO-MDP formalism
+ * Defines a object instantiation as in the OO-MDP formalism
  * 
  * @author chronius
  *

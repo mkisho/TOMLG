@@ -189,7 +189,7 @@ public class OOMDPReaderFromFile {
                 			System.out.println(newObjInst.toString());
                 			
                    		}
-                		oomdpState.objects.put(newObjInst.objectClass.name, newObjInst);
+                		oomdpState.objects.put(newObjInst.getId(), newObjInst);
         			}
         		}
         		
