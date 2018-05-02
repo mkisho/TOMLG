@@ -158,9 +158,9 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 			else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
-				tmpInst = state1.objects.get(passengerId);
+				tmpInst = state1.objects.get(taxiId);
 				tmpAtt = (ObjectAttribute) tmpInst.attributesVal.keySet().toArray()[1];
-				tmpInst.attributesVal.put(tmpAtt, yTaxi++);
+				tmpInst.attributesVal.put(tmpAtt, ++yTaxi);
 				state1.objects.put(tmpInst.getId(), tmpInst);
 
 			}
@@ -173,9 +173,9 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 			else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
-				tmpInst = state1.objects.get(passengerId);
-				tmpAtt = (ObjectAttribute) tmpInst.attributesVal.keySet().toArray()[1];
-				tmpInst.attributesVal.put(tmpAtt, xTaxi++);
+				tmpInst = state1.objects.get(taxiId);
+				tmpAtt = (ObjectAttribute) tmpInst.attributesVal.keySet().toArray()[0];
+				tmpInst.attributesVal.put(tmpAtt, ++xTaxi);
 				state1.objects.put(tmpInst.getId(), tmpInst);
 			}		
 		}
@@ -186,9 +186,9 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 			else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
-				tmpInst = state1.objects.get(passengerId);
+				tmpInst = state1.objects.get(taxiId);
 				tmpAtt = (ObjectAttribute) tmpInst.attributesVal.keySet().toArray()[1];
-				tmpInst.attributesVal.put(tmpAtt, yTaxi--);
+				tmpInst.attributesVal.put(tmpAtt, --yTaxi);
 				state1.objects.put(tmpInst.getId(), tmpInst);
 
 			}
@@ -201,9 +201,9 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 			else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
-				tmpInst = state1.objects.get(passengerId);
-				tmpAtt = (ObjectAttribute) tmpInst.attributesVal.keySet().toArray()[1];
-				tmpInst.attributesVal.put(tmpAtt, xTaxi--);
+				tmpInst = state1.objects.get(taxiId);
+				tmpAtt = (ObjectAttribute) tmpInst.attributesVal.keySet().toArray()[0];
+				tmpInst.attributesVal.put(tmpAtt, --xTaxi);
 				state1.objects.put(tmpInst.getId(), tmpInst);
 			}
 		}
