@@ -2,6 +2,7 @@ package tomlg.doormax;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import tomlg.doormax.effects.ArithmeticEffect;
 import tomlg.doormax.effects.AssignmentEffect;
@@ -43,5 +44,33 @@ public class Effect {
 				hypothesisEffects.add(hyptothesis);
 		}
 		return hypothesisEffects;
+	}
+	
+	/**
+	 * Check if some effect in effects contradict this effect
+	 * @param effects
+	 * @return
+	 */
+	public boolean contradicts(Set<Effect> effects) {
+		for (Effect e : effects) {
+			if(this.objectClass != e.objectClass || this.attribute != e.attribute)
+				continue;
+			if(this.number != e.number)
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Check if some effect in effects contradict this effect
+	 * @param effects
+	 * @return
+	 */
+	public boolean contradicts(Effect effect) {
+		if(this.objectClass != effect.objectClass || this.attribute != effect.attribute)
+			return false;
+		if(this.number != effect.number)
+			return true;
+		return false;
 	}
 }
