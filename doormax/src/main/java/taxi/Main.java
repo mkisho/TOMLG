@@ -1,8 +1,9 @@
-package tomlg.doormax;
+package taxi;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import tomlg.doormax.TaxiEnvironment;
 import tomlg.doormax.oomdpformalism.Action;
 import tomlg.doormax.oomdpformalism.OOMDP;
 import tomlg.doormax.oomdpformalism.OOMDPState;

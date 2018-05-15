@@ -14,58 +14,19 @@ import tomlg.doormax.oomdpformalism.ObjectInstance;
 import tomlg.doormax.utils.Quadruple;
 
 class DoormaxState {
-	// conditions under which that action has been observed to not effect that
-	// attribute of that object instance.
-	// Each of these sets is essentially a tabular set of failure conditions for
-	// when a does not change
-	// att of any instances of oClass
-	public final Map<FailureConditions, Set<Condition>> f;
+
+	public final FailureConditionsSet f;
 
 	// body of predictions
-	public final Map<Quadruple<Action, EffectType, ObjectAttribute, ObjectClass>, Map<Effect, Prediction>> α;
+	public final AlphaPredictionsSet α;
 
 	// for the contradictory (effect types, object class, attribute, action) tuples
-	public final Map<Quadruple<Action, EffectType, ObjectAttribute, ObjectClass>, Map<Effect, Prediction>> ω;
+	public final ContradictoryWSet ω;
 
 	public DoormaxState(final OOMDP oomdp) {
-		// initializes f
-		this.f = new HashMap<FailureConditions, Set<Condition>>();
-		for (Action action : oomdp.actions) {
-			for (ObjectClass objClass : oomdp.objectClasses) {
-				for (ObjectAttribute attribute : objClass.attributes) {
-					this.f.put(new FailureConditions(action, attribute, objClass), new HashSet<Condition>());
-				}
-			}
-		}
-
-		this.α = new HashMap<>();
-		this.ω = new HashMap<>();
-	}
-
-	public void addPredictionToα(Action action, EffectType effectType, ObjectAttribute att, ObjectClass objClass,
-			Effect effect, Prediction pred) {
-		Map<Effect, Prediction> temp = new HashMap<>();
-		this.α.put(new Quadruple<Action, EffectType, ObjectAttribute, ObjectClass>(action, effectType, att, objClass),
-				temp);
-	}
-
-	public void addPredictionToω(Action action, EffectType effectType, ObjectAttribute att, ObjectClass objClass,
-			Effect effect, Prediction pred) {
-		Map<Effect, Prediction> temp = new HashMap<>();
-		this.ω.put(new Quadruple<Action, EffectType, ObjectAttribute, ObjectClass>(action, effectType, att, objClass),
-				temp);
-	}
-
-	public Map<Effect, Prediction> αPredictionSearch(Action action, EffectType effectType, ObjectAttribute att,
-			ObjectClass objClass) {
-		return this.α.get(
-				new Quadruple<Action, EffectType, ObjectAttribute, ObjectClass>(action, effectType, att, objClass));
-	}
-
-	public Map<Effect, Prediction> ωPredictionSearch(Action action, EffectType effectType, ObjectAttribute att,
-			ObjectClass objClass) {
-		return this.ω.get(
-				new Quadruple<Action, EffectType, ObjectAttribute, ObjectClass>(action, effectType, att, objClass));
+		this.f = new FailureConditionsSet(oomdp);
+		this.α = new AlphaPredictionsSet();
+		this.ω = new ContradictoryWSet();
 	}
 }
 
@@ -131,8 +92,7 @@ public class Doormax {
 				// a única forma de dar exceção é se um objeto foi criado
 				// ou desapareceu em relação ao estado antigo
 				if (objInstance[0].attributesVal.get(att) == objInstance[0].attributesVal.get(1)) {
-					FailureConditions key = new FailureConditions(action, att, objInstance[0].objectClass);
-					this.doormaxState.f.get(key).add(s0.toCondition());
+					this.doormaxState.f.add(action, att, objInstance[0].objectClass, s0.toCondition());
 				} else
 					// se não for uma condição de falha, então atualizar as condições para as
 					// predições que predizem os efeitos apropriados
@@ -143,8 +103,7 @@ public class Doormax {
 
 					for (Effect hypEffect : Effect.possibleEffectsExplanation(objInstance[0], objInstance[1], att)) {
 						// Check for existing predictions to update
-						Map<Effect, Prediction> preds = this.doormaxState.αPredictionSearch(action, hypEffect.type,
-								hypEffect.attribute, objInstance[0].objectClass);
+						Map<Effect, Prediction> preds = this.doormaxState.α.checkExistingPrediction(hypEffect, action);
 						Prediction existingPrediction = (Prediction) preds.get(hypEffect);
 						if (existingPrediction != null) {
 							// update conditions
@@ -156,8 +115,7 @@ public class Doormax {
 								// prediction overlaps
 								if (effect.type.equals(hypEffect.type)
 										&& preds.get(effect).condition.match(updatePrediction.condition)) {
-									this.doormaxState.addPredictionToω(action, hypEffect.type, hypEffect.attribute,
-											objInstance[0].objectClass, effect, preds.get(effect));
+									this.doormaxState.ω.add(action, hypEffect, preds.get(effect));
 									preds.remove(effect);
 								}
 							}
@@ -168,8 +126,8 @@ public class Doormax {
 							// an existing condition, then add this new
 							// prediction.
 
-							Map<Effect, Prediction> ωpreds = this.doormaxState.ωPredictionSearch(action, hypEffect.type,
-									att, objInstance[0].objectClass);
+							Map<Effect, Prediction> ωpreds = this.doormaxState.ω.search(action, hypEffect.type, att,
+									objInstance[0].objectClass);
 							boolean flag = false;
 							for (Effect effect : ωpreds.keySet()) {
 								final Condition c = ωpreds.get(effect).condition;
@@ -192,57 +150,61 @@ public class Doormax {
 		}
 	}
 
-	private void predict() {
-
-	}
-}
-
-class FailureConditions {
-	public final Action action;
-	public final ObjectAttribute attribute;
-	public final ObjectClass objClass;
-
-	public FailureConditions(Action action, ObjectAttribute attribute, ObjectClass objClass) {
-		super();
-		this.action = action;
-		this.attribute = attribute;
-		this.objClass = objClass;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((action == null) ? 0 : action.hashCode());
-		result = prime * result + ((attribute == null) ? 0 : attribute.hashCode());
-		result = prime * result + ((objClass == null) ? 0 : objClass.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		FailureConditions other = (FailureConditions) obj;
-		if (action == null) {
-			if (other.action != null)
-				return false;
-		} else if (!action.equals(other.action))
-			return false;
-		if (attribute == null) {
-			if (other.attribute != null)
-				return false;
-		} else if (!attribute.equals(other.attribute))
-			return false;
-		if (objClass == null) {
-			if (other.objClass != null)
-				return false;
-		} else if (!objClass.equals(other.objClass))
-			return false;
-		return true;
+	/**
+	 * Para cada ação a, faz uma previsão do estado s' da aplicação de a em s
+	 */
+	private void predict(OOMDPState s0) {
+		PrevisionModel T = new PrevisionModel();
+		for (Action a: oomdp.actions) {
+			Map<Effect, Prediction> totalPool = new HashMap<Effect, Prediction>();
+			for(ObjectClass objectClass: oomdp.objectClasses) {
+				Map<Effect, Prediction> currentPool = new HashMap<Effect, Prediction>();
+				Set<Effect> currentPoolSet = new HashSet<Effect>();
+				for(EffectType eType: Effect.γ) {
+					for (ObjectAttribute att: objectClass.attributes) {
+						Map<Effect, Prediction> t = this.doormaxState.α.relatedOverlap(
+								eType, objectClass, att, s0.toCondition());
+						for (Effect e1: t.keySet()) {
+							for(Effect e2: t.keySet())
+								if(e1.contradicts(e2)) {
+									T.add(s0, a, null, 1);
+									break endFor;
+								}
+						}
+						
+						for (Effect e1: t.keySet()) {
+							if(e1.contradicts(currentPoolSet)) {
+								T.add(s0, a, null, 1);
+								break endFor;
+							}
+						}
+						
+						currentPool.putAll(t);
+						currentPoolSet.addAll(t.keySet());
+						//check if is correct
+						if (currentPool.isEmpty() && 
+								this.doormaxState.ω.search(a, eType, att, objectClass)!= null){
+							T.add(s0, a, null, 1);
+							break endFor;
+						}
+					}
+					totalPool.putAll(currentPool);
+				}
+			/*	
+				*/
+			}
+			
+			//Apply all predicted effects
+			/*			resultingState ← s
+						for all effect ∈ totalPool do
+						resultingState ← effect(resultingState)
+						end for
+						T (s, a, resultingState) = 1
+				*/		
+			endFor:
+				;
+		}
+		
+		
 	}
 }
