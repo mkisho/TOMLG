@@ -157,6 +157,7 @@ public class Doormax {
 		PrevisionModel T = new PrevisionModel();
 		for (Action a: oomdp.actions) {
 			Map<Effect, Prediction> totalPool = new HashMap<Effect, Prediction>();
+			endFor:
 			for(ObjectClass objectClass: oomdp.objectClasses) {
 				Map<Effect, Prediction> currentPool = new HashMap<Effect, Prediction>();
 				Set<Effect> currentPoolSet = new HashSet<Effect>();
@@ -190,21 +191,7 @@ public class Doormax {
 					}
 					totalPool.putAll(currentPool);
 				}
-			/*	
-				*/
 			}
-			
-			//Apply all predicted effects
-			/*			resultingState ← s
-						for all effect ∈ totalPool do
-						resultingState ← effect(resultingState)
-						end for
-						T (s, a, resultingState) = 1
-				*/		
-			endFor:
-				;
 		}
-		
-		
 	}
 }
