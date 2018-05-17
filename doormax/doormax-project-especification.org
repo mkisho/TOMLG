@@ -11,20 +11,33 @@ possível.
 
 - Saída gráfica do aprendizado do Doormax para propósitos de debug e entendimento do código
 
-- O ambiente de simulação dos experimentos deve ser desacoplado do código 
+- O ambiente de simulação dos experimentos deve ser desacoplado do código
 deste pacote.
 
 -> Ambiente de simulação recebe um OOMDPState e uma ação e retorna um novo
 OOMDPState, completamente desacoplado do código do DOORMAX geral
 
 
-* definir um ambiente de simulação genérico #10m                  OK
-* função para ler a definição de uma OOMDP de um arquivo #30m     NOK -> Implementar usando REGEX
-* implementar o resto do formalismo do Doormax(conditions, effects, predictions) #20  OK
+* DONE definir um ambiente de simulação genérico #10m                  OK
+* DONE função para ler a definição de uma OOMDP de um arquivo #30m     NOK -> Implementar usando REGEX
+* DONE implementar o resto do formalismo do Doormax(conditions, effects, predictions) #20  OK
 
-* Modificar as estruturas de dados sendo utilizadas no alfa e w para facilitar a escrita do código
-* implementar o learning do doormax  :30m~40m
-* implementar o prediction do doormax :1:00~1:30
+* DONE Modificar as estruturas de dados sendo utilizadas no alfa e w para facilitar a escrita do código
+* DONE implementar o learning do doormax  :30m~40m
+* DONE implementar o prediction do doormax :1:00~1:30
 * implementar o laço principal do doormax -> finish doormax 1:00~1:00
- 
-* implementar o ambiente de simulação do TAXI 1h
+
+* DONE implementar o ambiente de simulação do TAXI 1h
+
+
+* A cada ciclo do TOOMLG
+** A cada ciclo do Doormax
+-> A saida sera os beliefs(Efeitos, prediçoes, ..) no formato da logica do Lorini
+-> Ciclo de Transiçoes de Estados
+-> Saída em xml
+
+** A cada ciclo do Planner
+-> Entradas, saidas
+-> Talvez estatisticas
+-> XML
+** A cada ciclo do Reconhedor de Intençao
