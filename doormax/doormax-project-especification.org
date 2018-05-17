@@ -31,13 +31,29 @@ OOMDPState, completamente desacoplado do código do DOORMAX geral
 
 
 * A cada ciclo do TOOMLG
+------
 ** A cada ciclo do Doormax
 -> A saida sera os beliefs(Efeitos, prediçoes, ..) no formato da logica do Lorini
 -> Ciclo de Transiçoes de Estados
 -> Saída em xml
 
 ** A cada ciclo do Planner
--> Entradas, saidas
+-> Entradas, saidas em intentional actions
 -> Talvez estatisticas
 -> XML
+
 ** A cada ciclo do Reconhedor de Intençao
+-> A saida sera os beliefs(Efeitos, prediçoes, ..) no formato da logica do Lorini, para o outro agente
+-> A saída dos beliefs do próprio agente(?)
+-> Quais as possíveis intenções do agente
+-> Ciclo de Transiçoes de Estados
+
+------
+
+Rodando sozinho para ver saída do aprendizado
+Observando outro agente
+Observando outro agente no mesmo ambiente que ele
+Observar agente que pode passar paredes
+Observar agente que quer passar por um outro ponto (mystisk) antes do dropoff (Agente revisa e aprende)
+
+
