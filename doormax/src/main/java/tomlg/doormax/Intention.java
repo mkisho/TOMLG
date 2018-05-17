@@ -17,7 +17,11 @@ public class Intention {
 		return lifeTime;
 	}
 	public void incLifeTime() {
-		lifeTime++;
+		
+		if(lifeTime<10) {
+			lifeTime++;
+		}
+		
 	}
 	public float getFitness() {
 		return fitness;
@@ -25,5 +29,16 @@ public class Intention {
 	public void setFitness(float fitness) {
 		this.fitness = fitness;
 	}
+	@Override
+	public boolean equals(Object arg0) {
+		Intention a = (Intention) arg0;
+		return this.effects.equals(a.effects);
+	}
+	public void add(Effect effect) {
+		this.effects.add(effect);
+		
+		
+	}
 
+	
 }

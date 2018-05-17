@@ -8,6 +8,7 @@ import tomlg.doormax.Effect;
 import tomlg.doormax.Intention;
 //import tomlg.doormax.FailureConditions;
 import tomlg.doormax.oomdpformalism.Action;
+import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -15,6 +16,7 @@ public class IntentionLearner  {
 	int intention = 0;
 	int id=0;
 	int totalNumberOfEffects=0;
+	int gameNumberOfEffects=0;
 	int MAX=10;
 	List<Intention> validIntentions=new ArrayList<Intention>();
 	List<Intention> hypothesis=new ArrayList<Intention>();
@@ -24,6 +26,7 @@ public class IntentionLearner  {
 	List<Effect> gameEffectList=new ArrayList<Effect>();
 	
 	Map<Effect, Integer> effectRatio = new HashMap<Effect,Integer>();
+	Map<Effect, Integer> gameEffectRatio = new HashMap<Effect,Integer>();
 	
 	
 	public IntentionLearner() {
@@ -56,18 +59,7 @@ public class IntentionLearner  {
 				if(ThreadLocalRandom.current().nextBoolean()) {
 					rand = ThreadLocalRandom.current().nextInt(0, chosenIntention.effects.size());
 					chosenIntention.effects.remove(rand);
-					if (!chosenIntention.effects.isEmpty()) {
-						boolean checkIfNew;
-						for(Intention tmp :hypothesis) {
-							
-						}
-						
-						
-						
-						
-						
-						//hypothesis.add(tmpInt); //TODO Check if it's not there already
-					}
+					addHypothesis(chosenIntention);
 					
 				}
 				//if add, Choose random if from a weighted effectRatio or crossover with other valid/hypothesis 
@@ -84,8 +76,8 @@ public class IntentionLearner  {
 						}
 						//choose a random effect
 						rand = ThreadLocalRandom.current().nextInt(0, weightedList.size());
-						//TODO add weightedList.get(rand);
-						
+						chosenIntention.add(weightedList.get(rand));
+						addHypothesis(chosenIntention);
 						
 					}
 					else {
@@ -112,39 +104,140 @@ public class IntentionLearner  {
 								newIntention.effects.add(chosenIntention.effects.get(i));
 							}
 						}
-						//hypothesis.add(newIntention); //TODO Check if it's not there already
+						addHypothesis(newIntention); 
 					}
 				}
 
-				//if add, Choose random if from weighted gameEffectList or crossover with other valid/hypothesis 
-				//Add random effect
 	
 			}
 			//Create random hypothesis from hypothesis
 			if(!hypothesis.isEmpty()) {
-			//same as valid
+			
+				//Choose random validIntention
+				int rand = ThreadLocalRandom.current().nextInt(0, hypothesis.size());
+				Intention chosenIntention;
+				chosenIntention = hypothesis.get(rand);
+				//choose random if remove or add new effect
+				//if remove, take off randomly
+				if(ThreadLocalRandom.current().nextBoolean()) {
+					rand = ThreadLocalRandom.current().nextInt(0, chosenIntention.effects.size());
+					chosenIntention.effects.remove(rand);
+					addHypothesis(chosenIntention);
+					
+				}
+				//if add, Choose random if from a weighted effectRatio or crossover with other valid/hypothesis 
+				else {
+					if(ThreadLocalRandom.current().nextBoolean()) {
+						//Create a weighted list, with the effects that appeared less having more entries
+						List<Effect> weightedList=new ArrayList<Effect>();
+						for (Map.Entry<Effect, Integer> entry : effectRatio.entrySet()){
+							float a=totalNumberOfEffects/entry.getValue();
+							//supposing a<1;
+							for(int i=0; i<a; i++) {
+								weightedList.add(entry.getKey());
+							}
+						}
+						//choose a random effect
+						rand = ThreadLocalRandom.current().nextInt(0, weightedList.size());
+						chosenIntention.add(weightedList.get(rand));
+						addHypothesis(chosenIntention);
+						
+					}
+					else {
+						//CROSS-OVER
+						List<Intention> tmpList=new ArrayList<Intention>();
+						for(Intention tmpInt :validIntentions) {
+							if(!tmpInt.equals(chosenIntention)) {
+								tmpList.add(tmpInt);
+							}
+						}
+						for(Intention tmpInt :hypothesis) {
+							tmpList.add(tmpInt);
+						}
+						rand = ThreadLocalRandom.current().nextInt(0, tmpList.size());
+						int size1 = tmpList.get(rand).effects.size();
+						int size2 = chosenIntention.effects.size();
+						int size = (size1+size2)/2;
+						
+						for(int i=0; i<size; i++) {
+							if(ThreadLocalRandom.current().nextBoolean() && i<size1) {
+								newIntention.effects.add(tmpList.get(rand).effects.get(i));
+							}
+							else if(i<size2){
+								newIntention.effects.add(chosenIntention.effects.get(i));
+							}
+						}
+						addHypothesis(newIntention); 
+					}
+				}
 			}
 			//Choose a random game intention gameEffectList
-			//rand(gameEffectList.size())
-			//
+			int size = ThreadLocalRandom.current().nextInt(0, gameEffectList.size());
+			List<Effect> weightedList=new ArrayList<Effect>();
+			newIntention.effects.clear();
+			for (Map.Entry<Effect, Integer> entry : gameEffectRatio.entrySet()){
+				float a=gameNumberOfEffects/entry.getValue();
+				//supposing a<1;
+				for(int j=0; j<a; j++) {
+					weightedList.add(entry.getKey());
+				}
+			}
+			for(int i=0; i<size; i++) {
+				int rand = ThreadLocalRandom.current().nextInt(0, weightedList.size());
+				newIntention.add(weightedList.get(rand));
+				addHypothesis(newIntention);
+			}
+			
+			
+			
+			
+			
 			//Choose a random allGamesEffectList
-			//
+			size = ThreadLocalRandom.current().nextInt(0, effectRatio.keySet().size());
+			newIntention.effects.clear();
+			weightedList = new ArrayList<Effect>();
+			for (Map.Entry<Effect, Integer> entry : effectRatio.entrySet()){
+				float a=totalNumberOfEffects/entry.getValue();
+				//supposing a<1;
+				for(int j=0; j<a; j++) {
+					weightedList.add(entry.getKey());
+				}
+			}
+			for(int i=0; i<size; i++) {
+				int rand = ThreadLocalRandom.current().nextInt(0, weightedList.size());
+				newIntention.add(weightedList.get(rand));
+				addHypothesis(newIntention);
+			}
 		}
 		
 	}
 	
+	float evaluate (OOMDPState s0, Intention i) {
+		float overallFitness = i.getFitness();
+		float fitness = 0;
+		float life = i.getLifeTime();
+		//TODO dar nota para o fitness atual;
+		// fitness = plannerReward(s0, i.effects){
+		//}
+		overallFitness =(overallFitness*(life-1)+fitness)/life;
+		return overallFitness ;
+	}
 	
-	void validateIntentions(){
+	
+	
+	void validateIntentions(OOMDPState s0){
 		//Validates valid intentions 
 		for(int i=0; i<validIntentions.size();i++) {
 			validIntentions.get(i).incLifeTime();
-			//TODO update evaluation
-			//validIntentions.setFitness();
+			float fitness;
+			fitness = evaluate(s0, validIntentions.get(i));
+			validIntentions.get(i).setFitness(fitness);
 		}
 		for(int i=0; i<hypothesis.size();i++) {
 			hypothesis.get(i).incLifeTime();
-			//TODO update evaluation
-			//hypothesis.setFitness();
+			float fitness;
+			fitness = evaluate(s0, hypothesis.get(i));
+			hypothesis.get(i).setFitness(fitness);
 		}
 		
 		
@@ -179,10 +272,36 @@ public class IntentionLearner  {
 
 	}
 	
+	void addHypothesis(Intention chosenIntention) {
+		if (!chosenIntention.effects.isEmpty()) {
+			boolean checkIfNew=true;
+			for(Intention tmp :hypothesis) {
+				if(tmp.equals(chosenIntention)) {
+					checkIfNew=false;
+					break;
+				}
+			}
+			for(Intention tmp :validIntentions) {
+				if(tmp.equals(chosenIntention)) {
+					checkIfNew=false;
+					break;
+				}
+			}
+			if(checkIfNew) {
+				hypothesis.add(chosenIntention); 
+			}
+		}
+	}
+	
+	
 	void updateWeights() {
-//		int count=0;
+		gameNumberOfEffects=0;
+		
+		for(Effect e : gameEffectRatio.keySet()) {
+			gameEffectRatio.put(e, 0);
+		}
 		for(Effect e : gameEffectList) {
-//			count++;
+			gameNumberOfEffects++;
 			totalNumberOfEffects++;
 			Integer tmp=effectRatio.get(e);
 			if (tmp == null) {
@@ -191,10 +310,17 @@ public class IntentionLearner  {
 			else {
 				effectRatio.put(e, tmp + 1);
 			}
+			
+			tmp=gameEffectRatio.get(e);
+			if (tmp == null) {
+				gameEffectRatio.put(e, 1);
+			}
+			else {
+				gameEffectRatio.put(e, tmp+1);
+			}
+			
+			
 		}
-//		for(Effect e : effectRatio.keySet()) {
-//			float tmp=effectRatio.get(e);
-//			    effectRatio.put(e, 1-(tmp/count));
-//		}
+		
 	}
 }

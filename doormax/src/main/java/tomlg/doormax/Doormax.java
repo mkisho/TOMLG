@@ -202,7 +202,7 @@ public class Doormax {
 						T (s, a, resultingState) = 1
 				*/		
 			endFor:
-				;
+				System.out.println("Erle");
 		}
 		
 		
