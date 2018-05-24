@@ -11,6 +11,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import tomlg.doormax.Condition;
+import tomlg.doormax.PropositionalFunction;
 
 /**
  * Defines an OO-MDP state as in the OO-MDP formalism
@@ -21,8 +22,9 @@ import tomlg.doormax.Condition;
 public class OOMDPState {
 	/// Deixar a lista de objetos ordenados por id
 	public final Map<String, ObjectInstance> objects;
-
-	public OOMDPState() {
+	public final OOMDP oomdp;
+	public OOMDPState(OOMDP oomdp) {
+		this.oomdp = oomdp;
 		this.objects = new HashMap<String, ObjectInstance>();
 	}
 
@@ -68,7 +70,12 @@ public class OOMDPState {
 	}
 	
 	public Condition toCondition() {
-		return null; //TODO
+		String result = null;
+
+		for (PropositionalFunction p : this.oomdp.propositionsList()) {
+			result += p.evaluate(this);
+		}
+		return new Condition(this.oomdp.propositionsList(), result);
 	}
 	
 	@Override

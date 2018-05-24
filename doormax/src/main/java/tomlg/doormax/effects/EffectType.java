@@ -1,6 +1,5 @@
 package tomlg.doormax.effects;
 
-
 import tomlg.doormax.Effect;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import tomlg.doormax.oomdpformalism.ObjectInstance;

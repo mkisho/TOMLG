@@ -3,6 +3,7 @@ package tomlg.doormax;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import tomlg.doormax.effects.EffectType;
 import tomlg.doormax.oomdpformalism.Action;
@@ -11,15 +12,11 @@ import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import tomlg.doormax.oomdpformalism.ObjectClass;
 import tomlg.doormax.oomdpformalism.ObjectInstance;
-import tomlg.doormax.utils.Quadruple;
 
 class DoormaxState {
-
 	public final FailureConditionsSet f;
-
 	// body of predictions
 	public final AlphaPredictionsSet α;
-
 	// for the contradictory (effect types, object class, attribute, action) tuples
 	public final ContradictoryWSet ω;
 
@@ -57,16 +54,15 @@ public class Doormax {
 		this.doormaxState = new DoormaxState(this.oomdp);
 	}
 
-	public void step() {
+	public void step(EnvironmentSimulator evs) {
 		// Doormax Prediction
+		this.predict(this.actualState);
+		Random rand = new Random();
+		Action nextAction = this.oomdp.actions.get(rand.nextInt(this.oomdp.actions.size()));
 
-		// upates pi/planner
-
-		// nextAction← π(currentState)
-
-		// newState ← nextAction(currentState)
-		// DOORMAXLearn(currentState, nextAction, newState)
-		// currentState ← newState
+		OOMDPState newState = evs.simulateAction(this.actualState, nextAction);
+		this.learn(this.actualState, nextAction, newState);
+		this.actualState = newState;
 	}
 
 	/**
@@ -155,38 +151,40 @@ public class Doormax {
 	 */
 	private void predict(OOMDPState s0) {
 		PrevisionModel T = new PrevisionModel();
-		for (Action a: oomdp.actions) {
+		for (Action a : oomdp.actions) {
 			Map<Effect, Prediction> totalPool = new HashMap<Effect, Prediction>();
-			endFor:
-			for(ObjectClass objectClass: oomdp.objectClasses) {
+			endFor: for (ObjectClass objectClass : oomdp.objectClasses) {
 				Map<Effect, Prediction> currentPool = new HashMap<Effect, Prediction>();
 				Set<Effect> currentPoolSet = new HashSet<Effect>();
-				for(EffectType eType: Effect.γ) {
-					for (ObjectAttribute att: objectClass.attributes) {
-						Map<Effect, Prediction> t = this.doormaxState.α.relatedOverlap(
-								eType, objectClass, att, s0.toCondition());
-						for (Effect e1: t.keySet()) {
-							for(Effect e2: t.keySet())
-								if(e1.contradicts(e2)) {
+				for (EffectType eType : Effect.γ) {
+					for (ObjectAttribute att : objectClass.attributes) {
+						Map<Effect, Prediction> t = this.doormaxState.α.relatedOverlap(eType, objectClass, att,
+								s0.toCondition());
+						if (t != null) {
+							for (Effect e1 : t.keySet()) {
+								for (Effect e2 : t.keySet())
+									if (e1.contradicts(e2)) {
+										T.add(s0, a, null, 1);
+										break endFor;
+									}
+							}
+						}
+						if (t != null) {
+							for (Effect e1 : t.keySet()) {
+								if (e1.contradicts(currentPoolSet)) {
 									T.add(s0, a, null, 1);
 									break endFor;
 								}
-						}
-						
-						for (Effect e1: t.keySet()) {
-							if(e1.contradicts(currentPoolSet)) {
+							}
+
+							currentPool.putAll(t);
+							currentPoolSet.addAll(t.keySet());
+							// check if is correct
+							if (currentPool.isEmpty()
+									&& this.doormaxState.ω.search(a, eType, att, objectClass) != null) {
 								T.add(s0, a, null, 1);
 								break endFor;
 							}
-						}
-						
-						currentPool.putAll(t);
-						currentPoolSet.addAll(t.keySet());
-						//check if is correct
-						if (currentPool.isEmpty() && 
-								this.doormaxState.ω.search(a, eType, att, objectClass)!= null){
-							T.add(s0, a, null, 1);
-							break endFor;
 						}
 					}
 					totalPool.putAll(currentPool);

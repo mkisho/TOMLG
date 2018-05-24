@@ -1,7 +1,5 @@
 package tomlg.doormax.effects;
 
-import java.util.List;
-
 import tomlg.doormax.Effect;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import tomlg.doormax.oomdpformalism.ObjectInstance;

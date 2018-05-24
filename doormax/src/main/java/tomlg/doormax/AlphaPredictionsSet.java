@@ -85,7 +85,6 @@ public class AlphaPredictionsSet {
 		}
 	}
 
-
 	public Map<Effect, Prediction> relatedOverlap(EffectType eType, ObjectClass objectClass,
 			ObjectAttribute att, Condition condition) {
 		// TODO Auto-generated method stub

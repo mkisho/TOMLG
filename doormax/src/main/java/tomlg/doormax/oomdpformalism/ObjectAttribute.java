@@ -25,7 +25,7 @@ public class ObjectAttribute {
 	public String getName() {
 		return name;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "ObjectAttribute [name=" + name + ", domain=" + domain + "]";
