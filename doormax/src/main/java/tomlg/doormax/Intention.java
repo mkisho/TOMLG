@@ -17,7 +17,6 @@ public class Intention {
 		return lifeTime;
 	}
 	public void incLifeTime() {
-		
 		if(lifeTime<10) {
 			lifeTime++;
 		}
