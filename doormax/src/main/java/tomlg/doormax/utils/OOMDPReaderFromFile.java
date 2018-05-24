@@ -50,7 +50,7 @@ public class OOMDPReaderFromFile {
 
 		// Pattern class_name_pattern= Pattern.compile("((\\w)+(?!\\)))");
 		in = new BufferedReader(
-				new FileReader("/home/chronius/disciplinas/2018.1/tcc/workspace/doormax/src/Untitled1"));
+				new FileReader("/home/drones/git/TOMLG/doormax/src/Untitled1"));
 		line = in.readLine();
 
 		while (line != null) {
@@ -145,11 +145,14 @@ public class OOMDPReaderFromFile {
 
 	}
 
+	
+	
+	
 	public OOMDPState stateReader(OOMDP oomdp) throws FileNotFoundException, IOException {
 		String line;
 		OOMDPState oomdpState = new OOMDPState(oomdp);
 		in = new BufferedReader(new FileReader(
-				"/home/chronius/disciplinas/2018.1/tcc/workspace/doormax/src/State0"));
+				"/home/drones/git/TOMLG/doormax/src/State0"));
 
 		line = in.readLine();
 		arquivo = "";
@@ -175,11 +178,24 @@ public class OOMDPReaderFromFile {
 					Iterator<ObjectAttribute> e = attributes.iterator();
 
 					for (String strTemp : auxStringArray) {
-						String[] temp = strTemp.split(":");
-						String type = temp[1].trim();
-						ObjectAttribute tmp = e.next();
-						newObjInst.attributesVal.put(tmp, type);
 						
+						
+						
+						ObjectAttribute tmp = e.next();
+						
+						String[] temp = strTemp.split(":");
+						String val = temp[1].trim();
+											
+						
+						if (tmp.domain instanceof IntegerDomain) {
+							newObjInst.attributesVal.put(tmp, Double.parseDouble(val));
+						}
+						if (tmp.domain instanceof StringDomain) {//
+							newObjInst.attributesVal.put(tmp, String.valueOf(val));
+						}
+						if (tmp.domain instanceof BooleanDomain) {
+							newObjInst.attributesVal.put(tmp, Boolean.parseBoolean(val));
+						}
 						
 						System.out.println(tmp);
 						System.out.println(newObjInst.toString());

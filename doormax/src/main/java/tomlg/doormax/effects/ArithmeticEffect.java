@@ -11,18 +11,22 @@ public class ArithmeticEffect extends EffectType {
 
 		ObjectInstance objectWithEffect = object.makeCopy();
 
-		Double updatedAttribute = (Double)object.attributesVal.get(attribute);
+		Double updatedAttribute = (Double) object.attributesVal.get(attribute);
 		updatedAttribute += number;
-		
+
 		objectWithEffect.attributesVal.put(attribute, updatedAttribute);
 		return objectWithEffect;
 	}
-	
-	public Effect possibleEffectsExplanation(ObjectInstance o1, ObjectInstance o2, ObjectAttribute att){
-		double diference = (Double)o1.attributesVal.get(att) - (Double)o2.attributesVal.get(att);
-		if(diference == 0)
+
+	public Effect possibleEffectsExplanation(ObjectInstance o1, ObjectInstance o2, ObjectAttribute att) {
+		try {
+			double diference = (Double) o1.attributesVal.get(att) - (Double) o2.attributesVal.get(att);
+			if (diference == 0)
+				return null;
+			return new Effect(this, att, o1.objectClass, diference);
+		} catch (Exception e) {
 			return null;
-		return new Effect(this, att, o1.objectClass, diference);
+		}
 	}
 
 }

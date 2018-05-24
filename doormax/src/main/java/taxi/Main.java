@@ -12,7 +12,6 @@ import pf.WallToSouthOfTaxi;
 import pf.WallToWestOfTaxi;
 import tomlg.doormax.Doormax;
 import tomlg.doormax.PropositionalFunction;
-import tomlg.doormax.TaxiEnvironment;
 import tomlg.doormax.oomdpformalism.OOMDP;
 import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.utils.OOMDPReaderFromFile;
@@ -39,5 +38,6 @@ public class Main {
 		Doormax doormax = new Doormax(oomdp, oomdpState, 100, 0.1);
 	
 		doormax.step(evs);
+		int i = 0;
 	}
 }

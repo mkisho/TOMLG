@@ -18,12 +18,12 @@ public class WallToSouthOfTaxi extends PropositionalFunction {
 				break;
 			}
 		}
-		int taxiX = (int)taxi.getAttributeVal("xLocation");
-		int taxiY = (int)taxi.getAttributeVal("yLocation");
+		Double taxiX = (Double)taxi.getAttributeVal("xLocation");
+		Double taxiY = (Double)taxi.getAttributeVal("yLocation");
 		for (ObjectInstance o :state.objects.values()) {
 			if (o.objectClass.name.equals("wall")) {
-				if(((int)o.getAttributeVal("xLocation") == taxiX)
-					&& ((int)o.getAttributeVal("yLocation") == taxiY -1))
+				if(((Double)o.getAttributeVal("xLocation") == taxiX)
+					&& ((Double)o.getAttributeVal("yLocation") == taxiY -1))
 				return true;
 			}
 		}

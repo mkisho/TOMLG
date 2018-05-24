@@ -1,10 +1,11 @@
-package tomlg.doormax;
+package taxi;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import tomlg.doormax.EnvironmentSimulator;
 import tomlg.doormax.oomdpformalism.Action;
 import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
@@ -20,15 +21,15 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 
 	@Override
 	public OOMDPState simulateAction(OOMDPState state0, Action action) {
-		int xTaxi = 0;
-		int yTaxi = 0;
-		int xDestino = 0;
-		int yDestino = 0;
-		int xPassenger = 0;
-		int yPassenger = 0;
+		Double xTaxi = 0.0;
+		Double yTaxi = 0.0;
+		Double xDestino = 0.0;
+		Double yDestino = 0.0;
+		Double xPassenger = 0.0;
+		Double yPassenger = 0.0;
 		boolean passengerIn = false;
 		
-		OOMDPState state1 = state0;
+		OOMDPState state1 = new OOMDPState(state0);
 		boolean touchWallNorth = false;
 		boolean touchWallSouth = false;
 		boolean touchWallEast = false;
@@ -52,10 +53,10 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 				taxiId = objTemp.getId();
 				
 				temp = objTemp.attributesVal.get(obj.attributes.get(0));
-				xTaxi = Integer.parseInt(temp.toString());
+				xTaxi = (Double)temp;//.toString();
 				
 				temp = objTemp.attributesVal.get(obj.attributes.get(1));
-				yTaxi = Integer.parseInt(temp.toString());
+				yTaxi = (Double)temp;//.toString();
 				
 				temp = objTemp.attributesVal.get(obj.attributes.get(2));
 				passengerIn = Boolean.parseBoolean(temp.toString());	
@@ -69,10 +70,10 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 				
 				obj = objTemp.objectClass;
 				temp = objTemp.attributesVal.get(obj.attributes.get(0));
-				xPassenger = Integer.parseInt(temp.toString());
+				xPassenger = (Double)temp;
 				
 				temp = objTemp.attributesVal.get(obj.attributes.get(1));
-				yPassenger = Integer.parseInt(temp.toString());
+				yPassenger = (Double)temp;
 				
 			
 			}
@@ -81,10 +82,10 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 				goalId = objTemp.getId();
 				obj = objTemp.objectClass;
 				temp = objTemp.attributesVal.get(obj.attributes.get(0));
-				xDestino = Integer.parseInt(temp.toString());
+				xDestino = (Double)temp;
 				
 				temp = objTemp.attributesVal.get(obj.attributes.get(1));
-				yDestino = Integer.parseInt(temp.toString());
+				yDestino = (Double)temp;
 			}
 			
 			if(objTemp.getObjectClass().name.equals("horizontalWall")) {
@@ -99,25 +100,25 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 			
    		}
 		
-		int offset;
-		int wallBegin;
-		int wallEnd;
+		Double offset;
+		Double wallBegin;
+		Double wallEnd;
 		
 		for (String str : horizontalIds){
 			ObjectInstance wall = state0.objects.get(str);
-			offset = Integer.parseInt(wall.attributesVal.get(wall.objectClass.attributes.get(0)).toString());
+			offset = (Double)wall.attributesVal.get(wall.objectClass.attributes.get(0));
 			
 			if(yTaxi == offset+1) {
-				wallBegin =Integer.parseInt(wall.attributesVal.get(wall.objectClass.attributes.get(1)).toString());
-				wallEnd = Integer.parseInt(wall.attributesVal.get(wall.objectClass.attributes.get(2)).toString());
+				wallBegin =(Double)wall.attributesVal.get(wall.objectClass.attributes.get(1));
+				wallEnd = (Double)wall.attributesVal.get(wall.objectClass.attributes.get(2));
 				if(xTaxi > wallBegin && xTaxi<wallEnd) {
 					touchWallWest=true;
 				}	
 			}
 			
 			if(yTaxi == offset) {
-				wallBegin =Integer.parseInt(wall.attributesVal.get(wall.objectClass.attributes.get(1)).toString());
-				wallEnd = Integer.parseInt(wall.attributesVal.get(wall.objectClass.attributes.get(2)).toString());
+				wallBegin =(Double)wall.attributesVal.get(wall.objectClass.attributes.get(1));
+				wallEnd = (Double)wall.attributesVal.get(wall.objectClass.attributes.get(2));
 				if(xTaxi > wallBegin && xTaxi<wallEnd) {
 					touchWallEast=true;
 				}	
@@ -127,19 +128,19 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 		
 		for (String str : verticalIds){
 			ObjectInstance wall = state0.objects.get(str);
-			offset = Integer.parseInt(wall.attributesVal.get(wall.objectClass.attributes.get(0)).toString());
+			offset = (Double)wall.attributesVal.get(wall.objectClass.attributes.get(0));
 			
 			if(xTaxi == offset+1) {
-				wallBegin =Integer.parseInt(wall.attributesVal.get(wall.objectClass.attributes.get(1)).toString());
-				wallEnd = Integer.parseInt(wall.attributesVal.get(wall.objectClass.attributes.get(2)).toString());
+				wallBegin =(Double)wall.attributesVal.get(wall.objectClass.attributes.get(1));
+				wallEnd = (Double)wall.attributesVal.get(wall.objectClass.attributes.get(2));
 				if(yTaxi > wallBegin && yTaxi<wallEnd) {
 					touchWallSouth=true;
 				}
 			}
 			
 			if(xTaxi == offset) {
-				wallBegin =Integer.parseInt(wall.attributesVal.get(wall.objectClass.attributes.get(1)).toString());
-				wallEnd = Integer.parseInt(wall.attributesVal.get(wall.objectClass.attributes.get(2)).toString());
+				wallBegin =(Double)wall.attributesVal.get(wall.objectClass.attributes.get(1));
+				wallEnd = (Double)wall.attributesVal.get(wall.objectClass.attributes.get(2));
 				if(yTaxi > wallBegin && yTaxi<wallEnd) {
 					touchWallNorth=true;
 				}	
@@ -173,7 +174,7 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 			else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
-				tmpInst = state1.objects.get(taxiId);
+				tmpInst = state1.objects.get(taxiId); 
 				tmpAtt = (ObjectAttribute) tmpInst.attributesVal.keySet().toArray()[0];
 				tmpInst.attributesVal.put(tmpAtt, ++xTaxi);
 				state1.objects.put(tmpInst.getId(), tmpInst);
@@ -247,7 +248,6 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 				
 			}
 		}
-			
 		
 		return state1;
 	}

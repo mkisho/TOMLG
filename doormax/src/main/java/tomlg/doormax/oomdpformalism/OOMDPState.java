@@ -27,6 +27,13 @@ public class OOMDPState {
 		this.oomdp = oomdp;
 		this.objects = new HashMap<String, ObjectInstance>();
 	}
+	
+	public OOMDPState(OOMDPState oomdpstate) {
+		this.oomdp = oomdpstate.oomdp;
+		this.objects = new HashMap<String, ObjectInstance>(oomdpstate.objects);
+		//this.oomdp = oomdp;
+		//this.objects = new HashMap<String, ObjectInstance>();
+	}
 
 	//TODO essa é uma das principais funções que podem ser otimizadas para melhorar o desempenho
 	public ObjectInstance[][] matchObjects(OOMDPState s1) {
@@ -70,10 +77,10 @@ public class OOMDPState {
 	}
 	
 	public Condition toCondition() {
-		String result = null;
+		String result = "";
 
 		for (PropositionalFunction p : this.oomdp.propositionsList()) {
-			result += p.evaluate(this);
+			result += (p.evaluate(this) ? 1 : 0);
 		}
 		return new Condition(this.oomdp.propositionsList(), result);
 	}
