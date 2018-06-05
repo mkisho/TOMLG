@@ -15,6 +15,7 @@ import tomlg.doormax.PropositionalFunction;
 import tomlg.doormax.oomdpformalism.OOMDP;
 import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.utils.OOMDPReaderFromFile;
+import tomlg.doormax.utils.RandomGameGenerator;
 
 public class Main {
 
@@ -31,7 +32,8 @@ public class Main {
 		PropositionalFunction [] pfss = new PropositionalFunction[pfs.size()];
 		for (int i=0; i< pfs.size(); i++)
 			pfss[i] = pfs.get(i);
-		
+		RandomGameGenerator rgg =new RandomGameGenerator("aa.txt");
+		rgg.gerar();
 		OOMDP oomdp = a.leitura(pfss);
 		OOMDPState oomdpState = a.stateReader(oomdp);
 		TaxiEnvironment evs = new TaxiEnvironment("Taxi");
@@ -39,5 +41,6 @@ public class Main {
 	
 		doormax.step(evs);
 		int i = 0;
+		
 	}
 }
