@@ -59,8 +59,6 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 				
 				temp = objTemp.attributesVal.get(obj.attributes.get(2));
 				passengerIn = Boolean.parseBoolean(temp.toString());	
-				
-				
 			}
 			
 			
