@@ -37,7 +37,7 @@ public class RandomGameGenerator {
 	Square[][] houses;
 	int HEIGHT=5;
     int WIDTH=5;
-
+    PrintWriter writer;
 	
     public RandomGameGenerator(String arquivo) {
 		super();
@@ -47,13 +47,18 @@ public class RandomGameGenerator {
 
 
     public void printObjectToFile(String name, List<String> attributes){
-        System.out.println(name +"(");
-        for(String str : attributes) {
-            System.out.println(str+",");
+//        System.out.println(name +"(");
+//        for(String str : attributes) {
+//            System.out.println(str+",");
+//           
+//        }
+//        System.out.println(")");
+    	writer.println(name +"(");
+    	for(String str : attributes) {
+    		writer.println(str+",");
            
         }
-        System.out.println(")");
-        
+    	writer.println(")");
 	}
     
     
@@ -67,7 +72,7 @@ public class RandomGameGenerator {
         String attribute;
         String tmp=null;
         
-        PrintWriter writer = new PrintWriter("/home/drones/git/TOMLG/doormax/src/the-file-name.txt", "UTF-8");
+         writer = new PrintWriter("/home/drones/"+arquivo, "UTF-8");
      
        
         
