@@ -1,5 +1,7 @@
 package tomlg.doormax.oomdpformalism.domains;
 
+import tomlg.doormax.oomdpformalism.AttributeValue;
+
 public class IntegerDomain extends ObjectDomain {
 	public final int intervalStart;
 	public final int intervalEnd;
@@ -18,8 +20,9 @@ public class IntegerDomain extends ObjectDomain {
 	@Override
 
 	public boolean valueInDomain(Object val) {
-		if (val instanceof Integer) {
-			if (((Integer) val) >= intervalStart && ((Integer) val <= intervalEnd)) {
+		if (val instanceof AttributeValueInteger) {
+			int value = ((AttributeValueInteger)val).value; 
+			if (value >= intervalStart && (value   <= intervalEnd)) {
 				return true;
 			} else
 				return false;
@@ -33,7 +36,38 @@ public class IntegerDomain extends ObjectDomain {
 	}
 
 	@Override
-	public Object generateDomainValueInstanciation() {
-		return new Integer(0);
+	public AttributeValue generateDomainValueInstanciation() {
+		return new AttributeValueInteger(this.intervalStart);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + intervalEnd;
+		result = prime * result + intervalStart;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		IntegerDomain other = (IntegerDomain) obj;
+		if (intervalEnd != other.intervalEnd)
+			return false;
+		if (intervalStart != other.intervalStart)
+			return false;
+		return true;
 	}
 }

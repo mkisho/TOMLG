@@ -84,11 +84,13 @@ final public class Condition {
 	}
 
 	public boolean overlaps(Condition condition) {
-		if (match(condition)) {
+		return this.match(condition) && condition.match(this);
+		
+/*		if (this.match(condition) && condition.match(this)) {
 			return true;
-		} else if (condition.match(this))
+		} else return false; else if (condition.match(this))
 			return true;
 		else
-			return false;
+			return false;*/
 	}
 }

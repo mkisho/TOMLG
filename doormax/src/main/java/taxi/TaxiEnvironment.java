@@ -1,10 +1,11 @@
-package tomlg.doormax;
+package taxi;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import tomlg.doormax.EnvironmentSimulator;
 import tomlg.doormax.oomdpformalism.Action;
 import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;

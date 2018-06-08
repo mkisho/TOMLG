@@ -1,5 +1,6 @@
 package tomlg.doormax.oomdpformalism.domains;
 
+import tomlg.doormax.oomdpformalism.AttributeValue;
 
 /**
  * Defines an attribute domain as in the OO-MDP formalism
@@ -10,7 +11,7 @@ public abstract class ObjectDomain {
 	
 	public abstract boolean valueInDomain(Object val);
 	
-	public abstract Object generateDomainValueInstanciation();
+	public abstract AttributeValue generateDomainValueInstanciation();
 	
 	
 }

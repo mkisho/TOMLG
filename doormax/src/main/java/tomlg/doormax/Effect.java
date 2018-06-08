@@ -3,10 +3,10 @@ package tomlg.doormax;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import tomlg.doormax.effects.ArithmeticEffect;
 import tomlg.doormax.effects.AssignmentEffect;
 import tomlg.doormax.effects.EffectType;
+import tomlg.doormax.oomdpformalism.AttributeValue;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import tomlg.doormax.oomdpformalism.ObjectClass;
 import tomlg.doormax.oomdpformalism.ObjectInstance;
@@ -21,14 +21,14 @@ public class Effect {
 	public final EffectType type;
 	public final ObjectAttribute attribute;
 	public final ObjectClass objectClass;
-	public final Double number;
+	public final AttributeValue value;
 
-	public Effect(EffectType type, ObjectAttribute attribute, ObjectClass objectClass, Double number) {
+	public Effect(EffectType type, ObjectAttribute attribute, ObjectClass objectClass, AttributeValue value) {
 		super();
 		this.type = type;
 		this.attribute = attribute;
 		this.objectClass = objectClass;
-		this.number = number;
+		this.value = value;
 	}
 
 	/**
@@ -46,6 +46,12 @@ public class Effect {
 		return hypothesisEffects;
 	}
 	
+	public boolean sameClassAndAttribute(Effect e) {
+		if(e.attribute.equals(e.attribute) && e.objectClass.equals(e.objectClass))
+			return true;
+		else return false;
+	}
+	
 	/**
 	 * Check if some effect in effects contradict this effect
 	 * @param effects
@@ -53,9 +59,7 @@ public class Effect {
 	 */
 	public boolean contradicts(Set<Effect> effects) {
 		for (Effect e : effects) {
-			if(this.objectClass != e.objectClass || this.attribute != e.attribute)
-				continue;
-			if(this.number != e.number)
+			if(this.contradicts(e))
 				return true;
 		}
 		return false;
@@ -69,8 +73,58 @@ public class Effect {
 	public boolean contradicts(Effect effect) {
 		if(this.objectClass != effect.objectClass || this.attribute != effect.attribute)
 			return false;
-		if(this.number != effect.number)
+		if(!this.value.equals(effect.value))
 			return true;
 		return false;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((attribute == null) ? 0 : attribute.hashCode());
+		result = prime * result + ((objectClass == null) ? 0 : objectClass.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Effect other = (Effect) obj;
+		if (attribute == null) {
+			if (other.attribute != null)
+				return false;
+		} else if (!attribute.equals(other.attribute))
+			return false;
+		if (objectClass == null) {
+			if (other.objectClass != null)
+				return false;
+		} else if (!objectClass.equals(other.objectClass))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
+		return true;
+	}
+	
 }
