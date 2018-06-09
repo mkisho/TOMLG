@@ -1,37 +1,24 @@
 package tomlg.doormax.utils;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-
-import java.io.BufferedReader;
+//import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import tomlg.doormax.oomdpformalism.Action;
-import tomlg.doormax.oomdpformalism.OOMDP;
-import tomlg.doormax.oomdpformalism.OOMDPState;
-import tomlg.doormax.oomdpformalism.ObjectInstance;
-import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import tomlg.doormax.oomdpformalism.ObjectClass;
-import tomlg.doormax.oomdpformalism.domains.BooleanDomain;
-import tomlg.doormax.oomdpformalism.domains.IntegerDomain;
-import tomlg.doormax.oomdpformalism.domains.StringDomain;
 
 public class RandomGameGenerator {
-    private static final int WIDHT = 0;
-	private BufferedReader in;
+//    private static final int WIDHT = 0;
+//	private BufferedReader in;
     private String arquivo;
-    private String nomeArquivo;
-    private String[] auxStringArray;
+ //   private String nomeArquivo;
+  //  private String[] auxStringArray;
 //    private String[] class_attributes;
-    private String[] propositions;
+//    private String[] propositions;
 	List<Action> actions_list = new ArrayList<Action>();
 	List<ObjectClass> createdClasses = new ArrayList<ObjectClass>();
 	Square[][] houses;
@@ -66,7 +53,7 @@ public class RandomGameGenerator {
     
 	public boolean gerar() throws FileNotFoundException, IOException {
 		
-        String line;
+//        String line;
         String className;
         List<String> attributesList= new ArrayList<String>();
         String attribute;
