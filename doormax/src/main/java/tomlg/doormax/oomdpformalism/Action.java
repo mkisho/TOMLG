@@ -9,12 +9,10 @@ import java.util.Arrays;
  */
 public class Action {
 	public final String name;
-	public final Object []params;
 	
-	public Action(String name, Object [] params) {
+	public Action(String name) {
 		super();
 		this.name = name;
-		this.params = params;
 	}
 	
 	/* (non-Javadoc)
@@ -22,9 +20,9 @@ public class Action {
 	 */
 	@Override
 	public String toString() {
-		final int maxLen = 10;
-		return "Action [name=" + name + ", params="
-				+ (params != null ? Arrays.asList(params).subList(0, Math.min(params.length, maxLen)) : null) + "]";
+//		final int maxLen = 10;
+		return "Action [name=" + name +"]";// + ", params="
+//				+ (params != null ? Arrays.asList(params).subList(0, Math.min(params.length, maxLen)) : null) + "]";
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +33,7 @@ public class Action {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + Arrays.hashCode(params);
+//		result = prime * result + Arrays.hashCode(params);
 		return result;
 	}
 	
@@ -61,9 +59,9 @@ public class Action {
 		} else if (!name.equals(other.name)) {
 			return false;
 		}
-		if (!Arrays.equals(params, other.params)) {
-			return false;
-		}
+//		if (!Arrays.equals(params, other.params)) {
+//			return false;
+//		}
 		return true;
 	}
 

@@ -18,6 +18,9 @@ import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.oomdpformalism.ObjectInstance;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import tomlg.doormax.oomdpformalism.ObjectClass;
+import tomlg.doormax.oomdpformalism.domains.AttributeValueBoolean;
+import tomlg.doormax.oomdpformalism.domains.AttributeValueInteger;
+import tomlg.doormax.oomdpformalism.domains.AttributeValueString;
 import tomlg.doormax.oomdpformalism.domains.BooleanDomain;
 import tomlg.doormax.oomdpformalism.domains.IntegerDomain;
 import tomlg.doormax.oomdpformalism.domains.StringDomain;
@@ -59,7 +62,6 @@ public class OOMDPReaderFromFile {
 		}
 		in.close();
 
-		// TODO Remover Actions{}
 		Matcher actions_matcher = actions_pattern.matcher(arquivo);
 		if (actions_matcher.find()) {
 			auxStringArray = actions_matcher.group().split(",");
@@ -70,8 +72,6 @@ public class OOMDPReaderFromFile {
 			System.out.println(actions_matcher.group());
 		}
 
-		// TODO separar Classes
-		// TODO Remover ClassName{}
 		Matcher classes_matcher = classes_pattern.matcher(arquivo);
 		if (classes_matcher.find()) {
 			Matcher class_matcher = class_pattern.matcher(classes_matcher.group());
@@ -90,7 +90,6 @@ public class OOMDPReaderFromFile {
 			System.out.println(classes_matcher.group());
 		}
 
-		// TODO Remover propositions{}
 		Matcher propositions_matcher = propositions_pattern.matcher(arquivo);
 		if (propositions_matcher.find()) {
 			propositions = propositions_matcher.group().split(",");
@@ -188,20 +187,20 @@ public class OOMDPReaderFromFile {
 											
 						
 						if (tmp.domain instanceof IntegerDomain) {
-							newObjInst.attributesVal.put(tmp, Double.parseDouble(val));
+							newObjInst.attributesVal.put(tmp, new AttributeValueInteger(Integer.parseInt(val)));
 						}
 						if (tmp.domain instanceof StringDomain) {//
-							newObjInst.attributesVal.put(tmp, String.valueOf(val));
+							newObjInst.attributesVal.put(tmp,  new AttributeValueString(val));
 						}
 						if (tmp.domain instanceof BooleanDomain) {
-							newObjInst.attributesVal.put(tmp, Boolean.parseBoolean(val));
+							newObjInst.attributesVal.put(tmp,  new AttributeValueBoolean(Boolean.parseBoolean(val)));
 						}
 						
 						System.out.println(tmp);
 						System.out.println(newObjInst.toString());
 
 					}
-					oomdpState.objects.put(newObjInst.getId(), newObjInst);
+					oomdpState.objects.add(newObjInst);
 				}
 			}
 
