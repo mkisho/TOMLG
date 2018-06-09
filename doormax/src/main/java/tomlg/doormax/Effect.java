@@ -130,7 +130,7 @@ public class Effect {
 	}
 
 	public static List<Effect> possibleEffectsExplanation(OOMDPState s, OOMDPState sPrime, ObjectClass oClass,
-			ObjectAttribute att, List<EffectType> effectsToUse) throws EffectNotFoundException {
+			ObjectAttribute att, List<EffectType> effectsToUse) {
 
 		List<Effect> toReturn = new ArrayList<Effect>();
 
@@ -157,7 +157,7 @@ public class Effect {
 				}
 			}
 		}
-		if(toReturn.size() == 0) throw new EffectNotFoundException(); 
+//		if(toReturn.size() == 0) throw new EffectNotFoundException(); 
 		return toReturn;
 	}
 	

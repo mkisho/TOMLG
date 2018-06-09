@@ -53,7 +53,7 @@ public class OOMDPReaderFromFile {
 
 		// Pattern class_name_pattern= Pattern.compile("((\\w)+(?!\\)))");
 		in = new BufferedReader(
-				new FileReader("C:\\Users\\Mathias\\git\\TOMLG\\doormax\\src\\Untitled1"));
+				new FileReader("src/Untitled1"));
 		line = in.readLine();
 
 		while (line != null) {
@@ -150,7 +150,7 @@ public class OOMDPReaderFromFile {
 	public OOMDPState stateReader(OOMDP oomdp) throws FileNotFoundException, IOException {
 		String line;
 		OOMDPState oomdpState = new OOMDPState(oomdp);
-		in = new BufferedReader(new FileReader("C:\\Users\\Mathias\\git\\TOMLG\\doormax\\src\\State0"));
+		in = new BufferedReader(new FileReader("src/State0"));
 
 		line = in.readLine();
 		arquivo = "";

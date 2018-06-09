@@ -72,5 +72,7 @@ public class Main {
 			steps++;
 			break;
 		}
+		System.out.println("GO Horse");
 	}
+
 }

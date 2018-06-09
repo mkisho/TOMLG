@@ -14,8 +14,8 @@ public class TaxiAtPassenger extends PropositionalFunction {
 		ObjectInstance passenger = state.getObjectOfClass("passenger");
 		ObjectInstance taxi = state.getObjectOfClass("taxi");
 
-		if(passenger == null || taxi == null) throw new RuntimeException("Nooooo, errou");
-
+		if (passenger == null || taxi == null)
+			throw new RuntimeException("Nooooo, errou");
 
 		if (taxi.getAttributeValByName("xLocation").equals(passenger.getAttributeValByName("xLocation"))
 				&& taxi.getAttributeValByName("yLocation").equals(passenger.getAttributeValByName("yLocation")))

@@ -41,7 +41,9 @@ public class OOMDPState {
 		this(oomdpstate.oomdp);// this.oomdp = oomdpstate.oomdp;
 
 		for (ObjectInstance o : oomdpstate.objects) {
-			this.addObjectInstance(o.copy());
+			ObjectInstance copy = o.copy();
+			this.addObjectInstance(copy);
+			this.objectsByName.put(o.getId(), copy);
 		}
 	}
 

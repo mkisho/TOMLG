@@ -54,7 +54,6 @@ public class AttributeValueString extends AttributeValue{
 
 	@Override
 	public Double getNumericValForAttribute() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

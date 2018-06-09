@@ -141,11 +141,16 @@ public class PredictionsLearner {
 	private boolean classAndAttUnchanged(OOMDPState s, OOMDPState sPrime, ObjectClass oClass, ObjectAttribute att) {
 		List<ObjectInstance> objectInstances = s.getObjectsOfClass(oClass.name);
 		for (ObjectInstance o : objectInstances) {
-			double valBefore = o.getAttributeValByName(att.name).getNumericValForAttribute();
-			double valAfter = sPrime.objectsByName.get(o.getId()).getAttributeValByName(att.name)
-					.getNumericValForAttribute();
-			if (valBefore != valAfter)
-				return false;
+			Double valBefore = o.getAttributeValByName(att.name).getNumericValForAttribute();
+
+			try {
+				Double valAfter = sPrime.objectsByName.get(o.getId()).getAttributeValByName(att.name)
+						.getNumericValForAttribute();
+				if (valBefore != valAfter)
+					return false;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 		return true;
@@ -179,14 +184,14 @@ public class PredictionsLearner {
 		else {
 			// Get possible effects for this oClass and attribute
 			List<Effect> possibleEffects = null;
-			try {
-//				for (EffectType efftype : this.effectsToUse) {
-					possibleEffects = Effect.possibleEffectsExplanation(s, sPrime, oClass, att, this.effectsToUse);
-//				}
-			} catch (EffectNotFoundException e) {
-				e.printStackTrace();
-			}
-
+//			try {
+				// for (EffectType efftype : this.effectsToUse) {
+				possibleEffects = Effect.possibleEffectsExplanation(s, sPrime, oClass, att, this.effectsToUse);
+				// }
+//			} catch (EffectNotFoundException e) {
+//				e.printStackTrace();
+//			}
+//
 			for (Effect observedEffect : possibleEffects) {
 				AttActionEffectTuple toHashBy = new AttActionEffectTuple(oClass, att, a, observedEffect.type);
 				List<Prediction> relevantPredictions = this.predictionsByAttActionAndEffect.get(toHashBy);
