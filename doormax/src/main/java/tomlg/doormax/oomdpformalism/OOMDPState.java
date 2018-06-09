@@ -104,7 +104,8 @@ public class OOMDPState {
 	// TODO pode ser otimizado com uma tabela de lookup
 	public ObjectInstance getObjectOfClass(String name) {
 		for (ObjectInstance o : this.objects) {
-			if (o.objectClass.name.equals(name)) return o;
+			if (o.objectClass.name.equals(name))
+				return o;
 		}
 		return null;
 	}
@@ -113,9 +114,16 @@ public class OOMDPState {
 	public List<ObjectInstance> getObjectsOfClass(String name) {
 		List<ObjectInstance> objs = new ArrayList<ObjectInstance>();
 		for (ObjectInstance o : this.objects) {
-			if (o.objectClass.name.equals(name)) objs.add(o);
+			if (o.objectClass.name.equals(name))
+				objs.add(o);
 		}
 		return objs;
+	}
+
+	public void updateObjectInstance(ObjectInstance o, ObjectInstance onew) {
+		this.objects.remove(o);
+		this.objects.add(onew);
+		this.objectsByName.put(o.getId(), onew);
 	}
 
 }

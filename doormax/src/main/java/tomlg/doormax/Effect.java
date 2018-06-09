@@ -3,10 +3,12 @@ package tomlg.doormax;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 import tomlg.doormax.effects.ArithmeticEffect;
 import tomlg.doormax.effects.AssignmentEffect;
 import tomlg.doormax.effects.EffectType;
 import tomlg.doormax.oomdpformalism.AttributeValue;
+import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import tomlg.doormax.oomdpformalism.ObjectClass;
 import tomlg.doormax.oomdpformalism.ObjectInstance;
@@ -33,7 +35,7 @@ public class Effect {
 
 	/**
 	 * Return all effects that capture how oClass’s att changes from s to s 0 for
-	 * all effect types in Y. MUST BE UPDATED FOR EVERY NEW EFFECT_TYPE IMPLEMENTED
+	 * all effect types in Y. IT MUST BE UPDATED FOR EVERY NEW EFFECT_TYPE IMPLEMENTED
 	 */
 	public static List<Effect> possibleEffectsExplanation(ObjectInstance o1, ObjectInstance o2, ObjectAttribute att) {
 		List<Effect> hypothesisEffects = new ArrayList<Effect>();
@@ -126,5 +128,48 @@ public class Effect {
 			return false;
 		return true;
 	}
+
+	public static List<Effect> possibleEffectsExplanation(OOMDPState s, OOMDPState sPrime, ObjectClass oClass,
+			ObjectAttribute att, List<EffectType> effectsToUse) throws EffectNotFoundException {
+
+		List<Effect> toReturn = new ArrayList<Effect>();
+
+		for (ObjectInstance o: s.getObjectsOfClass(oClass.name)) {
+			String objectId = o.getId();
+
+			//Find object of same id
+			ObjectInstance oInSPrime = sPrime.objectsByName.get(objectId);
+
+			//If object was deleted keep on truckin'
+			if (oInSPrime == null) {
+				continue;
+			}
+
+			AttributeValue attValBefore = o.getAttributeValByName(att.name);
+			AttributeValue attValAfter = oInSPrime.getAttributeValByName(att.name);
+
+			if (!attValAfter.equals(attValBefore)) {
+				//Hypothesize effects
+				for (EffectType effectType: effectsToUse) {
+					Effect e = effectType.possibleEffectsExplanation(o, oInSPrime, att);
+					if (e == null) throw new RuntimeException("Nooooooooooooooo Erroo");
+					toReturn.add(e);
+				}
+			}
+		}
+		if(toReturn.size() == 0) throw new EffectNotFoundException(); 
+		return toReturn;
+	}
+	
+	public OOMDPState applyEffect(OOMDPState iState) {
+		OOMDPState toReturn = new OOMDPState(iState);
+		
+		for (ObjectInstance o: toReturn.getObjectsOfClass(this.objectClass.name)) {
+			toReturn.updateObjectInstance(o, this.type.applyEffect(o, this.attribute, this.value));
+		}
+		
+		return toReturn;
+	}
+
 	
 }

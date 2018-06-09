@@ -1,5 +1,7 @@
 package tomlg.doormax;
 
+import java.util.List;
+
 import tomlg.doormax.actionconditionlearners.OOMDPActionConditionLearner;
 import tomlg.doormax.effects.EffectType;
 import tomlg.doormax.effects.NullEffect;
@@ -20,15 +22,38 @@ final public class Prediction {
 	private OOMDPActionConditionLearner CL;
 	public final Effect effect;
 	public final Action action;
-	public final Condition condition;
+	public final List<PropositionalFunction> propFuns;
+	public final ObjectClass associatedOClass;
+	public final ObjectAttribute relevantAtt;
 	
-	public Prediction(Action action, Effect effect, Condition condition) {
-		super();
-		this.action = action;
-		this.effect = effect;
-		this.condition = condition;
-	}
+	/**
+	 * Note intialState is true for condition 
+	 * @param propFuns prop functions for the condition learner to consider
+	 * @param OC the relevant object cass
+	 * @param att the relevant attribute
+	 * @param act the relevant action
+	 * @param effectToLearnConditionFor the effect that the CELearner is learning the condition for
+	 * @param initialState the state in which the effect was first observed just before taking act
+	 */
+	public Prediction(List<PropositionalFunction> propFuns, 
+			ObjectClass OC, ObjectAttribute att, 
+			Action action, Effect effectToLearnConditionFor, 
+			OOMDPState initialState, String statePerceptionToUse) {
 
+		this.propFuns = propFuns;
+		this.associatedOClass = OC;
+		this.relevantAtt = att;
+		if (statePerceptionToUse != null) {
+			this.CL = new tomlg.doormax.actionconditionlearners.PerceptionConditionLearner(propFuns, statePerceptionToUse);
+		}
+		else {
+			this.CL = new tomlg.doormax.actionconditionlearners.PFConditionLearner(propFuns);
+		}
+		this.action = action;
+		this.effect = effectToLearnConditionFor;
+		this.CL.learn(initialState, true);
+	}
+	/*
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -74,7 +99,7 @@ final public class Prediction {
 			return false;
 		return true;
 	}
-	
+	*/
 
 
 	
