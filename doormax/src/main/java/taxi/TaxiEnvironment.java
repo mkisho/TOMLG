@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import tomlg.doormax.EnvironmentSimulator;
+import tomlg.doormax.environment.EnvironmentSimulator;
 import tomlg.doormax.oomdpformalism.Action;
 import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;

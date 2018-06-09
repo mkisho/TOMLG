@@ -1,4 +1,4 @@
-package tomlg.doormax.perceptual;
+package tomlg.doormax.perceptual.datasctructure;
 
 import java.util.ArrayList;
 import java.util.List;

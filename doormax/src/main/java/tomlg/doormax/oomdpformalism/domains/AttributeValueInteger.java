@@ -48,4 +48,9 @@ public class AttributeValueInteger extends AttributeValue{
 	public String toString() {
 		return "AttributeValueInteger [value=" + value + "]";
 	}
+
+	@Override
+	public Double getNumericValForAttribute() {
+		return (double)this.value;
+	}
 }

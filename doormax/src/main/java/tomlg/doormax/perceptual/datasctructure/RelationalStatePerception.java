@@ -1,35 +1,40 @@
-package tomlg.doormax.perceptual;
-
+package tomlg.doormax.perceptual.datasctructure;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import tomlg.doormax.Condition;
 import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import tomlg.doormax.oomdpformalism.ObjectInstance;
 import tomlg.doormax.perceptual.AttributeRelations.AttributeRelation;
 
-
+/**
+ * A relational state perception for a single state where every object instance attribute - object instance attribute pair is examined
+ * @author Dhershkowitz
+ *
+ */
 public class RelationalStatePerception extends StatePerception {
 	private List<String> attributeNames;
 	private List<Double> dataList;
 	Boolean tag;
 
-	public RelationalStatePerception(OOMDPState state, Boolean posInstance, 
-			List<AttributeRelation> attRelations) {
+	public RelationalStatePerception(OOMDPState state, Boolean posInstance, List<AttributeRelation> attRelations) {
 		this.tag = posInstance;
 		this.attributeNames = new ArrayList<String>();
 		List<Double> dataList = new ArrayList<Double>();
-		for (ObjectInstance o : state.objects.values()) {
-			for (ObjectAttribute att : o.getObjectClass().getAttributes()) {
-				for (ObjectInstance oOther : state.objects.values()) {
-					for (ObjectAttribute attOther : oOther.getObjectClass().getAttributes()) {
-						double oValue = (double) o.attributesVal.get(att);
-						double otherOValue = (double) oOther.attributesVal.get(att);
+		for (ObjectInstance o : state.objects) {
+			for (ObjectAttribute att : o.getObjectClass().attributes) {
+				for (ObjectInstance oOther : state.objects) {
+					for (ObjectAttribute attOther : oOther.getObjectClass().attributes) {
+						double oValue = o.getAttributeValByName(att.name).getNumericValForAttribute();
+						double otherOValue = oOther.getAttributeValByName(attOther.name).getNumericValForAttribute();
 						for (AttributeRelation attRel : attRelations) {
-							attributeNames.add(attRel.toString() + o.getId()+att.name+oOther.getId()+attOther.name+" NUMERIC\n");
+							attributeNames.add(attRel.toString() + o.objectClass.name+att.name+oOther.objectClass.name+attOther.name+" NUMERIC\n");
 							dataList.add(attRel.getRelationValue(oValue, otherOValue));
 						}
+
+
 					}
 				}
 			}
@@ -42,7 +47,7 @@ public class RelationalStatePerception extends StatePerception {
 	@Override
 	public String getArffValueString(boolean labeled) {
 		StringBuilder sb = new StringBuilder();
-		double [] data = this.getData();
+		double [] data = null;//this.getCondition();
 		String prefix = "";
 		for (int i = 0; i < data.length; i++) {
 			sb.append(prefix + data[i]);
@@ -65,13 +70,16 @@ public class RelationalStatePerception extends StatePerception {
 		return this.attributeNames;
 	}
 
-	@Override
-	public double[] getData() {
+/*	@Override
+	public double[] getCondition() {
 		double [] toReturn = new double[this.dataList.size()];
 		for (int i = 0; i < this.dataList.size(); i ++) {
 			toReturn[i] = this.dataList.get(i);
 		}
 		return toReturn;
 	}
-
+*/
+	public Condition getCondition() {
+		return null;
+	}
 }

@@ -51,4 +51,10 @@ public class AttributeValueString extends AttributeValue{
 	public String toString() {
 		return "AttributeValueString [value=" + value + "]";
 	}
+
+	@Override
+	public Double getNumericValForAttribute() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -56,4 +56,9 @@ public class AttributeValueBoolean extends AttributeValue {
 		return true;
 	}
 
+	@Override
+	public Double getNumericValForAttribute() {
+		return (double)(this.value == false ? 0 : 1);
+	}
+
 }

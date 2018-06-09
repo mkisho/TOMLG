@@ -15,6 +15,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<!-- repositório do weka -->
+	<repositories>
+		<repository>
+			<id>clojars</id>
+			<url>https://clojars.org/repo/</url>
+		</repository>
+	</repositories>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -34,6 +43,12 @@
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
 			<version>0.9.11</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/weka/weka -->
+		<dependency>
+			<groupId>weka</groupId>
+			<artifactId>weka</artifactId>
+			<version>3.6.2</version>
 		</dependency>
 	</dependencies>
 </project>

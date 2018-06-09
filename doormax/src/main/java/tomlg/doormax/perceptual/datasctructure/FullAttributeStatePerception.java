@@ -1,11 +1,18 @@
-package tomlg.doormax.perceptual;
+package tomlg.doormax.perceptual.datasctructure;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import tomlg.doormax.Condition;
 import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import tomlg.doormax.oomdpformalism.ObjectInstance;
 
+/**
+ * TODO ERRADO 
+ * @author chronius
+ *
+ */
 public class FullAttributeStatePerception extends StatePerception {
 	private double[] data;
 	private Boolean tag;
@@ -14,11 +21,13 @@ public class FullAttributeStatePerception extends StatePerception {
 	public FullAttributeStatePerception(OOMDPState state, Boolean posInstance) {
 		this.tag = posInstance;
 		this.attributeNames = new ArrayList<String>();
-		List<Double> allValues = new ArrayList<Double>();
-		for (ObjectInstance o : state.objects.values()) {
+		//Get allValues
+/**		Set<ObjectInstance> allObjects = state.objects;
+		List<Value> allValues = new ArrayList<Value>();
+		for (ObjectInstance o : allObjects) {
 			for (ObjectAttribute att : o.getObjectClass().attributes) {
-				this.attributeNames.add(o.getId()+att.name+ " NUMERIC\n");
-				allValues.add((Double)o.attributesVal.get(att));
+				this.attributeNames.add(o.getName()+att.name+ " NUMERIC\n");
+				allValues.add(o.getValueForAttribute(att.name));
 			}
 		}
 		
@@ -26,11 +35,11 @@ public class FullAttributeStatePerception extends StatePerception {
 		double[] data = new double[allValues.size()];
 		
 		int index = 0;
-		for (Double val: allValues) {
-			data[index] = val;
+		for (Value val: allValues) {
+			data[index] = val.getNumericRepresentation();
 			index++;
 		}
-		
+	*/	
 		this.data = data;
 	}
 	
@@ -57,8 +66,9 @@ public class FullAttributeStatePerception extends StatePerception {
 	}
 
 	@Override
-	public double[] getData() {
-		return this.data;
+	public Condition getCondition() {
+		return null;
+		//return this.data;
 	}
 
 	@Override

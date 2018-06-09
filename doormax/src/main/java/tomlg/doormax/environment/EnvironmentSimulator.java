@@ -1,4 +1,4 @@
-package tomlg.doormax;
+package tomlg.doormax.environment;
 
 import tomlg.doormax.oomdpformalism.Action;
 import tomlg.doormax.oomdpformalism.OOMDPState;

@@ -57,4 +57,10 @@ public class AttributeValueSet extends AttributeValue {
 	public String toString() {
 		return "AttributeValueSet [value=" + value + "]";
 	}
+
+	@Override
+	public Double getNumericValForAttribute() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -1,28 +1,27 @@
-package tomlg.doormax.perceptual;
-
+package tomlg.doormax.perceptual.datasctructure;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import tomlg.doormax.Condition;
 import tomlg.doormax.PropositionalFunction;
 import tomlg.doormax.oomdpformalism.OOMDPState;
-
 
 public class PFStatePerception extends StatePerception {
 
 	List<PropositionalFunction> propFuns;
 	String dataString;
-	char[] data;
+	Condition condition;
 	
 	public PFStatePerception(OOMDPState state, List<PropositionalFunction> propFuns, Boolean tag) {
 		this.propFuns = propFuns;
-		this.data = state.toCondition().conditionBitArray;
+		this.condition = state.toCondition();
 		StringBuilder sb = new StringBuilder();
 
 		
 		String prefix = "";
 		for (PropositionalFunction pf : propFuns) {
-				sb.append(prefix + pf.evaluate(state));
+				sb.append(prefix + pf.evaluate(state));//TODO checar isso pf.somePFGroundingIsTrue(state));
 			prefix = ",";
 		} 
 		sb.append(",");
@@ -54,14 +53,8 @@ public class PFStatePerception extends StatePerception {
 	}
 
 	@Override
-	public double[] getData() {
-		double [] toReturn = new double [this.data.length];
-		int i =0;
-		for (int currInt: this.data) {
-			toReturn[i] = currInt;
-			i++;
-		}
-		return toReturn;
+	public Condition getCondition() {
+		return this.condition;
 	}
 
 }

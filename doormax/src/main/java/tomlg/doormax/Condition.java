@@ -27,6 +27,10 @@ final public class Condition {
 		this.conditionEvaluated = conditionEvaluated;
 		this.conditionBitArray = this.conditionEvaluated.toCharArray();
 	}
+	
+	public Condition(Condition condition) {
+		this(condition.bitStringPropositionsIndex, condition.conditionEvaluated);
+	}
 
 	@Override
 	public String toString() {
