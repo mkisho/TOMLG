@@ -35,8 +35,8 @@ public class Main {
 		PropositionalFunction[] pfss = new PropositionalFunction[pfs.size()];
 		for (int i = 0; i < pfs.size(); i++)
 			pfss[i] = pfs.get(i);
-		RandomGameGenerator rgg = new RandomGameGenerator("aa.txt");
-		rgg.gerar();
+//		RandomGameGenerator rgg = new RandomGameGenerator("aa.txt");
+//		rgg.gerar();
 		OOMDP oomdp = a.leitura(pfss);
 		OOMDPState initialState = a.stateReader(oomdp);
 		TaxiEnvironment evs = new TaxiEnvironment("Taxi");

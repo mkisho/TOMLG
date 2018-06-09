@@ -183,12 +183,13 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 			else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
-				tmpInst = state1.objectsByName.get(taxiId);
+				tmpInst = new ObjectInstance(state1.getObjectOfClass("taxi"));
+						
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
 					if(att.name.equals("yLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt, new AttributeValueInteger((int) Math.round(++yTaxi)));
-						state1.objectsByName.put(tmpInst.getId(), tmpInst);						
+						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);					
 
 					}
 				}
@@ -203,12 +204,12 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 			else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
-				tmpInst = state1.objectsByName.get(taxiId); 
+				tmpInst = 	new ObjectInstance(state1.getObjectOfClass("taxi"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
 					if(att.name.equals("xLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt,  new AttributeValueInteger((int) Math.round(++xTaxi)));
-						state1.objectsByName.put(tmpInst.getId(), tmpInst);
+						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);	
 					}
 				}
 			}		
@@ -220,12 +221,12 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 			else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
-				tmpInst = state1.objectsByName.get(taxiId);
+				tmpInst = new ObjectInstance(state1.getObjectOfClass("taxi"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
 					if(att.name.equals("yLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt,  new AttributeValueInteger((int) Math.round(--yTaxi)));
-						state1.objectsByName.put(tmpInst.getId(), tmpInst);
+						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);	
 
 					}
 				}
@@ -240,12 +241,12 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 			else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
-				tmpInst = state1.objectsByName.get(taxiId);
+				tmpInst = new ObjectInstance(state1.getObjectOfClass("taxi"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
 					if(att.name.equals("xLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt,  new AttributeValueInteger((int) Math.round(--xTaxi)));
-						state1.objectsByName.put(tmpInst.getId(), tmpInst);
+						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);	
 					}
 				}
 			}
@@ -257,22 +258,22 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
 
-				tmpInst = state1.objectsByName.get(passengerId);
+				tmpInst = new ObjectInstance(state1.getObjectOfClass("passenger"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
 					if(att.name.equals("xLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt, new AttributeValueBoolean(true));
-						state1.objectsByName.put(tmpInst.getId(), tmpInst);
+						state1.updateObjectInstance(state1.getObjectOfClass("passenger"), tmpInst);	
 					}
 				}
 
 
-				tmpInst = state1.objectsByName.get(taxiId);
+				tmpInst = new ObjectInstance(state1.getObjectOfClass("taxi"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
 					if(att.name.equals("xLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt, new AttributeValueBoolean(true));
-						state1.objectsByName.put(tmpInst.getId(), tmpInst);
+						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);	
 					}
 				}
 
@@ -287,22 +288,22 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
 
-				tmpInst = state1.objectsByName.get(passengerId);
+				tmpInst = new ObjectInstance(state1.getObjectOfClass("passenger"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
 					if(att.name.equals("xLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt, new AttributeValueBoolean(false));
-						state1.objectsByName.put(tmpInst.getId(), tmpInst);
+						state1.updateObjectInstance(state1.getObjectOfClass("passenger"), tmpInst);	
 					}
 				}
 
 
-				tmpInst = state1.objectsByName.get(taxiId);
+				tmpInst = new ObjectInstance(state1.getObjectOfClass("taxi"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
 					if(att.name.equals("xLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt, new AttributeValueBoolean(false));
-						state1.objectsByName.put(tmpInst.getId(), tmpInst);
+						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);	
 					}
 				}
 
