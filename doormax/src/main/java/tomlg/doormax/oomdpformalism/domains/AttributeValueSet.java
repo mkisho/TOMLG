@@ -63,4 +63,9 @@ public class AttributeValueSet extends AttributeValue {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String toStringVal() {
+		return this.value+"";
+	}
 }

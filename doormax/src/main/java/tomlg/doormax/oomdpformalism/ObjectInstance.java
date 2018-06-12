@@ -1,6 +1,8 @@
 package tomlg.doormax.oomdpformalism;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -56,7 +58,7 @@ public class ObjectInstance {
 					copy.getAttributeVal(attribute));
 		}
 		
-		this.id = this.objectClass.name +" - " + UUID.randomUUID().toString();
+		this.id = copy.id;
 	}
 	
 	public String getId() {
@@ -73,7 +75,14 @@ public class ObjectInstance {
 	
 	@Override
 	public String toString() {
-		return "ObjectInstance [Name = " + objectClass.name + "] [attributesVal=" + attributesVal + "]";
+		String txt = "[name= "+ this.objectClass.name + " id=" + id +
+				"class="+this.objectClass.name + " Att[ ";
+		
+		for(ObjectAttribute att: this.attributesVal.keySet()) {
+			txt += att.name+"= " + this.attributesVal.get(att).toStringVal()+", ";
+		}
+		
+		return txt + " ]";
 	}
 
 	public AttributeValue getAttributeValByName(String name) {

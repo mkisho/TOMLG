@@ -37,7 +37,7 @@ public class Doormax {
 	// private PropositionalFunction tf;
 	private List<PropositionalFunction> relevantPropFuns;
 	private List<EffectType> effectsToUse;
-	private OOMDPState initialState;
+	private final OOMDPState initialState;
 	private String statePerceptionToUse;
 
 	/**
@@ -129,5 +129,9 @@ public class Doormax {
 	public void resetModel() {
 		this.pLearner = new PredictionsLearner(d, relevantPropFuns, effectsToUse, d.actions, this.initialState,
 				this.k, this.statePerceptionToUse);
+	}
+
+	public OOMDPState getInitialState() {
+		return this.initialState;
 	}
 }

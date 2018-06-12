@@ -21,7 +21,7 @@ public class AttributeValueBoolean extends AttributeValue {
 	 */
 	@Override
 	public String toString() {
-		return "AttributeValueBoolean [value=" + value + "]";
+		return "B[value=" + value + "]";
 	}
 
 	/*
@@ -59,6 +59,11 @@ public class AttributeValueBoolean extends AttributeValue {
 	@Override
 	public Double getNumericValForAttribute() {
 		return (double)(this.value == false ? 0 : 1);
+	}
+
+	@Override
+	public String toStringVal() {
+		return this.value+"s";
 	}
 
 }

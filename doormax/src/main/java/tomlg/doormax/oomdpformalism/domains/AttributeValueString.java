@@ -49,11 +49,16 @@ public class AttributeValueString extends AttributeValue{
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "AttributeValueString [value=" + value + "]";
+		return "S[value=" + value + "]";
 	}
 
 	@Override
 	public Double getNumericValForAttribute() {
 		return null;
+	}
+
+	@Override
+	public String toStringVal() {
+		return this.value;
 	}
 }

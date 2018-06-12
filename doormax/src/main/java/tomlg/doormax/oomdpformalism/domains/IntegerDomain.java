@@ -32,7 +32,7 @@ public class IntegerDomain extends ObjectDomain {
 
 	@Override
 	public String toString() {
-		return "IntegerDomain [intervalStart=" + intervalStart + ", intervalEnd=" + intervalEnd + "]";
+		return "I[intervalStart=" + intervalStart + ", intervalEnd=" + intervalEnd + "]";
 	}
 
 	@Override

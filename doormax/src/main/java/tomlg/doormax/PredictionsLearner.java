@@ -131,7 +131,11 @@ public class PredictionsLearner {
 	}
 
 	public void learn(OOMDPState s, Action ga, OOMDPState sPrime) {
-		for (ObjectClass oClass : this.d.getObjectClasses()) {
+		
+		//TODO remove after
+		List<ObjectClass> oclassList = new ArrayList<ObjectClass>();
+		oclassList.add(s.getObjectOfClass("taxi").objectClass);
+		for (ObjectClass oClass : oclassList) {///this.d.getObjectClasses()) {
 			for (ObjectAttribute att : oClass.attributes) {
 				learnForOClassAndAtt(s, ga, sPrime, oClass, att);
 			}
@@ -146,7 +150,7 @@ public class PredictionsLearner {
 			try {
 				Double valAfter = sPrime.objectsByName.get(o.getId()).getAttributeValByName(att.name)
 						.getNumericValForAttribute();
-				if (valBefore != valAfter)
+				if (Math.abs(valBefore - valAfter) > 0.0000001 )
 					return false;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -203,8 +207,8 @@ public class PredictionsLearner {
 
 				// If already a prediction for this, update the condition and verify that there
 				// are no overlaps
-				Prediction prediction;
-				if ((prediction = predThatPredictsThisEffect(relevantPredictions, observedEffect)) != null) {
+				Prediction prediction = predThatPredictsThisEffect(relevantPredictions, observedEffect);
+				if (prediction != null) {
 
 					prediction.updateConditionLearners(s, sPrime, true);
 
@@ -212,9 +216,7 @@ public class PredictionsLearner {
 					if (this.predictionsOverlap(prediction, relevantPredictions)) {
 						relevantPredictions = null;
 					}
-				}
-
-				// If we observed an effect that we had no prediction for then add this
+				}				// If we observed an effect that we had no prediction for then add this
 				// prediction and update the learner for it
 				else {
 					prediction = new Prediction(this.propFunsToUse, oClass, att, a, observedEffect, s,
