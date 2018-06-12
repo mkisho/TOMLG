@@ -47,13 +47,13 @@ public class OOMDPReaderFromFile {
 		arquivo = "";
 	}
 
-	public OOMDP leitura(PropositionalFunction[] pfs) throws FileNotFoundException, IOException {
+	public OOMDP leitura(String name, PropositionalFunction[] pfs) throws FileNotFoundException, IOException {
 
 		String line;
 
 		// Pattern class_name_pattern= Pattern.compile("((\\w)+(?!\\)))");
 		in = new BufferedReader(
-				new FileReader("src/Untitled1"));
+				new FileReader(name));
 		line = in.readLine();
 
 		while (line != null) {
@@ -147,10 +147,10 @@ public class OOMDPReaderFromFile {
 	
 	
 	
-	public OOMDPState stateReader(OOMDP oomdp) throws FileNotFoundException, IOException {
+	public OOMDPState stateReader(String fileName, OOMDP oomdp) throws FileNotFoundException, IOException {
 		String line;
 		OOMDPState oomdpState = new OOMDPState(oomdp);
-		in = new BufferedReader(new FileReader("src/State0"));
+		in = new BufferedReader(new FileReader(fileName));
 
 		line = in.readLine();
 		arquivo = "";
@@ -199,7 +199,7 @@ public class OOMDPReaderFromFile {
 						System.out.println(newObjInst.toString());
 
 					}
-					oomdpState.objects.add(newObjInst);
+					oomdpState.addObjectInstance(newObjInst);
 				}
 			}
 

@@ -18,6 +18,7 @@ import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.output.Environment;
 import tomlg.doormax.output.ReasoningMind;
 import tomlg.doormax.utils.OOMDPReaderFromFile;
+import tomlg.doormax.utils.RandomGameGenerator;
 import tomlg.doormax.oomdpformalism.Action;
 
 public class Experiment {
@@ -47,19 +48,27 @@ public class Experiment {
 		pfs.add(new WallToSouthOfTaxi());
 		pfs.add(new WallToWestOfTaxi());
 
+
+		
 		PropositionalFunction[] pfss = new PropositionalFunction[pfs.size()];
 		for (int i = 0; i < pfs.size(); i++)
 			pfss[i] = pfs.get(i);
 
 		try {
 			OOMDPReaderFromFile a = new OOMDPReaderFromFile();
-			this.oomdp = a.leitura(pfss);
-			this.currentState = a.stateReader(this.oomdp);
+			this.oomdp = a.leitura(oomdpFile ,pfss);
+			this.currentState = a.stateReader(environmentFile, this.oomdp);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
 
+//		Uncomment For new game generation
+//		RandomGameGenerator rgg = new RandomGameGenerator();
+//		for (int j=0; j<1000; j++) {
+//			while(!rgg.gerar("Jogo"+j+".txt"));
+//		}
+		
 		List<EffectType> effectsToUse = new ArrayList<>();
 		for (EffectType e : Effect.γ) {
 			effectsToUse.add(e);

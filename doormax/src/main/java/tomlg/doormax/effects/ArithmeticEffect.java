@@ -35,7 +35,7 @@ public class ArithmeticEffect extends EffectType {
 				int val2 = ((AttributeValueInteger)value2).value;
 				if(val1 == val2) return null;
 				
-				return new Effect(this, att, o1.objectClass, new AttributeValueInteger(val1 - val2));
+				return new Effect(this, att, o1.objectClass, new AttributeValueInteger(val2 - val1));
 			}else return null;
 		} catch (Exception e) {
 			return null;

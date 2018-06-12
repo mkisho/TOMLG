@@ -61,14 +61,14 @@ public class ReasoningMind {
 	// get next action of agent
 	public Action reasoning() {
 		System.out.println("Agent "+this.name+" is reasoning");
-		if (!knowlodge.hasChoosenGoal()) {
+	/*	if (!knowlodge.hasChoosenGoal()) {
 			List<GoalBelief> goals = knowlodge.getGoals();
 			if(goals.size() == 0) {
 				System.out.println("Agent " + this.name + " has no goals! " + "No action selected");
 				return null;
 			}
 			this.knowlodge.setChoosenGoal(goals.get(0),"Random goal selection");
-		}
+		}*/
 		
 		int val = this.scanner.nextInt();
 		return this.actionRepertoire[val];

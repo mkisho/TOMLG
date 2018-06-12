@@ -140,6 +140,7 @@ public class PredictionsLearner {
 				learnForOClassAndAtt(s, ga, sPrime, oClass, att);
 			}
 		}
+		System.out.println();
 	}
 
 	private boolean classAndAttUnchanged(OOMDPState s, OOMDPState sPrime, ObjectClass oClass, ObjectAttribute att) {

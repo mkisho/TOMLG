@@ -25,7 +25,8 @@ public class WorldBelief extends Belief{
 			params.add(att.getName() + "=" + objInstance.getAttributeVal(att));
 		}
 		
-		return new WorldBelief(objInstance.getObjectClass().name, (String [])params.toArray(), true);
+//		return new WorldBelief(objInstance.getObjectClass().name, (String [])params.toArray(), true);
+		return null;
 	}
 	
 	public String toString() {
@@ -33,8 +34,7 @@ public class WorldBelief extends Belief{
 	}
 
 	public static Belief fromPropositionalFunction(PropositionalFunction propositionalFunction, boolean c) {
-		return new WorldBelief(propositionalFunction, null, c)
-		return null;
+		return new WorldBelief(propositionalFunction.name, null, c);
 	}
 	
 

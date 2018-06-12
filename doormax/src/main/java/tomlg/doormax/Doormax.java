@@ -33,8 +33,6 @@ public class Doormax {
 
 	private OOMDP d;
 	private int k;
-	private double rf = -1;// RewardFunction rf;
-	// private PropositionalFunction tf;
 	private List<PropositionalFunction> relevantPropFuns;
 	private List<EffectType> effectsToUse;
 	private final OOMDPState initialState;
@@ -63,9 +61,7 @@ public class Doormax {
 	public Doormax(OOMDP d, List<PropositionalFunction> relevantPropFuns, List<EffectType> effectsToUse,
 			OOMDPState initialState, int k, String statePerceptionToUse) {
 		this.d = d;
-		// this.rf = rf;
 		this.k = k;
-		// this.tf = tf;
 		this.statePerceptionToUse = statePerceptionToUse;
 		this.initialState = initialState;
 		this.relevantPropFuns = relevantPropFuns;
