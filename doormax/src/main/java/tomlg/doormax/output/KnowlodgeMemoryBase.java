@@ -3,18 +3,25 @@ package tomlg.doormax.output;
 import java.util.ArrayList;
 import java.util.List;
 
+import tomlg.doormax.Condition;
+import tomlg.doormax.PropositionalFunction;
+import tomlg.doormax.oomdpformalism.OOMDPState;
+import tomlg.doormax.oomdpformalism.ObjectAttribute;
+import tomlg.doormax.oomdpformalism.ObjectInstance;
+
 public class KnowlodgeMemoryBase {
 	private String myAgent;
 
-	private List<Belief> beliefs;
+	private List<Belief> worldBeliefs;
 
 	private List<GoalBelief> goalsBeliefs;
 	private GoalBelief choosenGoal;
 
 	public KnowlodgeMemoryBase(String myAgent) {
 		this.myAgent = myAgent;
-		this.beliefs = new ArrayList<Belief>(100);
+		this.worldBeliefs = new ArrayList<Belief>(100);
 		this.goalsBeliefs = new ArrayList<GoalBelief>(10);
+		
 		this.choosenGoal = null;
 	}
 
@@ -24,9 +31,9 @@ public class KnowlodgeMemoryBase {
 
 	public void addBelief(Belief belief) {
 		System.out.println("Adding new Belief to base of agent " + this.myAgent);
-		
-		if(belief instanceof GoalBelief) {
-			this.goalsBeliefs.add((GoalBelief)belief);
+
+		if (belief instanceof GoalBelief) {
+			this.goalsBeliefs.add((GoalBelief) belief);
 		}
 	}
 
@@ -56,7 +63,26 @@ public class KnowlodgeMemoryBase {
 			goalBelief.setMotivationForSelection(selectionMotivation);
 			this.choosenGoal = goalBelief;
 		} else {
-			System.out.println("Agent " + this.myAgent + " tried to select a choosen goal without the goal being in the goals beliefs of the agent");
+			System.out.println("Agent " + this.myAgent
+					+ " tried to select a choosen goal without the goal being in the goals beliefs of the agent");
+		}
+	}
+
+	public void updateWorldStateBelief(OOMDPState worldState) {
+		this.worldBeliefs.clear();
+
+		for (ObjectInstance objInstance : worldState.objects) {
+			this.worldBeliefs.add(WorldBelief.fromObjInstance(objInstance));
+		}
+		Condition worldCondition = worldState.toCondition();
+		for(int i=0; i < worldCondition.conditionBitArray.length; i++) {
+			char cond = worldCondition.conditionBitArray[i];
+			boolean eval = false;
+			if(cond =='1') {
+				eval = true;
+			}
+			this.worldBeliefs.add(WorldBelief.fromPropositionalFunction(worldCondition.bitStringPropositionsIndex[i], 
+					eval));
 		}
 	}
 

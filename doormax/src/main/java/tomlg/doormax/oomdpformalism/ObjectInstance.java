@@ -14,6 +14,7 @@ import tomlg.doormax.oomdpformalism.ObjectClass;
  *
  */
 public class ObjectInstance {
+	private static int UNIVERSAL_ID;
 	private String id;
 	
 	public final ObjectClass objectClass;
@@ -39,7 +40,7 @@ public class ObjectInstance {
 			this.attributeByName.put(attribute.name, attribute);
 		}
 		
-		this.id = this.objectClass.name +" - " + UUID.randomUUID().toString();
+		this.id = this.objectClass.name +"-"+UNIVERSAL_ID++ ;//+ UUID.randomUUID().toString();
 	}
 	
 	public ObjectInstance copy() {
