@@ -30,6 +30,7 @@ public class Main {
 		experiment.simulateStep();
 		experiment.simulateStep();
 		experiment.simulateStep();
+
 	}
 
 }

@@ -14,7 +14,6 @@ import tomlg.doormax.oomdpformalism.ObjectClass;
 public class RandomGameGenerator {
 //    private static final int WIDHT = 0;
 //	private BufferedReader in;
-    private String arquivo;
  //   private String nomeArquivo;
   //  private String[] auxStringArray;
 //    private String[] class_attributes;
@@ -22,13 +21,13 @@ public class RandomGameGenerator {
 	List<Action> actions_list = new ArrayList<Action>();
 	List<ObjectClass> createdClasses = new ArrayList<ObjectClass>();
 	Square[][] houses;
-	int HEIGHT=5;
-    int WIDTH=5;
+	int HEIGHT;
+    int WIDTH;
     PrintWriter writer;
 	
-    public RandomGameGenerator(String arquivo) {
+    public RandomGameGenerator() {
 		super();
-		this.arquivo = arquivo;
+		
 	}
 
 
@@ -51,16 +50,16 @@ public class RandomGameGenerator {
     
     
     
-	public boolean gerar() throws FileNotFoundException, IOException {
+	public boolean gerar(String arquivo) throws FileNotFoundException, IOException {
 		
 //        String line;
         String className;
         List<String> attributesList= new ArrayList<String>();
         String attribute;
         String tmp=null;
-        
-         writer = new PrintWriter("/home/drones/"+arquivo, "UTF-8");
-     
+         writer = new PrintWriter(arquivo, "UTF-8");
+         HEIGHT=ThreadLocalRandom.current().nextInt(4, 11);;
+         WIDTH=ThreadLocalRandom.current().nextInt(4, 11);;
        
         
         
@@ -249,16 +248,12 @@ public class RandomGameGenerator {
 	    end = Integer.parseInt(attributes.get(2).split(":")[1]);
 	    for (int i=begin; i<=end; i++) {
 	    	if(horizontal) {
-	    		houses[i][offset].wallLeft = true;
-//	    		if(i<HEIGHT) {
-	    		houses[i][offset-1].wallRight = true;
-//	    		}
+	    		houses[offset][i].wallLeft = true;
+	    		houses[offset-1][i].wallRight = true;
 	    	}
 	    	else {
-	    		houses[offset][i].wallDown = true;
-//	    		if(i<WIDTH) {
-	    		houses[offset-1][i].wallUp = true;
-//	    		}
+	    		houses[i][offset].wallDown = true;
+	    		houses[i][offset-1].wallUp = true;
 	    	}
 	    }
 	}
