@@ -1,4 +1,4 @@
-* Experimentos
+0* Experimentos
 
 ** [#A] 1) Rodando sozinho para ver saída do aprendizado
 ** [#A] 2) Observando outro agente
@@ -56,3 +56,9 @@ OOMDPState, completamente desacoplado do código do DOORMAX geral
 -> Quais as possíveis intenções do agente
 -> Ciclo de Transiçoes de Estados
 ------
+
+
+--Corretude, conferir se o Doormax e theory of mind funcionam
+--Eficiência, quanto jogos demora para aprender
+--Complexidade, foge ao escopo do projeto
+--Lógica, mostrar que a corretude pode ser inferida pela saída do lorini
