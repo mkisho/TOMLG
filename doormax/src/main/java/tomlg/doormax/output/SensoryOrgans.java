@@ -2,10 +2,10 @@ package tomlg.doormax.output;
 
 import tomlg.doormax.oomdpformalism.OOMDPState;
 
-public class SensoryOrgaons {
+public class SensoryOrgans {
 	private Environment ev;
 	
-	public SensoryOrgaons(Environment ev) {
+	public SensoryOrgans(Environment ev) {
 		this.ev = ev;
 	}
 

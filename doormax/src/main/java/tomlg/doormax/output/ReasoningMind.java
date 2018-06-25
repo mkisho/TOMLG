@@ -8,10 +8,10 @@ import tomlg.doormax.oomdpformalism.OOMDPState;
 
 public class ReasoningMind {
 	private String name;
-	private KnowlodgeMemoryBase knowlodge;
+	private KnowledgeMemoryBase knowledge;
 	private Action[] actionRepertoire;
 	private Scanner scanner;
-	private SensoryOrgaons sensories;
+	private SensoryOrgans sensories;
 	private EnvironmentActuation bodyActuators;
 	
 	public ReasoningMind(String name, Action[] actionRepertoire, Environment environment) {
@@ -20,28 +20,28 @@ public class ReasoningMind {
 		this.scanner = new Scanner(new InputStreamReader(System.in));
 		System.out.println("Initializing agent: " + name);
 		this.initializeMind();
-		this.sensories = new SensoryOrgaons(environment);
+		this.sensories = new SensoryOrgans(environment);
 		this.bodyActuators = new EnvironmentActuation(environment);
 	}
 
 	private void initializeMind() {
 		// initialize Beliefs
-		this.knowlodge = new KnowlodgeMemoryBase(this.name);
+		this.knowledge = new KnowledgeMemoryBase(this.name);
 
 		for (Action action : this.actionRepertoire) {
-			this.knowlodge.addBelief(new BeliefAboutAction(action, this.name, null, null));
+			this.knowledge.addBelief(new BeliefAboutAction(action, this.name, null, null));
 		}
 	}
 
 	public void addGoalBelief(GoalBelief goal) {
 		System.out.println("Agent " + this.name + " has a new goal");
-		this.knowlodge.addBelief(goal);
+		this.knowledge.addBelief(goal);
 	}
 
 	public void perceive() {
 		System.out.println("Agent "+this.name+" is perceiving the environment");
 		OOMDPState worldState = this.sensories.environmentToPerception();
-		this.knowlodge.updateWorldStateBelief(worldState);
+		this.knowledge.updateWorldStateBelief(worldState);
 		// update Beliefs about the state of the world
 	}
 
