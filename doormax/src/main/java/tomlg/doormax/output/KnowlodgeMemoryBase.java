@@ -3,18 +3,29 @@ package tomlg.doormax.output;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
+
 import tomlg.doormax.Condition;
 import tomlg.doormax.PropositionalFunction;
 import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import tomlg.doormax.oomdpformalism.ObjectInstance;
 
+@Root
 public class KnowlodgeMemoryBase {
+	@Attribute
 	private String myAgent;
 
+	@ElementList //environment beliefs
 	private List<Belief> worldBeliefs;
 
+	@ElementList // intentional beliefs
 	private List<GoalBelief> goalsBeliefs;
+	
+	@Element
 	private GoalBelief choosenGoal;
 
 	public KnowlodgeMemoryBase(String myAgent) {

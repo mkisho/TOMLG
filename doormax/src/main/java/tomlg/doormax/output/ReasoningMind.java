@@ -1,18 +1,29 @@
 package tomlg.doormax.output;
 
 import java.io.InputStreamReader;
-import java.util.List;
 import java.util.Scanner;
+
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementArray;
+import org.simpleframework.xml.Root;
+
 import tomlg.doormax.oomdpformalism.Action;
 import tomlg.doormax.oomdpformalism.OOMDPState;
 
+@Root
 public class ReasoningMind {
+	
 	private String name;
+    @Element
 	private KnowlodgeMemoryBase knowlodge;
-	private Action[] actionRepertoire;
+    @ElementArray
+    private Action[] actionRepertoire;
 	private Scanner scanner;
 	private SensoryOrgaons sensories;
 	private EnvironmentActuation bodyActuators;
+	@Attribute
+	private int step;
 	
 	public ReasoningMind(String name, Action[] actionRepertoire, Environment environment) {
 		this.name = name;
@@ -22,6 +33,7 @@ public class ReasoningMind {
 		this.initializeMind();
 		this.sensories = new SensoryOrgaons(environment);
 		this.bodyActuators = new EnvironmentActuation(environment);
+		this.step = 0;
 	}
 
 	private void initializeMind() {
@@ -49,6 +61,8 @@ public class ReasoningMind {
 
 	}
 	
+	
+	
 	public void tick() {
 		// update what I know about the state
 		this.perceive();
@@ -56,6 +70,7 @@ public class ReasoningMind {
 		Action action = reasoning();
 		if(action!= null)
 			this.bodyActuators.doActionOnEnvironment(action);
+		this.step += 1;
 	}
 
 	// get next action of agent
@@ -74,5 +89,9 @@ public class ReasoningMind {
 		return this.actionRepertoire[val];
 		
 		// if do not know what to do, then I will try some random action that the agent don't know the outcome
+	}
+	
+	public void outputToFile() {
+		
 	}
 }
