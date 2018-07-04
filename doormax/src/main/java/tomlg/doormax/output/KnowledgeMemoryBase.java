@@ -7,15 +7,13 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-
 import tomlg.doormax.Condition;
 import tomlg.doormax.PropositionalFunction;
 import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import tomlg.doormax.oomdpformalism.ObjectInstance;
 
-@Root
-public class KnowlodgeMemoryBase {
+public class KnowledgeMemoryBase {
 	@Attribute
 	private String myAgent;
 
@@ -28,7 +26,7 @@ public class KnowlodgeMemoryBase {
 	@Element
 	private GoalBelief choosenGoal;
 
-	public KnowlodgeMemoryBase(String myAgent) {
+	public KnowledgeMemoryBase(String myAgent) {
 		this.myAgent = myAgent;
 		this.worldBeliefs = new ArrayList<Belief>(100);
 		this.goalsBeliefs = new ArrayList<GoalBelief>(10);
@@ -56,7 +54,7 @@ public class KnowlodgeMemoryBase {
 
 	}
 
-	public KnowlodgeMemoryBase saveState() {
+	public KnowledgeMemoryBase saveState() {
 		return null;
 	}
 
