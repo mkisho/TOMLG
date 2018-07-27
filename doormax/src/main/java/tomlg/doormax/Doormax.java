@@ -1,20 +1,9 @@
 package tomlg.doormax;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-
-import tomlg.doormax.actionconditionlearners.OOMDPActionConditionLearner;
 import tomlg.doormax.effects.EffectType;
-import tomlg.doormax.environment.EnvironmentSimulator;
 import tomlg.doormax.oomdpformalism.Action;
 import tomlg.doormax.oomdpformalism.OOMDP;
 import tomlg.doormax.oomdpformalism.OOMDPState;
-import tomlg.doormax.oomdpformalism.ObjectAttribute;
-import tomlg.doormax.oomdpformalism.ObjectClass;
-import tomlg.doormax.oomdpformalism.ObjectInstance;
 import tomlg.doormax.utils.TransitionProbability;
 
 import java.util.ArrayList;
@@ -30,17 +19,20 @@ import java.util.List;
 public class Doormax {
 
 	private PredictionsLearner pLearner;
+	 
 
-	private OOMDP d;
+	private OOMDP oomdp;
 	private int k;
-	private List<PropositionalFunction> relevantPropFuns;
-	private List<EffectType> effectsToUse;
+	private PropositionalFunction[] relevantPropFuns;
+	private EffectType[] effectsToUse;
 	private final OOMDPState initialState;
 	private String statePerceptionToUse;
+	private String agentName;
+
 
 	/**
 	 * 
-	 * @param d
+	 * @param oomdp
 	 *            domain to use
 	 * @param rf
 	 *            reward function to use
@@ -58,73 +50,53 @@ public class Doormax {
 	 *            string for how to featurize state for condition learner as gotten
 	 *            from StatePerceptions. If null will run classic DOORMAX with PFs.
 	 */
-	public Doormax(OOMDP d, List<PropositionalFunction> relevantPropFuns, List<EffectType> effectsToUse,
-			OOMDPState initialState, int k, String statePerceptionToUse) {
-		this.d = d;
+	public Doormax(OOMDP oomdp, PropositionalFunction[] relevantPropFuns, EffectType[] effectsToUse,
+			OOMDPState initialState, int k, String statePerceptionToUse, String agentName) {
+		this.oomdp = oomdp;
 		this.k = k;
 		this.statePerceptionToUse = statePerceptionToUse;
 		this.initialState = initialState;
 		this.relevantPropFuns = relevantPropFuns;
-		this.pLearner = new PredictionsLearner(d, relevantPropFuns, effectsToUse, d.actions, this.initialState, this.k,
-				this.statePerceptionToUse);
+		this.pLearner = new PredictionsLearner(oomdp, relevantPropFuns, effectsToUse, oomdp.actions, this.initialState, this.k,
+				this.statePerceptionToUse, agentName);
 		this.effectsToUse = effectsToUse;
+		this.agentName = agentName;
 	}
 
 	public PredictionsLearner getPredictionsLearner() {
 		return this.pLearner;
 	}
 
-	public boolean transitionIsModeled(OOMDPState s, Action ga) {
-		OOMDPState predictedState = this.pLearner.predict(s, ga);
+	public boolean transitionIsModeled(OOMDPState state, Action action) {
+		OOMDPState predictedState = this.pLearner.predict(state, action);
 		return (predictedState != null);
 	}
 
-	public boolean stateTransitionsAreModeled(OOMDPState s) {
-		return true;
-		// List<AbstractGroundedAction> unmodeledActions =
-		// this.getUnmodeledActionsForState(s);
-		// return (unmodeledActions.size() == 0);
+	public boolean stateTransitionsAreModeled(OOMDPState state) {
+		 List<Action> unmodeledActions =
+		 this.getUnmodeledActionsForState(state);
+		 return (unmodeledActions.size() == 0);
 	}
 
-	public List<Action> getUnmodeledActionsForState(OOMDPState s) {
+	public List<Action> getUnmodeledActionsForState(OOMDPState state) {
 		List<Action> toReturn = new ArrayList<Action>();
-		List<Action> actions = d.actions;
+		List<Action> actions = oomdp.actions;
 		for (Action a : actions) {
-			if (!this.transitionIsModeled(s, a)) {
+			if (!this.transitionIsModeled(state, a)) {
 				toReturn.add(a);
 			}
 		}
 		return toReturn;
 	}
-/*
-	public OOMDPState sampleModelHelper(OOMDPState s, Action ga) {
-		return this.sampleTransitionFromTransitionProbabilities(s, ga);
-	}
-*/
-	public List<TransitionProbability> getTransitionProbabilities(OOMDPState s, Action ga) {
-		List<TransitionProbability> toReturn = new ArrayList<TransitionProbability>();
-		OOMDPState resultingState = this.pLearner.predict(s, ga);
-		// Do know
-		if (resultingState != null) {
-			TransitionProbability TP = new TransitionProbability(resultingState, 1.0);
-			toReturn.add(TP);
-		}
-		// If don't know just transition to original state
-		else {
-			TransitionProbability TP = new TransitionProbability(s, 1.0);
-			toReturn.add(TP);
-		}
 
-		return toReturn;
-	}
 
-	public void updateModel(OOMDPState s, Action ga, OOMDPState sprime, double r, boolean sprimeIsTerminal) {
-		this.pLearner.learn(s, ga, sprime);
+	public void updateModel(OOMDPState oldState, Action action, OOMDPState newState, double reward, boolean newStateIsTerminal) {
+		this.pLearner.learn(oldState, action, newState);
 	}
 
 	public void resetModel() {
-		this.pLearner = new PredictionsLearner(d, relevantPropFuns, effectsToUse, d.actions, this.initialState,
-				this.k, this.statePerceptionToUse);
+		this.pLearner = new PredictionsLearner(oomdp, relevantPropFuns, effectsToUse, oomdp.actions, this.initialState,
+				this.k, this.statePerceptionToUse, this.agentName);
 	}
 
 	public OOMDPState getInitialState() {

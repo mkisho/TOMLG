@@ -16,13 +16,13 @@ import tomlg.doormax.oomdpformalism.OOMDPState;
  */
 public class PFConditionLearner extends OOMDPActionConditionLearner{
 
-	List<PropositionalFunction> propFuns;
+	PropositionalFunction[] propFuns;
 	private Condition condition;
 
 	/**
 	 * 
 	 */
-	public PFConditionLearner(List<PropositionalFunction> propFuns){
+	public PFConditionLearner(PropositionalFunction[] propFuns){
 		this.condition = null;
 		this.propFuns = propFuns;
 	}
@@ -31,7 +31,7 @@ public class PFConditionLearner extends OOMDPActionConditionLearner{
 	 * 
 	 * @return the CH that predicts true for this CL
 	 */
-	private Condition getCondition() {
+	public Condition getCondition() {
 		return this.condition;
 	}
 
@@ -81,8 +81,8 @@ public class PFConditionLearner extends OOMDPActionConditionLearner{
 	}
 
 	@Override
-	public void learn(OOMDPState s, boolean trueInState) {
-		Condition c = s.toCondition();
+	public void learn(OOMDPState state, boolean trueInState) {
+		Condition c = state.toCondition();
 		if (trueInState) {
 			this.updateVersionSpace(c);
 		}

@@ -32,11 +32,11 @@ public class PerceptionConditionLearner extends OOMDPActionConditionLearner {
 	private Classifier classifier;
 	private GroupOfPerceptions observedPerceptions;
 	boolean classifierTrained = false;
-	List<PropositionalFunction> propFuns;
+	PropositionalFunction[] propFuns;
 	String statePerceptionToUse;
 
 
-	public PerceptionConditionLearner(List<PropositionalFunction> propFuns, String statePerceptionToUse) {
+	public PerceptionConditionLearner(PropositionalFunction[] propFuns, String statePerceptionToUse) {
 		this.observedPerceptions = new GroupOfPerceptions();
 		this.classifierTrained = false;
 		this.propFuns = propFuns;

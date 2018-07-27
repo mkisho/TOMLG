@@ -9,11 +9,11 @@ import tomlg.doormax.oomdpformalism.OOMDPState;
 
 public class PFStatePerception extends StatePerception {
 
-	List<PropositionalFunction> propFuns;
+	PropositionalFunction[] propFuns;
 	String dataString;
 	Condition condition;
 	
-	public PFStatePerception(OOMDPState state, List<PropositionalFunction> propFuns, Boolean tag) {
+	public PFStatePerception(OOMDPState state, PropositionalFunction[] propFuns, Boolean tag) {
 		this.propFuns = propFuns;
 		this.condition = state.toCondition();
 		StringBuilder sb = new StringBuilder();

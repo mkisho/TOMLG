@@ -25,5 +25,10 @@ public class AssignmentEffect extends EffectType {
 			return null;
 		}
 	}
+
+	@Override
+	public String name() {
+		return "AssignmentEffect";
+	}
 	
 }

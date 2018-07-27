@@ -5,7 +5,7 @@ Taxi {
 		taxiMoveSouth,
 		taxiMoveWest,
 		pickupPassenger,
-		DropOffPassenger
+		dropOffPassenger
 	}
 	
 	Classes{

@@ -22,7 +22,7 @@ final public class Prediction {
 	private OOMDPActionConditionLearner CL;
 	public final Effect effect;
 	public final Action action;
-	public final List<PropositionalFunction> propFuns;
+	public final PropositionalFunction[] propFuns;
 	public final ObjectClass associatedOClass;
 	public final ObjectAttribute relevantAtt;
 	
@@ -35,7 +35,7 @@ final public class Prediction {
 	 * @param effectToLearnConditionFor the effect that the CELearner is learning the condition for
 	 * @param initialState the state in which the effect was first observed just before taking act
 	 */
-	public Prediction(List<PropositionalFunction> propFuns, 
+	public Prediction(PropositionalFunction[] propFuns, 
 			ObjectClass OC, ObjectAttribute att, 
 			Action action, Effect effectToLearnConditionFor, 
 			OOMDPState initialState, String statePerceptionToUse) {

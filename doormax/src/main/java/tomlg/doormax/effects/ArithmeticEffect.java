@@ -15,12 +15,12 @@ public class ArithmeticEffect extends EffectType {
 
 		ObjectInstance objectWithEffect = new ObjectInstance(object);
 
-		if(value instanceof AttributeValueInteger) {
+		if (value instanceof AttributeValueInteger) {
 			AttributeValueInteger updatedAttribute = (AttributeValueInteger) object.attributesVal.get(attribute);
 			int val = ((AttributeValueInteger) value).value;
 			objectWithEffect.attributesVal.put(attribute, new AttributeValueInteger(updatedAttribute.value + val));
 			return objectWithEffect;
-			
+
 		}
 		throw new RuntimeErrorException(null, "Tá errado");
 	}
@@ -29,17 +29,23 @@ public class ArithmeticEffect extends EffectType {
 		try {
 			AttributeValue value1 = o1.attributesVal.get(att);
 			AttributeValue value2 = o2.attributesVal.get(att);
-			
-			if(value1 instanceof AttributeValueInteger && value2 instanceof AttributeValueInteger  ) {
-				int val1 = ((AttributeValueInteger)value1).value;
-				int val2 = ((AttributeValueInteger)value2).value;
-				if(val1 == val2) return null;
-				
+
+			if (value1 instanceof AttributeValueInteger && value2 instanceof AttributeValueInteger) {
+				int val1 = ((AttributeValueInteger) value1).value;
+				int val2 = ((AttributeValueInteger) value2).value;
+				if (val1 == val2)
+					return null;
+
 				return new Effect(this, att, o1.objectClass, new AttributeValueInteger(val2 - val1));
-			}else return null;
+			} else
+				return null;
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
+	@Override
+	public String name() {
+		return "ArithmeticEffect";
+	}
 }

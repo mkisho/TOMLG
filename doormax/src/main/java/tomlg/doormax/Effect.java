@@ -130,7 +130,7 @@ public class Effect {
 	}
 
 	public static List<Effect> possibleEffectsExplanation(OOMDPState s, OOMDPState sPrime, ObjectClass oClass,
-			ObjectAttribute att, List<EffectType> effectsToUse) {
+			ObjectAttribute att, EffectType[] effectsToUse) {
 
 		List<Effect> toReturn = new ArrayList<Effect>();
 

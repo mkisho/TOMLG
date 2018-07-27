@@ -3,6 +3,8 @@ package tomlg.doormax;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import tomlg.doormax.effects.EffectType;
 import tomlg.doormax.effects.NullEffect;
 import tomlg.doormax.oomdpformalism.Action;
@@ -11,6 +13,9 @@ import tomlg.doormax.oomdpformalism.OOMDPState;
 import tomlg.doormax.oomdpformalism.ObjectAttribute;
 import tomlg.doormax.oomdpformalism.ObjectClass;
 import tomlg.doormax.oomdpformalism.ObjectInstance;
+import tomlg.doormax.output.Belief;
+import tomlg.doormax.output.BeliefAboutAction;
+import tomlg.doormax.output.PrevisionBelief;
 import tomlg.doormax.utils.DiscreteStateHashFactory;
 
 public class PredictionsLearner {
@@ -24,16 +29,17 @@ public class PredictionsLearner {
 	 */
 	private HashMap<PaperAttributeActionTuple, List<Condition>> failureConditionsByActionOClassAtt;
 	private HashMap<AttActionEffectTuple, List<Prediction>> predictionsByAttActionAndEffect;
-	private List<EffectType> effectsToUse;
-	private OOMDP d;
+	private EffectType[] effectsToUse;
+	private OOMDP oomdp;
 	private int k;
-	private List<PropositionalFunction> propFunsToUse;
+	private PropositionalFunction[] propFunsToUse;
 	private String statePerceptionToUse;
-	private List<Action> allGAs;
+	private List<Action> actionList;
+	private String agentName;
 
 	/**
 	 * 
-	 * @param d
+	 * @param oomdp
 	 *            domain to use
 	 * @param propFuns
 	 *            relevant prop funs to plan over (using the groundings of in
@@ -49,22 +55,23 @@ public class PredictionsLearner {
 	 * @param k
 	 *            the max number of effects (of one type) that an action can have
 	 */
-	public PredictionsLearner(OOMDP d, List<PropositionalFunction> propFuns, List<EffectType> effectsToUse,
-			List<Action> actionsToUse, OOMDPState initialState, int k, String statePerceptionToUse) {
+	public PredictionsLearner(OOMDP oomdp, PropositionalFunction[] propFuns, EffectType[] effectsToUse,
+			List<Action> actionsToUse, OOMDPState initialState, int k, String statePerceptionToUse, String agentName) {
 		this.statePerceptionToUse = statePerceptionToUse;
-		this.d = d;
+		this.oomdp = oomdp;
 		this.k = k;
 		this.propFunsToUse = propFuns;
-		this.allGAs = new ArrayList<Action>();
+		this.actionList = new ArrayList<Action>();
+		this.agentName = agentName;
 		// for (Action a : actionsToUse) {
-		this.allGAs.addAll(actionsToUse);// a.getAllApplicableGroundedActions(initialState));
+		this.actionList.addAll(actionsToUse);// a.getAllApplicableGroundedActions(initialState));
 		// }
 		this.effectsToUse = effectsToUse;
 
 		// Set up HM for failure conditions
 		this.failureConditionsByActionOClassAtt = new HashMap<PaperAttributeActionTuple, List<Condition>>();
-		for (Action ga : this.allGAs) {
-			for (ObjectClass oClass : this.d.getObjectClasses()) {
+		for (Action ga : this.actionList) {
+			for (ObjectClass oClass : this.oomdp.getObjectClasses()) {
 				for (ObjectAttribute att : oClass.attributes) {
 					PaperAttributeActionTuple toHashBy = new PaperAttributeActionTuple(oClass, att, ga);
 					this.failureConditionsByActionOClassAtt.put(toHashBy, new ArrayList<Condition>());
@@ -76,8 +83,8 @@ public class PredictionsLearner {
 
 		// Set up HM for predictions
 		this.predictionsByAttActionAndEffect = new HashMap<AttActionEffectTuple, List<Prediction>>();
-		for (Action a : this.allGAs) {
-			for (ObjectClass oClass : this.d.getObjectClasses()) {
+		for (Action a : this.actionList) {
+			for (ObjectClass oClass : this.oomdp.getObjectClasses()) {
 				for (ObjectAttribute att : oClass.attributes) {
 					for (EffectType effectType : this.effectsToUse) {
 						AttActionEffectTuple toHashBy = new AttActionEffectTuple(oClass, att, a, effectType);
@@ -130,46 +137,48 @@ public class PredictionsLearner {
 		return null;
 	}
 
-	public void learn(OOMDPState s, Action ga, OOMDPState sPrime) {
-		
-		//TODO remove after
-		List<ObjectClass> oclassList = new ArrayList<ObjectClass>();
-		oclassList.add(s.getObjectOfClass("taxi").objectClass);
-		for (ObjectClass oClass : oclassList) {///this.d.getObjectClasses()) {
+	public void learn(OOMDPState oldState, Action action, OOMDPState newState) {
+
+		// TODO remove after
+		List<ObjectClass> oclassList = this.oomdp.getObjectClasses();
+		// List<ObjectClass> oclassList = new ArrayList<ObjectClass>();
+		// oclassList.add(oldState.getObjectOfClass("taxi").objectClass);
+		for (ObjectClass oClass : oclassList) {
 			for (ObjectAttribute att : oClass.attributes) {
-				learnForOClassAndAtt(s, ga, sPrime, oClass, att);
+				learnForOClassAndAtt(oldState, action, newState, oClass, att);
 			}
 		}
-		System.out.println();
 	}
 
-	private boolean classAndAttUnchanged(OOMDPState s, OOMDPState sPrime, ObjectClass oClass, ObjectAttribute att) {
-		List<ObjectInstance> objectInstances = s.getObjectsOfClass(oClass.name);
+	private boolean classAndAttUnchanged(OOMDPState oldState, OOMDPState newState, ObjectClass oClass,
+			ObjectAttribute att) {
+		List<ObjectInstance> objectInstances = oldState.getObjectsOfClass(oClass.name);
 		for (ObjectInstance o : objectInstances) {
 			Double valBefore = o.getAttributeValByName(att.name).getNumericValForAttribute();
 
 			try {
-				Double valAfter = sPrime.objectsByName.get(o.getId()).getAttributeValByName(att.name)
+				Double valAfter = newState.objectsByName.get(o.getId()).getAttributeValByName(att.name)
 						.getNumericValForAttribute();
-				if (Math.abs(valBefore - valAfter) > 0.0000001 )
+				if (Math.abs(valBefore - valAfter) > 0.0000001)
 					return false;
 			} catch (Exception e) {
-				e.printStackTrace();
+				return true;
+				// e.printStackTrace();
 			}
 		}
 
 		return true;
 	}
 
-	private void learnForOClassAndAtt(OOMDPState s, Action a, OOMDPState sPrime, ObjectClass oClass,
+	private void learnForOClassAndAtt(OOMDPState oldState, Action action, OOMDPState currentState, ObjectClass oClass,
 			ObjectAttribute att) {
 		List<Prediction> predictionsThatPredictEffectsForState = new ArrayList<Prediction>();
 
 		// Found a failure condition for an action -- update as necessary
-		if (classAndAttUnchanged(s, sPrime, oClass, att)) {
-			Condition failureHyp = s.toCondition();// new Condition(s, this.propFunsToUse);
+		if (classAndAttUnchanged(oldState, currentState, oClass, att)) {
+			Condition failureHyp = oldState.toCondition();// new Condition(s, this.propFunsToUse);
 
-			PaperAttributeActionTuple toHashBy = new PaperAttributeActionTuple(oClass, att, a);
+			PaperAttributeActionTuple toHashBy = new PaperAttributeActionTuple(oClass, att, action);
 			List<Condition> failureConditions = this.failureConditionsByActionOClassAtt.get(toHashBy);
 			// Remove all conditions that are entailed by this states conditions
 			List<Condition> hypsToRemove = new ArrayList<Condition>();
@@ -189,16 +198,16 @@ public class PredictionsLearner {
 		else {
 			// Get possible effects for this oClass and attribute
 			List<Effect> possibleEffects = null;
-//			try {
-				// for (EffectType efftype : this.effectsToUse) {
-				possibleEffects = Effect.possibleEffectsExplanation(s, sPrime, oClass, att, this.effectsToUse);
-				// }
-//			} catch (EffectNotFoundException e) {
-//				e.printStackTrace();
-//			}
-//
+			// try {
+			// for (EffectType efftype : this.effectsToUse) {
+			possibleEffects = Effect.possibleEffectsExplanation(oldState, currentState, oClass, att, this.effectsToUse);
+			// }
+			// } catch (EffectNotFoundException e) {
+			// e.printStackTrace();
+			// }
+			//
 			for (Effect observedEffect : possibleEffects) {
-				AttActionEffectTuple toHashBy = new AttActionEffectTuple(oClass, att, a, observedEffect.type);
+				AttActionEffectTuple toHashBy = new AttActionEffectTuple(oClass, att, action, observedEffect.type);
 				List<Prediction> relevantPredictions = this.predictionsByAttActionAndEffect.get(toHashBy);
 
 				// This effect was ruled out so continue
@@ -211,16 +220,16 @@ public class PredictionsLearner {
 				Prediction prediction = predThatPredictsThisEffect(relevantPredictions, observedEffect);
 				if (prediction != null) {
 
-					prediction.updateConditionLearners(s, sPrime, true);
+					prediction.updateConditionLearners(oldState, currentState, true);
 
 					// Verify that there are no overlaps
 					if (this.predictionsOverlap(prediction, relevantPredictions)) {
 						relevantPredictions = null;
 					}
-				}				// If we observed an effect that we had no prediction for then add this
-				// prediction and update the learner for it
+				} // If we observed an effect that we had no prediction for then add this
+					// prediction and update the learner for it
 				else {
-					prediction = new Prediction(this.propFunsToUse, oClass, att, a, observedEffect, s,
+					prediction = new Prediction(this.propFunsToUse, oClass, att, action, observedEffect, oldState,
 							this.statePerceptionToUse);
 					relevantPredictions.add(prediction);
 
@@ -242,10 +251,10 @@ public class PredictionsLearner {
 		}
 		// Lastly update false conditions for all other conditionlearners -- for classic
 		// DOORMAX this will do nothing
-		List<Prediction> allPredictions = this.getAllPredictionsByClassEtc(oClass, att, a);
+		List<Prediction> allPredictions = this.getAllPredictionsByClassEtc(oClass, att, action);
 		for (Prediction currPred : allPredictions) {
 			if (!predictionsThatPredictEffectsForState.contains(currPred)) {
-				currPred.updateConditionLearners(s, sPrime, false);
+				currPred.updateConditionLearners(oldState, currentState, false);
 			}
 		}
 
@@ -262,10 +271,10 @@ public class PredictionsLearner {
 		return allPredictions;
 	}
 
-	private List<Prediction> getAllPredictionsByClassEtc(ObjectClass oClass, ObjectAttribute att, Action ga) {
+	private List<Prediction> getAllPredictionsByClassEtc(ObjectClass oClass, ObjectAttribute att, Action action) {
 		List<Prediction> allPredictions = new ArrayList<Prediction>();
 		for (EffectType eTypeString : this.effectsToUse) {
-			AttActionEffectTuple toHashBy = new AttActionEffectTuple(oClass, att, ga, eTypeString);
+			AttActionEffectTuple toHashBy = new AttActionEffectTuple(oClass, att, action, eTypeString);
 			List<Prediction> relevantPredictions = this.predictionsByAttActionAndEffect.get(toHashBy);
 			if (relevantPredictions != null) {
 				allPredictions.addAll(relevantPredictions);
@@ -380,7 +389,7 @@ public class PredictionsLearner {
 	public List<Effect> predictEffects(OOMDPState s, Action ga) {
 		List<Effect> toReturn = new ArrayList<Effect>();
 
-		for (ObjectClass oClass : this.d.getObjectClasses()) {
+		for (ObjectClass oClass : this.oomdp.getObjectClasses()) {
 			for (ObjectAttribute att : oClass.attributes) {
 				List<Effect> effects = predictEffectsOnAttAndOclass(s, ga, oClass, att);
 				if (effects == null) {
@@ -429,6 +438,50 @@ public class PredictionsLearner {
 		return toReturn;
 	}
 
+	public List<BeliefAboutAction> toBeliefs() {
+		Map<PaperAttributeActionTuple, BeliefAboutAction> beliefs = new HashMap<PaperAttributeActionTuple, BeliefAboutAction>();
+
+		// add predictions
+		for (List<Prediction> preds : this.predictionsByAttActionAndEffect.values()) {
+			if (preds != null) {
+				for (Prediction pred : preds) {
+					PaperAttributeActionTuple key = new PaperAttributeActionTuple(pred.associatedOClass,
+							pred.relevantAtt, pred.action);
+					if (beliefs.get(key) == null) {
+						BeliefAboutAction belief = new BeliefAboutAction(pred.action, this.agentName, pred.relevantAtt, pred.associatedOClass);
+						beliefs.put(key, belief);
+					}
+
+					beliefs.get(key).addPrediction(pred);
+				}
+			}
+		}
+
+		// Failure conditions
+		for (Action a : this.actionList) {
+			for (ObjectClass oClass : this.oomdp.getObjectClasses()) {
+				for (ObjectAttribute att : oClass.attributes) {
+					PaperAttributeActionTuple toHashBy = new PaperAttributeActionTuple(oClass, att, a);
+					List<Condition> failureConditionsForAction = this.failureConditionsByActionOClassAtt.get(toHashBy);
+					if (failureConditionsForAction.size() == 0)
+						continue;
+
+					PaperAttributeActionTuple key = new PaperAttributeActionTuple(oClass, att, a);
+					if (beliefs.get(key) == null) {
+						BeliefAboutAction belief = new BeliefAboutAction(a, this.agentName, att, oClass);
+						beliefs.put(key, belief);
+					}
+
+					for (Condition cond : failureConditionsForAction) {
+						beliefs.get(key).addFailureCondition(cond);
+					}
+				}
+			}
+		}
+
+		return new ArrayList<BeliefAboutAction>(beliefs.values());
+	}
+
 	@Override
 	public String toString() {
 		// Predictions in effect
@@ -443,32 +496,38 @@ public class PredictionsLearner {
 		}
 
 		// Failure conditions
-		// for (GroundedAction a : this.allGAs) {
-		//
-		// for (ObjectClass oClass : this.d.getObjectClasses()) {
-		// for (Attribute att : oClass.attributeList) {
-		// PaperAttributeActionTuple toHashBy = new PaperAttributeActionTuple(oClass,
-		// att, a);
-		// List<ConditionHypothesis> failureConditionsForAction =
-		// this.failureConditionsByActionOClassAtt.get(toHashBy);
-		// if (failureConditionsForAction.size() == 0) continue;
-		// toReturn.append("\tFailure condition for " + a + " on " + oClass.name + "'s "
-		// + att.name + ": ");
-		//
-		// for (ConditionHypothesis cond : failureConditionsForAction) {
-		// toReturn.append(cond);
-		//
-		// }
-		// toReturn.append("\n");
-		// }
-		// }
-		//
-		//
-		// toReturn.append("\n");
-		//
-		// }
+		for (Action a : this.actionList) {
+			for (ObjectClass oClass : this.oomdp.getObjectClasses()) {
+				for (ObjectAttribute att : oClass.attributes) {
+					PaperAttributeActionTuple toHashBy = new PaperAttributeActionTuple(oClass, att, a);
+					List<Condition> failureConditionsForAction = this.failureConditionsByActionOClassAtt.get(toHashBy);
+					if (failureConditionsForAction.size() == 0)
+						continue;
+					toReturn.append("\tFailure condition for " + a + " on " + oClass.name + "'s " + att.name + ": ");
+
+					for (Condition cond : failureConditionsForAction) {
+						toReturn.append(cond);
+
+					}
+					toReturn.append("\n");
+				}
+			}
+
+			toReturn.append("\n");
+
+		}
 
 		return toReturn.toString();
+	}
+	
+	public List<PrevisionBelief> getAllPrevisions(OOMDPState state){
+		List<PrevisionBelief> previsions = new ArrayList<PrevisionBelief>();
+		
+		for (Action action: actionList) {
+			previsions.add(new PrevisionBelief(predictEffects(state, action), action));
+		}
+		
+		return previsions;
 	}
 
 }
