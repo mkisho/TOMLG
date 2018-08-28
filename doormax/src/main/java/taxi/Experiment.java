@@ -22,7 +22,6 @@ import tomlg.doormax.utils.RandomGameGenerator;
 import tomlg.doormax.oomdpformalism.Action;
 
 public class Experiment {
-	private Doormax doormaxInstance;
 	private TaxiEnvironment evs;
 	private Environment environment;
 	private ReasoningMind agent;
@@ -30,14 +29,13 @@ public class Experiment {
 	private OOMDPState currentState;
 
 	private int maxSteps;
-	private int steps;
 
-	public Experiment(String oomdpFile, String environmentFile, int maxSteps) {
+	public Experiment(String oomdpFile, String environmentFile, String outputFile, int maxSteps) {
 		this.maxSteps = maxSteps;
 		this.createEnvironmentInstance(oomdpFile, environmentFile);
 
 		this.agent = new ReasoningMind("Taxi", (Action[]) this.oomdp.actions.toArray(new Action[0]), this.environment,
-				"teste.xml");
+				outputFile);
 	}
 
 	private void createEnvironmentInstance(String oomdpFile, String environmentFile) {
@@ -73,33 +71,18 @@ public class Experiment {
 			effectsToUse.add(e);
 		}
 
-		// this.doormaxInstance = new Doormax(this.oomdp, pfs, effectsToUse,
-		// this.currentState, 100, null);
 		this.evs = new TaxiEnvironment("Taxi");
-		this.steps = 0;
 		this.environment = new Environment(this.currentState, this.evs);
 	}
 
 	// 1 tick de simulação
-	public void simulateExperiment(int maxSteps) {
+	public void simulateExperiment() {
+		System.out.println("Experiment Starting...");
 		while (maxSteps >= 0) {
 			this.agent.tick();
 			maxSteps--;
 		}
-		/*
-		 * this.agent.perceive();// this.currentState); Action action =
-		 * this.agent.reasoning(); OOMDPState nextState =
-		 * evs.simulateAction(this.currentState, action);
-		 * 
-		 * if (!this.doormaxInstance.transitionIsModeled(this.currentState, action)) {
-		 * this.doormaxInstance.updateModel(this.currentState, action, nextState, -1,
-		 * false); if (this.doormaxInstance.transitionIsModeled(this.currentState,
-		 * action)) { // doormax.modelPlanner.modelChanged(curState); // policy = new
-		 * DomainMappedPolicy(domain, // this.modelPlanner.modelPlannedPolicy()); //
-		 * policy = this.createDomainMappedPolicy(); } } this.currentState = nextState;
-		 * 
-		 * this.agent.output();
-		 */
+		this.agent.end();
+		System.out.println("Experiment Ended...");
 	}
-
 }

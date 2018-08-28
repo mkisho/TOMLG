@@ -29,17 +29,18 @@ public class EffectsLearner {
 		this.mindLearner = new Doormax(oomdp, pfss, effectsToUse, initialState, 1000, null, "Taxi");
 	}
 
-//	public void updateActionEffect(Action action, ) {
-//		if (!this.doormaxInstance.transitionIsModeled(this.currentState, action)) {
-//			this.doormaxInstance.updateModel(this.currentState, action, nextState, -1, false);
-//			if (this.doormaxInstance.transitionIsModeled(this.currentState, action)) {
-//				// doormax.modelPlanner.modelChanged(curState);
-//				// policy = new DomainMappedPolicy(domain,
-//				// this.modelPlanner.modelPlannedPolicy());
-//				// policy = this.createDomainMappedPolicy();
-//			}
-//		}
-//	}
+	// public void updateActionEffect(Action action, ) {
+	// if (!this.doormaxInstance.transitionIsModeled(this.currentState, action)) {
+	// this.doormaxInstance.updateModel(this.currentState, action, nextState, -1,
+	// false);
+	// if (this.doormaxInstance.transitionIsModeled(this.currentState, action)) {
+	// // doormax.modelPlanner.modelChanged(curState);
+	// // policy = new DomainMappedPolicy(domain,
+	// // this.modelPlanner.modelPlannedPolicy());
+	// // policy = this.createDomainMappedPolicy();
+	// }
+	// }
+	// }
 
 	public boolean isPredictionModeled(OOMDPState state, Action action) {
 		return this.mindLearner.transitionIsModeled(state, action);
@@ -48,14 +49,14 @@ public class EffectsLearner {
 	public void learnPrediction(OOMDPState previousState, OOMDPState currentState, Action action) {
 		this.mindLearner.updateModel(previousState, action, currentState, -1, false);
 	}
-	
-	public List<BeliefAboutAction> getModeledBeliefs(){
-//		List<Belief> beliefs = new ArrayList<Belief>();
+
+	public List<BeliefAboutAction> getModeledBeliefs() {
+		// List<Belief> beliefs = new ArrayList<Belief>();
 		return this.mindLearner.getPredictionsLearner().toBeliefs();
-		//return beliefs;
+		// return beliefs;
 	}
-	
-	public List<PrevisionBelief> getPredictionBeliefs(OOMDPState state){
+
+	public List<PrevisionBelief> getPredictionBeliefs(OOMDPState state) {
 		return this.mindLearner.getPredictionsLearner().getAllPrevisions(state);
 	}
 }

@@ -120,4 +120,8 @@ public class ReasoningMind {
 	public String getAgentName() {
 		return this.name;
 	}
+
+	public void end() {
+		this.outputWriter.endExperiment(this);
+	}
 }
