@@ -24,7 +24,6 @@ Taxi {
 		passenger(
 			xLocation : IntegerDomain,
 			yLocation : IntegerDomain,
-			goalType  : StringDomain,
 			inTaxi    : BooleanDomain
 		)
 		
@@ -52,9 +51,3 @@ Taxi {
 
 	gamma : 0.95
 }
-
-
-
-
-
-

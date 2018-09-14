@@ -9,10 +9,10 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		if (true) {
 			args = new String[4];
-			args[0] = "src/Untitled1";
-			args[1] = "src/State0";
-			args[2] = "teste.xml";
-			args[3] = "3";
+			args[0] = "src/Environment01.oomdp";
+			args[1] = "src/Environment01.state";
+			args[2] = "environment01.xml";
+			args[3] = "20";
 		}
 		System.out.println(Arrays.toString(args));
 		if (args.length < 4) {

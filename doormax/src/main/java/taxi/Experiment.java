@@ -60,12 +60,6 @@ public class Experiment {
 			System.exit(-1);
 		}
 
-		// Uncomment For new game generation
-		// RandomGameGenerator rgg = new RandomGameGenerator();
-		// for (int j=0; j<1000; j++) {
-		// while(!rgg.gerar("Jogo"+j+".txt"));
-		// }
-
 		List<EffectType> effectsToUse = new ArrayList<>();
 		for (EffectType e : Effect.γ) {
 			effectsToUse.add(e);

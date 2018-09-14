@@ -33,163 +33,157 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 		boolean touchWallSouth = false;
 		boolean touchWallEast = false;
 		boolean touchWallWest = false;
-		String taxiId = "";
-		String passengerId= "";
-		//	String goalId= "";
+		// String goalId= "";
 		List<String> horizontalIds = new ArrayList<String>();
-		List<String>  verticalIds = new ArrayList<String>();
+		List<String> verticalIds = new ArrayList<String>();
 		Collection<ObjectInstance> collection = state0.objectsByName.values();
-		for (ObjectInstance objTemp : collection){	
+		for (ObjectInstance objTemp : collection) {
 			ObjectClass obj = objTemp.objectClass;
 			Object temp;
-			if(objTemp.getObjectClass().name.equals("taxi")) {
-				taxiId = objTemp.getId();
+			if (objTemp.getObjectClass().name.equals("taxi")) {
+				// taxiId = objTemp.getId();
 				for (ObjectAttribute att : obj.attributes) {
-					if(att.name.equals("xLocation")) {
+					if (att.name.equals("xLocation")) {
 						xTaxi = objTemp.attributesVal.get(att).getNumericValForAttribute();
-					}
-					else if(att.name.equals("yLocation")) {
+					} else if (att.name.equals("yLocation")) {
 						yTaxi = (Double) objTemp.attributesVal.get(att).getNumericValForAttribute();
 					}
 
-					else if(att.name.equals("passengerInTaxi")) {
+					else if (att.name.equals("passengerInTaxi")) {
 						temp = objTemp.attributesVal.get(att).getNumericValForAttribute();
-						passengerIn = Boolean.parseBoolean(temp.toString());	
+						passengerIn = Boolean.parseBoolean(temp.toString());
 					}
 				}
 			}
 
-
-			if(objTemp.getObjectClass().name.equals("passenger")) {
-				passengerId = objTemp.getId();
+			if (objTemp.getObjectClass().name.equals("passenger")) {
+				// passengerId = objTemp.getId();
 				obj = objTemp.objectClass;
 				for (ObjectAttribute att : obj.attributes) {
-					if(att.name.equals("xLocation")) {
+					if (att.name.equals("xLocation")) {
 						xPassenger = (Double) objTemp.attributesVal.get(att).getNumericValForAttribute();
-					}
-					else if(att.name.equals("yLocation")) {
+					} else if (att.name.equals("yLocation")) {
 						yPassenger = (Double) objTemp.attributesVal.get(att).getNumericValForAttribute();
 					}
 				}
 
 			}
 
-			if(objTemp.getObjectClass().name.equals("goalLocation")) {
-				//				goalId = objTemp.getId();
+			if (objTemp.getObjectClass().name.equals("goalLocation")) {
+				// goalId = objTemp.getId();
 				obj = objTemp.objectClass;
 
 				for (ObjectAttribute att : obj.attributes) {
-					if(att.name.equals("xLocation")) {
+					if (att.name.equals("xLocation")) {
 						xDestino = (Double) objTemp.attributesVal.get(att).getNumericValForAttribute();
-					}
-					else if(att.name.equals("yLocation")) {
+					} else if (att.name.equals("yLocation")) {
 						yDestino = (Double) objTemp.attributesVal.get(att).getNumericValForAttribute();
 					}
 				}
 			}
 
-			if(objTemp.getObjectClass().name.equals("horizontalWall")) {
+			if (objTemp.getObjectClass().name.equals("horizontalWall")) {
 				horizontalIds.add(objTemp.getId());
 			}
 
-			if(objTemp.getObjectClass().name.equals("verticalWall")) {
+			if (objTemp.getObjectClass().name.equals("verticalWall")) {
 				verticalIds.add(objTemp.getId());
 			}
 		}
-		Double offset=-1.0;
-		Double wallBegin=-1.0;
-		Double wallEnd=-1.0;
-		for (String str : horizontalIds){
+		Double offset = -1.0;
+		Double wallBegin = -1.0;
+		Double wallEnd = -1.0;
+		for (String str : horizontalIds) {
 			ObjectInstance wall = state0.objectsByName.get(str);
 			for (ObjectAttribute att : wall.objectClass.attributes) {
-				if(att.name.equals("wallOffSet")) {
-					offset = (Double)wall.attributesVal.get(att).getNumericValForAttribute();
+				if (att.name.equals("wallOffSet")) {
+					offset = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
 				}
 			}
 
-			if(yTaxi == offset+1) {
+			if (yTaxi == offset + 1) {
 				for (ObjectAttribute att : wall.objectClass.attributes) {
-					if(att.name.equals("leftStartOfWall")) {
-						wallBegin =(Double)wall.attributesVal.get(att).getNumericValForAttribute();
+					if (att.name.equals("leftStartOfWall")) {
+						wallBegin = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
+					} else if (att.name.equals("rightStartOfWall")) {
+						wallEnd = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
 					}
-					else if(att.name.equals("rightStartOfWall")) {
-						wallEnd = (Double)wall.attributesVal.get(att).getNumericValForAttribute();
+					if (xTaxi > wallBegin && xTaxi < wallEnd) {
+						touchWallWest = true;
 					}
 				}
-				if(xTaxi > wallBegin && xTaxi<wallEnd) {
-					touchWallWest=true;
-				}	
-
 			}
 
-			if(yTaxi == offset) {
+			if (yTaxi == offset) {
 				for (ObjectAttribute att : wall.objectClass.attributes) {
-					if(att.name.equals("leftStartOfWall")) {
-						wallBegin =(Double)wall.attributesVal.get(att).getNumericValForAttribute();
+					if (att.name.equals("leftStartOfWall")) {
+						wallBegin = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
+					} else if (att.name.equals("rightStartOfWall")) {
+						wallEnd = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
 					}
-					else if(att.name.equals("rightStartOfWall")) {
-						wallEnd = (Double)wall.attributesVal.get(att).getNumericValForAttribute();
+					if (xTaxi > wallBegin && xTaxi < wallEnd) {
+						touchWallEast = true;
 					}
 				}
-				if(xTaxi > wallBegin && xTaxi<wallEnd) {
-					touchWallEast=true;
-				}	
 			}
 		}
 
-
-		for (String str : verticalIds){
+		for (String str : verticalIds) {
 			ObjectInstance wall = state0.objectsByName.get(str);
 			for (ObjectAttribute att : wall.objectClass.attributes) {
-				if(att.name.equals("wallOffSet")) {
-					offset = (Double)wall.attributesVal.get(att).getNumericValForAttribute();
+				if (att.name.equals("wallOffSet")) {
+					offset = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
 				}
 			}
 
-			if(xTaxi == offset+1) {
+			if (xTaxi == offset + 1) {
 				for (ObjectAttribute att : wall.objectClass.attributes) {
-					if(att.name.equals("bottomOfWall")) {
-						wallBegin =(Double)wall.attributesVal.get(att).getNumericValForAttribute();
+					if (att.name.equals("bottomOfWall")) {
+						wallBegin = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
+					} else if (att.name.equals("bottomOfWall")) {
+						wallEnd = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
 					}
-					else if(att.name.equals("bottomOfWall")) {
-						wallEnd = (Double)wall.attributesVal.get(att).getNumericValForAttribute();
+					if (yTaxi > wallBegin && yTaxi < wallEnd) {
+						touchWallSouth = true;
 					}
-				}
-				if(yTaxi > wallBegin && yTaxi<wallEnd) {
-					touchWallSouth=true;
 				}
 			}
 
-			if(xTaxi == offset) {
+			if (xTaxi == offset) {
 				for (ObjectAttribute att : wall.objectClass.attributes) {
-					if(att.name.equals("bottomOfWall")) {
-						wallBegin =(Double)wall.attributesVal.get(att).getNumericValForAttribute();
+					if (att.name.equals("bottomOfWall")) {
+						wallBegin = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
+					} else if (att.name.equals("bottomOfWall")) {
+						wallEnd = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
 					}
-					else if(att.name.equals("bottomOfWall")) {
-						wallEnd = (Double)wall.attributesVal.get(att).getNumericValForAttribute();
+					if (yTaxi > wallBegin && yTaxi < wallEnd) {
+						touchWallNorth = true;
 					}
 				}
-				if(yTaxi > wallBegin && yTaxi<wallEnd) {
-					touchWallNorth=true;
-				}	
+
 			}
 		}
 
-		if(action.name.equals("taxiMoveNorth")) {
+		touchWallNorth = (yTaxi >= 8 ? true : touchWallNorth);
+		touchWallSouth = (yTaxi <= 0 ? true : touchWallSouth);
 
-			if(touchWallNorth) {
+		touchWallEast = (xTaxi >= 8 ? true : touchWallEast);
+		touchWallWest = (xTaxi <= 0 ? true : touchWallWest);
 
-			}
-			else {
+		if (action.name.equals("taxiMoveNorth")) {
+
+			if (touchWallNorth) {
+
+			} else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
 				tmpInst = new ObjectInstance(state1.getObjectOfClass("taxi"));
-						
+
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
-					if(att.name.equals("yLocation")) {
+					if (att.name.equals("yLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt, new AttributeValueInteger((int) Math.round(++yTaxi)));
-						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);					
+						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);
 
 					}
 				}
@@ -197,113 +191,106 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 			}
 
 		}
-		if(action.name.equals("taxiMoveEast")) {
-			if(touchWallEast) {
+		if (action.name.equals("taxiMoveEast")) {
+			if (touchWallEast) {
 
-			}
-			else {
-				ObjectInstance tmpInst;
-				ObjectAttribute tmpAtt;
-				tmpInst = 	new ObjectInstance(state1.getObjectOfClass("taxi"));
-				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
-					if(att.name.equals("xLocation")) {
-						tmpAtt = (ObjectAttribute) att;
-						tmpInst.attributesVal.put(tmpAtt,  new AttributeValueInteger((int) Math.round(++xTaxi)));
-						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);	
-					}
-				}
-			}		
-		}
-		if(action.name.equals("taxiMoveSouth")) {
-			if(touchWallSouth) {
-
-			}
-			else {
+			} else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
 				tmpInst = new ObjectInstance(state1.getObjectOfClass("taxi"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
-					if(att.name.equals("yLocation")) {
+					if (att.name.equals("xLocation")) {
 						tmpAtt = (ObjectAttribute) att;
-						tmpInst.attributesVal.put(tmpAtt,  new AttributeValueInteger((int) Math.round(--yTaxi)));
-						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);	
-
+						tmpInst.attributesVal.put(tmpAtt, new AttributeValueInteger((int) Math.round(++xTaxi)));
+						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);
 					}
 				}
-
 			}
 		}
+		if (action.name.equals("taxiMoveSouth")) {
+			if (touchWallSouth) {
 
-		if(action.name.equals("taxiMoveWest")) {
-			if(touchWallWest) {
-
-			}
-			else {
+			} else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
 				tmpInst = new ObjectInstance(state1.getObjectOfClass("taxi"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
-					if(att.name.equals("xLocation")) {
+					if (att.name.equals("yLocation")) {
 						tmpAtt = (ObjectAttribute) att;
-						tmpInst.attributesVal.put(tmpAtt,  new AttributeValueInteger((int) Math.round(--xTaxi)));
-						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);	
+						tmpInst.attributesVal.put(tmpAtt, new AttributeValueInteger((int) Math.round(--yTaxi)));
+						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);
+
+					}
+				}
+
+			}
+		}
+
+		if (action.name.equals("taxiMoveWest")) {
+			if (touchWallWest) {
+
+			} else {
+				ObjectInstance tmpInst;
+				ObjectAttribute tmpAtt;
+				tmpInst = new ObjectInstance(state1.getObjectOfClass("taxi"));
+				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
+					if (att.name.equals("xLocation")) {
+						tmpAtt = (ObjectAttribute) att;
+						tmpInst.attributesVal.put(tmpAtt, new AttributeValueInteger((int) Math.round(--xTaxi)));
+						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);
 					}
 				}
 			}
 		}
 
-		if(action.name.equals("pickupPassenger")) {
-			if(passengerIn==true || xTaxi!=xPassenger|| yTaxi!=yPassenger) {}
-			else {		
+		if (action.name.equals("pickupPassenger")) {
+			if (passengerIn == true || xTaxi != xPassenger || yTaxi != yPassenger) {
+			} else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
 
 				tmpInst = new ObjectInstance(state1.getObjectOfClass("passenger"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
-					if(att.name.equals("xLocation")) {
+					if (att.name.equals("xLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt, new AttributeValueBoolean(true));
-						state1.updateObjectInstance(state1.getObjectOfClass("passenger"), tmpInst);	
+						state1.updateObjectInstance(state1.getObjectOfClass("passenger"), tmpInst);
 					}
 				}
-
 
 				tmpInst = new ObjectInstance(state1.getObjectOfClass("taxi"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
-					if(att.name.equals("xLocation")) {
+					if (att.name.equals("xLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt, new AttributeValueBoolean(true));
-						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);	
+						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);
 					}
 				}
-
-
 
 			}
 		}
 
-		if(action.name.equals("dropOffPassenger")) {
-			if(passengerIn=false || xTaxi!=xDestino || yTaxi!=yDestino) {}
-			else {
+		if (action.name.equals("dropOffPassenger")) {
+			if (passengerIn = false || xTaxi != xDestino || yTaxi != yDestino) {
+			} else {
 				ObjectInstance tmpInst;
 				ObjectAttribute tmpAtt;
 
 				tmpInst = new ObjectInstance(state1.getObjectOfClass("passenger"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
-					if(att.name.equals("xLocation")) {
+					if (att.name.equals("xLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt, new AttributeValueBoolean(false));
-						state1.updateObjectInstance(state1.getObjectOfClass("passenger"), tmpInst);	
+						state1.updateObjectInstance(state1.getObjectOfClass("passenger"), tmpInst);
 					}
 				}
 
-
 				tmpInst = new ObjectInstance(state1.getObjectOfClass("taxi"));
 				for (ObjectAttribute att : tmpInst.attributesVal.keySet()) {
-					if(att.name.equals("xLocation")) {
+					if (att.name.equals("xLocation")) {
 						tmpAtt = (ObjectAttribute) att;
 						tmpInst.attributesVal.put(tmpAtt, new AttributeValueBoolean(false));
-						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);	
+						state1.updateObjectInstance(state1.getObjectOfClass("taxi"), tmpInst);
 					}
 				}
 

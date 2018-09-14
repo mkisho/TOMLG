@@ -1,9 +1,6 @@
 package tomlg.doormax.output;
 
-import java.io.InputStreamReader;
 import java.util.List;
-import java.util.Scanner;
-import org.simpleframework.xml.Root;
 import tomlg.doormax.Effect;
 import tomlg.doormax.oomdpformalism.Action;
 import tomlg.doormax.oomdpformalism.OOMDPState;

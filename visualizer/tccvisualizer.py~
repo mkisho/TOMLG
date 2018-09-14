@@ -1,0 +1,40 @@
+from kivy.uix.button import Button
+from kivy.uix.widget import Widget
+from reader import OutputReader
+from kivy.app import App
+
+
+
+_file = '/home/chronius/disciplinas/2018.1/tcc/workspace/visualizer/teste.xml'
+reader = OutputReader(_file)#'teste.xml')
+
+
+class Environment(Widget):
+
+    def draw_grid(n=10):
+        inc_x = root.width / n
+        inc_y = root.height / n
+        x = 0
+        y = 0
+        for i in range(n):
+            with self.canvas:
+                Line(points=[x, 0, x, root.height], width=10) #vertical
+
+                Line(points=[0, y, root.width, y], width=10) #horizontal
+            x += inc_x
+            y += inc_y
+
+    def draw_oomdp(oomdp):
+        self.canvas.clear()
+        draw_grid()
+
+
+
+class TCCVisualizer(App):
+    def build(self):
+
+        return Environment()
+
+
+if __name__ == '__main__':
+    TCCVisualizer().run()

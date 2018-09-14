@@ -53,5 +53,4 @@ public class TaxiGoalBelief extends Belief{
 		// já tem o conhecimento completo
 		return null;
 	}
-
 }
