@@ -101,29 +101,31 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 				}
 			}
 
-			if (yTaxi == offset + 1) {
+			if ((Double.compare(yTaxi, offset)) == 0) {
 				for (ObjectAttribute att : wall.objectClass.attributes) {
 					if (att.name.equals("leftStartOfWall")) {
 						wallBegin = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
 					} else if (att.name.equals("rightStartOfWall")) {
 						wallEnd = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
 					}
-					if (xTaxi > wallBegin && xTaxi < wallEnd) {
-						touchWallWest = true;
-					}
+					
+				}
+				if ((Double.compare(xTaxi, wallBegin)) >= 0  && (Double.compare(xTaxi, wallEnd)) <= 0 ) {
+					touchWallSouth = true;
 				}
 			}
 
-			if (yTaxi == offset) {
+			if ((Double.compare(yTaxi+1, offset)) == 0) {
 				for (ObjectAttribute att : wall.objectClass.attributes) {
 					if (att.name.equals("leftStartOfWall")) {
 						wallBegin = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
 					} else if (att.name.equals("rightStartOfWall")) {
 						wallEnd = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
 					}
-					if (xTaxi > wallBegin && xTaxi < wallEnd) {
-						touchWallEast = true;
-					}
+					
+				}
+				if ((Double.compare(xTaxi, wallBegin)) >= 0  && (Double.compare(xTaxi, wallEnd)) <= 0) {
+					touchWallNorth = true;
 				}
 			}
 		}
@@ -136,29 +138,31 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 				}
 			}
 
-			if (xTaxi == offset + 1) {
+			if ((Double.compare(xTaxi, offset)) == 0) {
 				for (ObjectAttribute att : wall.objectClass.attributes) {
 					if (att.name.equals("bottomOfWall")) {
 						wallBegin = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
-					} else if (att.name.equals("bottomOfWall")) {
+					} else if (att.name.equals("topOfWall")) {
 						wallEnd = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
 					}
-					if (yTaxi > wallBegin && yTaxi < wallEnd) {
-						touchWallSouth = true;
-					}
+					
+				}
+				if ((Double.compare(yTaxi, wallBegin)) >= 0  && (Double.compare(yTaxi, wallEnd)) <= 0) {
+					touchWallWest = true;
 				}
 			}
 
-			if (xTaxi == offset) {
+			if ((Double.compare(xTaxi+1, offset)) == 0) {
 				for (ObjectAttribute att : wall.objectClass.attributes) {
 					if (att.name.equals("bottomOfWall")) {
 						wallBegin = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
-					} else if (att.name.equals("bottomOfWall")) {
+					} else if (att.name.equals("topOfWall")) {
 						wallEnd = (Double) wall.attributesVal.get(att).getNumericValForAttribute();
 					}
-					if (yTaxi > wallBegin && yTaxi < wallEnd) {
-						touchWallNorth = true;
-					}
+					
+				}
+				if ((Double.compare(yTaxi, wallBegin)) >= 0  && (Double.compare(yTaxi, wallEnd)) <= 0) {
+					touchWallEast = true;
 				}
 
 			}

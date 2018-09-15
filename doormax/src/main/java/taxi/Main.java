@@ -12,7 +12,7 @@ public class Main {
 			args[0] = "src/Environment01.oomdp";
 			args[1] = "src/Environment01.state";
 			args[2] = "environment01.xml";
-			args[3] = "20";
+			args[3] = "50";
 		}
 		System.out.println(Arrays.toString(args));
 		if (args.length < 4) {

@@ -41,7 +41,7 @@
 		)
 		
 		verticalWall(
-			wallOffSet : 8,
+			wallOffSet : 9,
 			bottomOfWall : 0,
 			topOfWall : 8
 		)
@@ -107,7 +107,7 @@
 		)
 		
 		horizontalWall(
-			wallOffSet : 8, 
+			wallOffSet : 9, 
 			leftStartOfWall: 0, 
 			rightStartOfWall : 8
 		)
