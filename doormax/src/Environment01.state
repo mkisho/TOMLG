@@ -32,7 +32,7 @@
 			xLocation : 6,
 			yLocation : 1,
 			goalType  : DropOff
-		) 	
+		)
 		
 		verticalWall(
 			wallOffSet : 0,

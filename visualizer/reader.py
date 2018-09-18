@@ -35,11 +35,14 @@ class OutputReader():
         pfs =  [k for k in mind.find("Beliefs").find("EnvironmentBeliefs").iter('PF')]
 
 
-        walls = []
-        taxis = []
-        picks = []
-        drops = []
-        passenger = []
+        data = dict()
+        data["walls"] = dict()
+        data["walls"]["horizontal"] = []
+        data["walls"]["vertical"] = []
+        data['taxis'] = []
+        data['picks'] = []
+        data['drops'] = []
+        data['passenger'] = []
 
         for obj in objs:
             attributes = self.__extract_attributes__(obj.find('Attributes'))
@@ -51,28 +54,30 @@ class OutputReader():
                 y0 = int(attributes['wallOffSet'])
                 x1 = int(attributes['rightStartOfWall'])
                 y1 = int(attributes['wallOffSet'])
-                walls.append((x0, y0, x1, y1))
+                data['walls']['horizontal'].append((x0, y0, x1, y1))
             elif obj.attrib['class'] == 'verticalWall':
                 y0 = int(attributes['topOfWall'])
                 x0 = int(attributes['wallOffSet'])
                 y1 = int(attributes['bottomOfWall'])
                 x1 = int(attributes['wallOffSet'])
-                walls.append((x0, y0, x1, y1))
+                data['walls']['vertical'].append((x0, y0, x1, y1))
             elif obj.attrib['class'] == 'taxi':
                 x = int(attributes['xLocation'])
                 y = int(attributes['yLocation'])
-                taxis.append((x, y))
+                passengerIn = True if attributes['passengerInTaxi']  !='falses' else False
+                data['taxis'].append((x, y, passengerIn))
             elif obj.attrib['class'] == 'passenger':
                 x = int(attributes['xLocation'])
                 y = int(attributes['yLocation'])
-                passenger.append((x, y))
+                inTaxi = True if(attributes['inTaxi'] != 'falses') else False
+                data['passenger'].append((x, y, inTaxi))
             elif obj.attrib['class'] == 'goalLocation':
                 x = int(attributes['xLocation'])
                 y = int(attributes['yLocation'])
-                if attributes['goalType'] == 'Pickup':
-                    picks.append((x, y))
+                if attributes['goalType'] == 'PickUp':
+                    data['picks'].append((x, y))
                 else:
-                    drops.append((x, y))
+                    data['drops'].append((x, y))
 
-        return walls, taxis, picks, drops, passenger
+        return data
 
