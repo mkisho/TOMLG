@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="utf-8"/>
+ <meta name="viewport" content="width=device-width">
+ <title>Simulação TCC</title>
+ <!-- bibliotecas !-->
+ <!-- LaTeX -->
+  <script type="text/javascript" async 
+	  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+  </script>
+ 
+ <script type="text/javascript"> 
+ var step = 0;
+ 
+ function change(inc){
+     console.log('step ' + step);
+     var image = document.getElementById('simulation');
+     step = step + inc;
+     image.data= 'step'+step+'.svg';     
+ }
+
+</script>
+ 
+</head>
+<body>
+  <div id="simulation-image">
+    <object type="image/svg+xml" data="step0.svg"  id="simulation">
+    </object>
+  </div>
+  <div id="inputs">
+    <button type="Button" onclick="change(-1)">Anterior</button>
+    <button type="Button" onclick="change(1)">Próximo</button>
+  </div>
+  <div id="beliefs">
+    <p>
+  When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+  $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+</p>
+  </div>
+  
+</body>
+</html>
