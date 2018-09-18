@@ -39,7 +39,7 @@ def draw_board(dwg, max_x=8, max_y=8):
 
 
 
-_file = '/home/chronius/disciplinas/2018.1/tcc/workspace/visualizer/environment01.xml'
+_file = '/home/drones/git/TOMLG/visualizer/environment01.xml'
 reader = OutputReader(_file)#'teste.xml')
 
 def draw_step(dwg, step=1):
@@ -61,7 +61,7 @@ def draw_step(dwg, step=1):
         if(y0 > yf):
             y0, yf = yf, y0
         
-        walls.add(dwg.rect(insert=(x*10-1, y0*10), size=(2, (y0 - yf)*10)))
+        walls.add(dwg.rect(insert=(x*10-1, y0*10), size=(2, (yf - y0)*10)))
         
     for wall in data['walls']['horizontal']:
         x0 = wall[0]
@@ -70,7 +70,7 @@ def draw_step(dwg, step=1):
 
         if(x0 > xf):
             x0, xf = xf, x0     
-        walls.add(dwg.rect(insert=(x0*10, y*10-1), size=((x0 - xf)*10, 2)))
+        walls.add(dwg.rect(insert=(x0*10, y*10-1), size=((xf - x0)*10, 2)))
 
     for taxi in data['taxis']:
         if(taxi[2]):
