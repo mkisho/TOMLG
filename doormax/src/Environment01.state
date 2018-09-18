@@ -1,18 +1,18 @@
 		taxi(
 			xLocation : 0,
-			yLocation : 8,
+			yLocation : 7,
 			passengerInTaxi : false
 		)
 		
 		passenger(
 			xLocation : 1,
-			yLocation : 4,
+			yLocation : 3,
 			inTaxi    : false
 		)
 	
 		goalLocation(
 			xLocation : 1,
-			yLocation : 4,
+			yLocation : 3,
 			goalType  : PickUp
 		) 
 
@@ -24,13 +24,13 @@
 	
 		goalLocation(
 			xLocation : 7,
-			yLocation : 8,
+			yLocation : 7,
 			goalType  : PickUp
 		) 	
 
 		goalLocation(
 			xLocation : 6,
-			yLocation : 2,
+			yLocation : 1,
 			goalType  : DropOff
 		) 	
 		
@@ -171,4 +171,3 @@
 			leftStartOfWall: 2, 
 			rightStartOfWall : 3
 		)
-			
