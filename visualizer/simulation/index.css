@@ -1,0 +1,20 @@
+.grid-container {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-gap: 3px 3px;
+  grid-template-areas: "header header header header" "gui-images gui-images BeliefsPerception BeliefsPerception" "BeliefsEffects BeliefsEffects BeliefsReasoning BeliefsReasoning" ". . . .";
+}
+
+.gui-images { grid-area: gui-images;
+	      
+	    }
+
+.BeliefsPerception { grid-area: BeliefsPerception; }
+
+.BeliefsReasoning { grid-area: BeliefsReasoning; }
+
+.BeliefsEffects { grid-area: BeliefsEffects; }
+
+.header { grid-area: header; }

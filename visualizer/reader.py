@@ -28,6 +28,17 @@ class OutputReader():
         
         return atribs
 
+    def getBeliefs(self, n):
+        beliefs = dict()
+        mind = self.getMind(n)
+        pfs =  [k for k in mind.find("Beliefs").find("EnvironmentBeliefs").iter('PF')]
+
+        beliefs["perception"] = []
+        for pf in pfs:
+            beliefs["perception"].append(pf.attrib)
+
+        return beliefs
+
     def getRepresentationPlot(self, n):
         mind = self.getMind(n)
 

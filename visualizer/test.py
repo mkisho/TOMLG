@@ -2,6 +2,7 @@ import sys
 import os
 import svgwrite
 from reader import OutputReader
+import json
 
 BOARD_WIDTH = "10cm"
 BOARD_HEIGHT = "10cm"
@@ -39,7 +40,7 @@ def draw_board(dwg, max_x=8, max_y=8):
 
 
 
-_file = '/home/drones/git/TOMLG/visualizer/environment01.xml'
+_file = 'environment01.xml'
 reader = OutputReader(_file)#'teste.xml')
 
 def draw_step(dwg, step=1):
@@ -91,14 +92,20 @@ def draw_step(dwg, step=1):
             
    
 def main():
+    beliefs = dict()
     for step in range(reader.getNumMinds()):
-        dwg = svgwrite.Drawing('simulation/step{}.svg'.format(step))
+        dwg = svgwrite.Drawing('simulation/step{}.svg'.format(step), size=("30cm", "30cm"))
+        dwg.viewbox(0, 0, 100, 100)
         dwg.defs.add(dwg.style(CSS_STYLES))
         dwg.add(dwg.rect(size=(80,80), class_='background'))
         draw_board(dwg)
         draw_step(dwg, step=step)
-        
+
+        beliefs[step] = reader.getBeliefs(step)
         dwg.save()
+
+    with open('simulation/beliefs.json', 'w') as fp:
+        json.dump(beliefs, fp)
 
 if __name__== '__main__':
     main()
