@@ -23,14 +23,14 @@ public abstract class Attribute implements Comparable<Attribute> {
 	}
 
 	public abstract Attribute copy();
-	
+
 	@Override
 	public int compareTo(Attribute o) {
 		return this.name.compareTo(o.name);
 	}
-	
+
 	public abstract boolean sameValue(Attribute o);
-	
+
 	public abstract Double getDoubleValue();
 
 	@Override
@@ -66,9 +66,7 @@ public abstract class Attribute implements Comparable<Attribute> {
 
 	@Override
 	public String toString() {
-		return "Attribute [name=" + name + ", \ndomain=" + domain + "]";
+		return "[" + domain + ":" + name + "]";
 	}
-	
-	
-	
+
 }

@@ -60,7 +60,7 @@ public class ObjectInstance implements Comparable<ObjectInstance> {
 
 	@Override
 	public String toString() {
-		return "ObjectInstance [id=" + id + ", oclass=" + oclass + ", attributes=" + attributes + "]";
+		return "["+ id + " " + oclass.getName() + " attributes={" + attributes + "}";
 	}
 
 	@Override

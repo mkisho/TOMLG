@@ -47,12 +47,12 @@ public class Experiment {
 	/// TODO deixar esse código descente
 	private void createEnvironmentInstance(String oomdpFile, String stateFile) {
 		List<PropositionalFunction> pfs = new ArrayList<PropositionalFunction>();
-		pfs.add(new PassengerInTaxi());
-		pfs.add(new TaxiAtPassenger());
 		pfs.add(new WallToEastOfTaxi());
 		pfs.add(new WallToNorthOfTaxi());
 		pfs.add(new WallToSouthOfTaxi());
 		pfs.add(new WallToWestOfTaxi());
+		pfs.add(new PassengerInTaxi());
+		pfs.add(new TaxiAtPassenger());
 
 		PropositionalFunction[] pfss = new PropositionalFunction[pfs.size()];
 		pfs.toArray(pfss);

@@ -136,7 +136,7 @@ public class DOORMax {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DOORMax [learners=");
-		builder.append(learners);
+		builder.append(learners.values());
 		builder.append("]");
 		return builder.toString();
 	}
