@@ -86,4 +86,13 @@ public class Condition {
 		}
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(Arrays.toString(eval));
+		return builder.toString();
+	}
+	
+	
 }

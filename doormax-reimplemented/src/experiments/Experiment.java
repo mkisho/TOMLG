@@ -33,7 +33,6 @@ public class Experiment {
 	private OOMDP oomdp;
 	private OOMDPState currentState;
 	private Environment environment;
-
 	private Agent agent;
 
 	public Experiment(String oomdpFile, String stateFile, String outputFile, int maxSteps) {
@@ -77,10 +76,11 @@ public class Experiment {
 
 	private void runExperiment() {
 		int step = this.maxSteps;
-		while(step-- > 0) {
+		while (step-- > 0) {
 			System.out.println("On step: " + step);
 			this.agent.step();
 		}
+		System.out.println(this.agent.getMind());
 	}
 
 	public static void main(String args[]) {
@@ -89,7 +89,7 @@ public class Experiment {
 			args[0] = "src/Environment01.oomdp";
 			args[1] = "src/Environment01.state";
 			args[2] = "experiment01.xml";
-			args[3] = "100000";
+			args[3] = "15";
 		}
 		System.out.println(Arrays.toString(args));
 		if (args.length < 4) {

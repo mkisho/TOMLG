@@ -1,4 +1,5 @@
 package doormax;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +77,7 @@ public class DOORMax {
 	public DOORMax(OOMDP oomdp) {
 		this.oomdp = oomdp;
 		this.actionList = this.oomdp.getActions();
-		
+
 		initialize();
 	}
 
@@ -92,7 +93,7 @@ public class DOORMax {
 	}
 
 	public void learn(OOMDPState currentState, Action action) {
-		if(action == null) {
+		if (action == null) {
 			oldState = currentState;
 			return;
 		}
@@ -123,11 +124,21 @@ public class DOORMax {
 				assert (oldAtt.getName().equals(newAtt.getName()));
 
 				HashLearnerKey key = new HashLearnerKey(oldObj.getOclass(), oldAtt);
-				
+
 				assert (this.learners.get(key) != null);
-				
+
 				this.learners.get(key).learn(oldAtt, newAtt, condition, action);
 			}
 		}
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DOORMax [learners=");
+		builder.append(learners);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

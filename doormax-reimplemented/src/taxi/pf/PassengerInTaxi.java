@@ -3,7 +3,6 @@ package taxi.pf;
 import doormax.OOMDPState;
 import doormax.ObjectInstance;
 import doormax.PropositionalFunction;
-import doormax.structures.attribute.Attribute;
 import doormax.structures.attribute.AttributeBoolean;
 
 public class PassengerInTaxi extends PropositionalFunction {
