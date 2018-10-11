@@ -1,4 +1,5 @@
 package doormax;
+import java.util.Arrays;
 import java.util.List;
 
 import doormax.structures.Action;
@@ -15,11 +16,23 @@ public class OOMDP {
 		this.pfIndex = pfIndex;
 	}
 
+
+	
 	@Override
 	public String toString() {
-		return "OOMDP [actions=" + actions + ", objectClasses=" + objectClasses + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("OOMDP [actions={");
+		builder.append(actions);
+		builder.append("},\n    objectClasses={");
+		builder.append(objectClasses);
+		builder.append("},\n    pfIndex=");
+		builder.append(Arrays.toString(pfIndex));
+		builder.append("},\n]");
+		return builder.toString();
 	}
-	
+
+
+
 	public List<ObjectClass> getObjectClasses() {
 		return objectClasses;
 	}

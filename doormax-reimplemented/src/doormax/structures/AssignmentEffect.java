@@ -1,5 +1,8 @@
 package doormax.structures;
 import doormax.ObjectClass;
+import doormax.structures.attribute.Attribute;
+import doormax.structures.attribute.AttributeBoolean;
+import doormax.structures.attribute.AttributeInteger;
 
 public class AssignmentEffect extends EffectType {
 	@Override

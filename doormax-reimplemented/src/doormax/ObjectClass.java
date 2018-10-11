@@ -2,7 +2,7 @@ package doormax;
 import java.util.ArrayList;
 import java.util.List;
 
-import doormax.structures.Attribute;
+import doormax.structures.attribute.Attribute;
 
 public class ObjectClass {
 	private String name;
@@ -80,5 +80,11 @@ public class ObjectClass {
 	public void addAttribute(Attribute attribute) {
 		this.attributes.add(attribute);
 	}
+
+	@Override
+	public String toString() {
+		return "ObjectClass [name=" + name + ", \nattributes=" + attributes + "]";
+	}
+	
 	
 }

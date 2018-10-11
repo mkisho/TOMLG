@@ -3,7 +3,7 @@ package taxi.pf;
 import doormax.OOMDPState;
 import doormax.ObjectInstance;
 import doormax.PropositionalFunction;
-import doormax.structures.AttributeInteger;
+import doormax.structures.attribute.AttributeInteger;
 
 public class WallToSouthOfTaxi extends PropositionalFunction {
 	public WallToSouthOfTaxi() {

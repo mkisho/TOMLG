@@ -1,4 +1,4 @@
-package doormax.structures;
+package doormax.structures.attribute;
 
 public class AttributeInteger extends Attribute {
 	private Integer value;
@@ -23,7 +23,9 @@ public class AttributeInteger extends Attribute {
 	}
 	
 	public AttributeInteger copy() {
-		return new AttributeInteger(this.getName(), new Integer(this.value));
+		if(this.value != null)
+			return new AttributeInteger(this.getName(), new Integer(this.value));
+		else 			return new AttributeInteger(this.getName());
 	}
 
 	@Override

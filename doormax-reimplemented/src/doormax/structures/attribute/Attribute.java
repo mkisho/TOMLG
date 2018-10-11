@@ -1,4 +1,4 @@
-package doormax.structures;
+package doormax.structures.attribute;
 
 public abstract class Attribute implements Comparable<Attribute> {
 	private String name;
@@ -63,6 +63,12 @@ public abstract class Attribute implements Comparable<Attribute> {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Attribute [name=" + name + ", \ndomain=" + domain + "]";
+	}
+	
 	
 	
 }

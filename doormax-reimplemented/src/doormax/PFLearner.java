@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Set;
 
 import doormax.structures.Action;
-import doormax.structures.Attribute;
 import doormax.structures.Condition;
 import doormax.structures.Effect;
 import doormax.structures.Prediction;
+import doormax.structures.attribute.Attribute;
 
 /**
  * Aprende para uma classe específica e 1 attributo específico e uma ação

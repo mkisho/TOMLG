@@ -11,14 +11,15 @@ import doormax.ObjectClass;
 import doormax.ObjectInstance;
 import doormax.PropositionalFunction;
 import doormax.structures.Action;
-import doormax.structures.Attribute;
-import doormax.structures.AttributeBoolean;
-import doormax.structures.AttributeInteger;
+import doormax.structures.attribute.Attribute;
+import doormax.structures.attribute.AttributeBoolean;
+import doormax.structures.attribute.AttributeInteger;
+import doormax.structures.attribute.AttributeString;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
- 
 
 public class OOMDPReaderFromFile {
 	private BufferedReader in;
@@ -127,11 +128,14 @@ public class OOMDPReaderFromFile {
 		String type = temp[1].trim();
 		if (type.matches("IntegerDomain")) {
 			attribute = new AttributeInteger(name);
+		} else if (type.matches("BooleanDomain")) {
+			attribute = new AttributeBoolean(name);
+		} else if (type.matches("StringDomain")) {
+			attribute = new AttributeBoolean(name);
+		} else {
+			assert (false);
 		}
 
-		if (type.matches("BooleanDomain")) {
-			attribute = new AttributeBoolean(name);
-		}
 		return attribute;
 	}
 
@@ -172,10 +176,12 @@ public class OOMDPReaderFromFile {
 
 						if (attribute instanceof AttributeInteger) {
 							((AttributeInteger) attribute).setValue(Integer.parseInt(val));
-						}
-						else if (attribute instanceof AttributeBoolean) {
+						} else if (attribute instanceof AttributeBoolean) {
 							((AttributeBoolean) attribute).setValue(Boolean.parseBoolean(val));
-						}
+						} else if (attribute instanceof AttributeString) {
+							((AttributeString) attribute).setValue(val);
+						} else
+							assert (false);
 					}
 					System.out.println(newObjInst.toString());
 					oomdpState.addObjectInstance(newObjInst);

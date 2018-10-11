@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import doormax.ObjectClass;
+import doormax.structures.attribute.Attribute;
 
 
 public class Effect {

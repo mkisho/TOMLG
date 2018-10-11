@@ -1,5 +1,7 @@
 package doormax.structures;
 import doormax.ObjectClass;
+import doormax.structures.attribute.Attribute;
+import doormax.structures.attribute.AttributeInteger;
 
 public class ArithmeticEffect extends EffectType {
 

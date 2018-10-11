@@ -22,7 +22,7 @@ public class Action {
 
 	@Override
 	public String toString() {
-		return "Action [name=" + name + "]";
+		return name;
 	}
 
 	@Override

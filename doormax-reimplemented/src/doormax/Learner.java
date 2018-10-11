@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import doormax.structures.Action;
-import doormax.structures.Attribute;
 import doormax.structures.Condition;
+import doormax.structures.attribute.Attribute;
 
 /**
  * Classe responsável por aprender todas as relações entre um atributo, de uma classe específica, e ações

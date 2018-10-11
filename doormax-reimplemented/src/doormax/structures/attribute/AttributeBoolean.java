@@ -1,4 +1,4 @@
-package doormax.structures;
+package doormax.structures.attribute;
 
 public class AttributeBoolean extends Attribute {
 
@@ -23,7 +23,10 @@ public class AttributeBoolean extends Attribute {
 	}
 
 	public AttributeBoolean copy() {
-		return new AttributeBoolean(this.getName(), new Boolean(this.value));
+		if(this.value != null)
+			return new AttributeBoolean(this.getName(), new Boolean(this.value));
+		else return new AttributeBoolean(this.getName());
+
 	}
 
 	@Override

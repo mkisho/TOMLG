@@ -55,7 +55,8 @@ public class Experiment {
 		pfs.add(new WallToSouthOfTaxi());
 		pfs.add(new WallToWestOfTaxi());
 
-		PropositionalFunction[] pfss = (PropositionalFunction[]) pfs.toArray();
+		PropositionalFunction[] pfss = new PropositionalFunction[pfs.size()];
+		pfs.toArray(pfss);
 
 		try {
 			OOMDPReaderFromFile a = new OOMDPReaderFromFile();

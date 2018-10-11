@@ -6,9 +6,9 @@ import doormax.OOMDPState;
 import doormax.ObjectClass;
 import doormax.ObjectInstance;
 import doormax.structures.Action;
-import doormax.structures.Attribute;
-import doormax.structures.AttributeBoolean;
-import doormax.structures.AttributeInteger;
+import doormax.structures.attribute.Attribute;
+import doormax.structures.attribute.AttributeBoolean;
+import doormax.structures.attribute.AttributeInteger;
 import tomlg.EnvironmentSimulator;
 
 import java.util.ArrayList;
