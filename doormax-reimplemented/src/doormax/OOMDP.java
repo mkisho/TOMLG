@@ -5,19 +5,46 @@ import java.util.List;
 import doormax.structures.Action;
 
 public class OOMDP {
-	public final List<Action> actions;
-	public final List<ObjectClass> objectClasses;
-	public final PropositionalFunction[] pfIndex;
+	private List<Action> actions;
+	private Action[] actionsArray;
+	private List<ObjectClass> objectClasses;
+	private PropositionalFunction[] pfIndex;
 	
 	public OOMDP(List<Action> actions, List<ObjectClass> objectClasses, PropositionalFunction[] pfIndex) {
 		super();
 		this.actions = actions;
 		this.objectClasses = objectClasses;
 		this.pfIndex = pfIndex;
+		
+		this.actionsArray = new Action[this.actions.size()];
+		for(int i=0;i<actionsArray.length; i++)
+			this.actionsArray[i] = this.actions.get(i);
 	}
+	
 
 
 	
+	public Action[] getActionsArray() {
+		return actionsArray;
+	}
+
+
+
+
+	public List<Action> getActions() {
+		return actions;
+	}
+
+
+
+
+	public PropositionalFunction[] getPfIndex() {
+		return pfIndex;
+	}
+
+
+
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

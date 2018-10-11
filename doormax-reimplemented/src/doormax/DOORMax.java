@@ -1,4 +1,5 @@
 package doormax;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,11 +75,14 @@ public class DOORMax {
 
 	public DOORMax(OOMDP oomdp) {
 		this.oomdp = oomdp;
+		this.actionList = this.oomdp.getActions();
+		
 		initialize();
 	}
 
 	private void initialize() {
 		oldState = null;
+		learners = new HashMap<HashLearnerKey, Learner>();
 		for (ObjectClass objClass : oomdp.getObjectClasses()) {
 			for (Attribute attribute : objClass.getAttributes()) {
 				learners.put(new HashLearnerKey(objClass, attribute),
@@ -92,7 +96,7 @@ public class DOORMax {
 			oldState = currentState;
 			return;
 		}
-		Condition condition = Condition.evaluate(oomdp.pfIndex, currentState);
+		Condition condition = Condition.evaluate(oomdp.getPfIndex(), currentState);
 
 		List<ObjectInstance> oldInstances = this.oldState.getObjects();
 		List<ObjectInstance> newInstances = currentState.getObjects();

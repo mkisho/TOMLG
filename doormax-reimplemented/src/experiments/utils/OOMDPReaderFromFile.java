@@ -168,11 +168,14 @@ public class OOMDPReaderFromFile {
 					Iterator<Attribute> e = attributes.iterator();
 
 					for (String strTemp : auxStringArray) {
-
-						Attribute attribute = e.next();
-
+						Attribute attribute ;
 						String[] temp = strTemp.split(":");
 						String val = temp[1].trim();
+						do  {
+							attribute = e.next();
+						} while(!attribute.getName().equals(temp[0].trim()));
+						
+						
 
 						if (attribute instanceof AttributeInteger) {
 							((AttributeInteger) attribute).setValue(Integer.parseInt(val));
@@ -182,6 +185,8 @@ public class OOMDPReaderFromFile {
 							((AttributeString) attribute).setValue(val);
 						} else
 							assert (false);
+						
+						e = attributes.iterator();
 					}
 					System.out.println(newObjInst.toString());
 					oomdpState.addObjectInstance(newObjInst);

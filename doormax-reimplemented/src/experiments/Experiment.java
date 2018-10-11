@@ -41,7 +41,7 @@ public class Experiment {
 		this.createEnvironmentInstance(oomdpFile, stateFile);
 		// cria OOMDP e OOMDPState inicial
 
-		this.agent = new Agent("Taxi", (Action[]) oomdp.actions.toArray(), this.environment);
+		this.agent = new Agent("Taxi", (Action[]) oomdp.getActionsArray(), this.environment, this.oomdp);
 
 	}
 
@@ -89,7 +89,7 @@ public class Experiment {
 			args[0] = "src/Environment01.oomdp";
 			args[1] = "src/Environment01.state";
 			args[2] = "experiment01.xml";
-			args[3] = "50";
+			args[3] = "100000";
 		}
 		System.out.println(Arrays.toString(args));
 		if (args.length < 4) {
