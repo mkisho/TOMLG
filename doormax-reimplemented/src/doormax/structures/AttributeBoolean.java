@@ -2,13 +2,13 @@ package doormax.structures;
 
 public class AttributeBoolean extends Attribute {
 
-	public AttributeBoolean(String name, String domain) {
+	public AttributeBoolean(String name) {
 		super(name, "Boolean");
 		this.value = null;
 	}
 
-	public AttributeBoolean(String name, String domain, boolean value) {
-		super(name, domain);
+	public AttributeBoolean(String name, boolean value) {
+		this(name);
 		this.value = value;
 	}
 
@@ -23,7 +23,7 @@ public class AttributeBoolean extends Attribute {
 	}
 
 	public AttributeBoolean copy() {
-		return new AttributeBoolean(this.getName(), this.domain, new Boolean(this.value));
+		return new AttributeBoolean(this.getName(), new Boolean(this.value));
 	}
 
 	@Override

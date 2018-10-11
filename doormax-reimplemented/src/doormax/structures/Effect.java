@@ -102,7 +102,11 @@ public class Effect {
 			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Effect [type=" + type + ", attribute=" + attribute + ", objClass=" + objClass + ", value=" + value
+				+ "]";
+	}
 	
 }

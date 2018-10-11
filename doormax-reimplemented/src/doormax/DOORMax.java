@@ -78,6 +78,7 @@ public class DOORMax {
 	}
 
 	private void initialize() {
+		oldState = null;
 		for (ObjectClass objClass : oomdp.getObjectClasses()) {
 			for (Attribute attribute : objClass.getAttributes()) {
 				learners.put(new HashLearnerKey(objClass, attribute),

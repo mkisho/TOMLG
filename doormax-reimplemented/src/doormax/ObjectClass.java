@@ -64,6 +64,14 @@ public class ObjectClass {
 	public List<Attribute> getAttributes() {
 		return attributes;
 	}
+	
+	public List<Attribute> getAttributesCopy(){
+		List<Attribute> copy = new ArrayList<Attribute>(this.attributes.size());
+		for(Attribute att: this.attributes) {
+			copy.add(att.copy());
+		}
+		return copy;
+	}
 
 	public void setAttributes(List<Attribute> attributes) {
 		this.attributes = attributes;

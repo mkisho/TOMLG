@@ -34,6 +34,14 @@ public class Learner {
 		this.actionLearner.get(action).learn(oldAtribute, newAttribute, condition);
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return "Learner [attribute=" + attribute + ", objClass=" + objClass + ", actionLearner=" + actionLearner
+				+ ", actionList=" + actionList + "]";
+	}
+
 	public void predict(OOMDPState state, Action action) {
 		
 	}

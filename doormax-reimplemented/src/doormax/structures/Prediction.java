@@ -80,6 +80,11 @@ public class Prediction {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Prediction [action=" + action + ", condition=" + condition + ", effect=" + effect + "]";
+	}
 	
 	
 

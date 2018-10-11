@@ -116,4 +116,13 @@ public class PFLearner {
 		return related;
 	}
 
+	@Override
+	public String toString() {
+		return "PFLearner [objClass=" + objClass + ", attribute=" + attribute + ", action=" + action
+				+ ", failureConditions=" + failureConditions + ", predictions=" + predictions + ", contraditions="
+				+ contraditions + "]";
+	}
+	
+	
+
 }
