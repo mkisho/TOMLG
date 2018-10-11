@@ -3,6 +3,7 @@ package taxi.pf;
 import doormax.OOMDPState;
 import doormax.ObjectInstance;
 import doormax.PropositionalFunction;
+import doormax.structures.AttributeInteger;
 
 public class WallToEastOfTaxi extends PropositionalFunction {
 	public WallToEastOfTaxi() {
@@ -15,11 +16,11 @@ public class WallToEastOfTaxi extends PropositionalFunction {
 		if (taxi == null)
 			throw new RuntimeException("Nooooo, errou");
 
-		int taxiX = ((AttributeValueInteger) taxi.getAttributeValByName("xLocation")).value;
-		int taxiY = ((AttributeValueInteger) taxi.getAttributeValByName("yLocation")).value;
+		int taxiX = ((AttributeInteger) taxi.getAttributeValByName("xLocation")).getValue();
+		int taxiY = ((AttributeInteger) taxi.getAttributeValByName("yLocation")).getValue();
 		for (ObjectInstance o : state.getObjectsOfClass("wall")) {
-			int wallX = ((AttributeValueInteger) o.getAttributeValByName("xLocation")).value;
-			int wallY = ((AttributeValueInteger) o.getAttributeValByName("yLocation")).value;
+			int wallX = ((AttributeInteger) o.getAttributeValByName("xLocation")).getValue();
+			int wallY = ((AttributeInteger) o.getAttributeValByName("yLocation")).getValue();
 
 			if (wallY == taxiY && wallX == taxiX + 1)
 				return true;

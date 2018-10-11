@@ -2,7 +2,6 @@ package taxi;
 
 import java.util.List;
 
-import doormax.EnvironmentSimulator;
 import doormax.OOMDPState;
 import doormax.ObjectClass;
 import doormax.ObjectInstance;
@@ -10,6 +9,7 @@ import doormax.structures.Action;
 import doormax.structures.Attribute;
 import doormax.structures.AttributeBoolean;
 import doormax.structures.AttributeInteger;
+import tomlg.EnvironmentSimulator;
 
 import java.util.ArrayList;
 import java.util.Collection;

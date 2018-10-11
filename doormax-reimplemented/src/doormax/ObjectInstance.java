@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import doormax.structures.Attribute;
+import doormax.structures.AttributeBoolean;
 
 public class ObjectInstance implements Comparable<ObjectInstance> {
 	private static int UNIVERSAL_ID;
@@ -90,6 +91,14 @@ public class ObjectInstance implements Comparable<ObjectInstance> {
 	@Override
 	public int compareTo(ObjectInstance o) {
 		return this.id.compareTo(o.id);
+	}
+
+	public Attribute getAttributeValByName(String string) {
+		for(Attribute attribute: this.attributes) {
+			if(attribute.getName().equals(string))
+				return attribute;
+		}
+		return null;
 	}
 
 	 

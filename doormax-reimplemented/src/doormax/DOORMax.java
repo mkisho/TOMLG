@@ -88,6 +88,10 @@ public class DOORMax {
 	}
 
 	public void learn(OOMDPState currentState, Action action) {
+		if(action == null) {
+			oldState = currentState;
+			return;
+		}
 		Condition condition = Condition.evaluate(oomdp.pfIndex, currentState);
 
 		List<ObjectInstance> oldInstances = this.oldState.getObjects();

@@ -1,5 +1,6 @@
-package doormax;
+package tomlg;
 
+import doormax.OOMDPState;
 import doormax.structures.Action;
 
 /**
