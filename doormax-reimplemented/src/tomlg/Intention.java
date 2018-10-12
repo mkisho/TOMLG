@@ -33,4 +33,17 @@ public class Intention {
 		this.action = action;
 		this.goal = goal;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Intention [action=");
+		builder.append(action);
+		builder.append(", goal=");
+		builder.append(goal);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
 }

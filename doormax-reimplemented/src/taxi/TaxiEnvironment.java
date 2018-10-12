@@ -22,6 +22,7 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 
 	@Override
 	public OOMDPState simulateAction(OOMDPState state0, Action action) {
+
 		Double xTaxi = 0.0;
 		Double yTaxi = 0.0;
 		Double xDestino = 0.0;
@@ -39,11 +40,10 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 		List<String> verticalIds = new ArrayList<String>();
 		Collection<ObjectInstance> collection = state0.getObjects();
 		for (ObjectInstance objTemp : collection) {
-			ObjectClass obj = objTemp.getOclass();
 			Object temp;
 			if (objTemp.getClass().getName().equals("taxi")) {
 				// taxiId = objTemp.getId();
-				for (Attribute attribute : obj.getAttributes()) {
+				for (Attribute attribute : objTemp.getAttributes()) {
 					if (attribute.getName().equals("xLocation")) {
 						xTaxi = ((AttributeInteger) attribute).getDoubleValue();
 					} else if (attribute.getName().equals("yLocation")) {
@@ -59,8 +59,7 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 
 			if (objTemp.getClass().getName().equals("passenger")) {
 				// passengerId = objTemp.getId();
-				obj = objTemp.getOclass();
-				for (Attribute attribute : obj.getAttributes()) {
+				for (Attribute attribute : objTemp.getAttributes()) {
 					if (attribute.getName().equals("xLocation")) {
 						xPassenger = ((AttributeInteger) attribute).getDoubleValue();
 
@@ -73,9 +72,8 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 
 			if (objTemp.getClass().getName().equals("goalLocation")) {
 				// goalId = objTemp.getId();
-				obj = objTemp.getOclass();
 
-				for (Attribute attribute : obj.getAttributes()) {
+				for (Attribute attribute : objTemp.getAttributes()) {
 					if (attribute.getName().equals("xLocation")) {
 						xDestino = ((AttributeInteger) attribute).getDoubleValue();
 					} else if (attribute.getName().equals("yLocation")) {
@@ -281,5 +279,5 @@ public class TaxiEnvironment extends EnvironmentSimulator {
 
 		return state1;
 	}
-
+	
 }

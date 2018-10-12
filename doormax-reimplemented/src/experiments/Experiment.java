@@ -12,6 +12,7 @@ import doormax.structures.Effect;
 import doormax.structures.EffectType;
 import experiments.utils.OOMDPReaderFromFile;
 import taxi.TaxiEnvironment;
+import taxi.TaxiEnvironment2;
 import taxi.pf.PassengerInTaxi;
 import taxi.pf.TaxiAtPassenger;
 import taxi.pf.WallToEastOfTaxi;
@@ -71,14 +72,17 @@ public class Experiment {
 			effectsToUse.add(e);
 		}
 
-		this.environment = new Environment(this.currentState, new TaxiEnvironment("Taxi"));
+		this.environment = new Environment(this.currentState, new TaxiEnvironment2());
 	}
 
 	private void runExperiment() {
+		System.out.println(this.environment.getState());
+
 		int step = this.maxSteps;
 		while (step-- > 0) {
 			System.out.println("On step: " + step);
 			this.agent.step();
+			System.out.println(this.environment.getState());
 		}
 		System.out.println(this.agent.getMind());
 	}

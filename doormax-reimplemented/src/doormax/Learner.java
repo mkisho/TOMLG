@@ -38,8 +38,7 @@ public class Learner {
 	
 	@Override
 	public String toString() {
-		return "Learner [attribute=" + attribute + ", objClass=" + objClass + ", actionLearner=" + actionLearner
-				+ ", actionList=" + actionList + "]";
+		return "Learner [attribute=" + attribute + ", objClass=" + objClass + ",\n actionLearner=" + actionLearner.values();
 	}
 
 	public void predict(OOMDPState state, Action action) {

@@ -131,7 +131,7 @@ public class OOMDPReaderFromFile {
 		} else if (type.matches("BooleanDomain")) {
 			attribute = new AttributeBoolean(name);
 		} else if (type.matches("StringDomain")) {
-			attribute = new AttributeBoolean(name);
+			attribute = new AttributeString(name);
 		} else {
 			assert (false);
 		}

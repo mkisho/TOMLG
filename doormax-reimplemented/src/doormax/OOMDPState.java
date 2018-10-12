@@ -65,5 +65,17 @@ public class OOMDPState {
 		}
 		return null;
 	}
+	
+	public OOMDP getOomdp() {
+		return oomdp;
+	}
+
+	public String toString() {
+		String str = "State [\n" + this.getObjectsOfClass("taxi").toString();
+		str +="\n" + this.getObjectsOfClass("passenger").toString();
+		str +="\n" + this.getObjectsOfClass("goalLocation").toString();
+		str += "]\n";
+		return str;
+	}
 
 }

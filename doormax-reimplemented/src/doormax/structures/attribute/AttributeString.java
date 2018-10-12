@@ -37,4 +37,14 @@ public class AttributeString  extends Attribute {
 		return null;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("String [");
+		builder.append(getName());
+		
+		if(value != null)builder.append(", value="+value);
+		builder.append("]");
+		return builder.toString();
+	}
 }

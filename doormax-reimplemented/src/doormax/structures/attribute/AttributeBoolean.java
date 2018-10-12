@@ -42,4 +42,14 @@ public class AttributeBoolean extends Attribute {
 		return (this.value ? 1.0 : 0.0);
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Boolean [");
+		builder.append(getName());
+		
+		if(value != null)builder.append(", value="+value);
+		builder.append("]");
+		return builder.toString();
+	}
 }

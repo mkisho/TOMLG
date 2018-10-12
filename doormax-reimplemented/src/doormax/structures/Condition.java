@@ -1,4 +1,5 @@
 package doormax.structures;
+
 import java.util.Arrays;
 
 import doormax.OOMDPState;
@@ -77,12 +78,15 @@ public class Condition {
 	}
 
 	public boolean matches(Condition condition) {
-		for(int i=0;i<this.eval.length;i++) {
+		for (int i = 0; i < this.eval.length; i++) {
 //			if for every index either both conditions
 //			have the same bit or the first condition has a * at that index.
-			if(this.eval[i] == condition.eval[i]) continue;
-			else if(this.eval[i]== '*') continue;
-			else return false;
+			if (this.eval[i] == condition.eval[i])
+				continue;
+			else if (this.eval[i] == '*')
+				continue;
+			else
+				return false;
 		}
 		return true;
 	}
@@ -93,6 +97,15 @@ public class Condition {
 		builder.append(Arrays.toString(eval));
 		return builder.toString();
 	}
-	
-	
+
+	public Boolean getEvalOfPropositionalFunction(PropositionalFunction f) {
+		for (int i = 0; i < this.pfIndex.length; i++) {
+			if (this.pfIndex[i].equals(f)) {
+				return (this.eval[i] == '1' ? true : false);
+			}
+		}
+
+		return null;
+	}
+
 }

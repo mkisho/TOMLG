@@ -35,6 +35,7 @@ public class Agent {
 
 		Intention intention = this.mind.reasoning();
 		assert (intention != null);
+		System.out.println("Reasoning >> " + intention);
 		this.bodyActuators.doActionOnEnvironment(intention.getAction());
 	}
 

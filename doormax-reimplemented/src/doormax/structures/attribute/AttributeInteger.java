@@ -21,24 +21,37 @@ public class AttributeInteger extends Attribute {
 	public void setValue(int value) {
 		this.value = value;
 	}
-	
+
 	public AttributeInteger copy() {
-		if(this.value != null)
+		if (this.value != null)
 			return new AttributeInteger(this.getName(), new Integer(this.value));
-		else 			return new AttributeInteger(this.getName());
+		else
+			return new AttributeInteger(this.getName());
 	}
 
 	@Override
 	public boolean sameValue(Attribute o) {
 		if (o instanceof AttributeInteger) {
-			return this.value == ((AttributeInteger)o).value;
-		}else return false;
+			return this.value == ((AttributeInteger) o).value;
+		} else
+			return false;
 	}
 
 	@Override
 	public Double getDoubleValue() {
 		return this.value + 0.0;
 	}
-	
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Integer [");
+		builder.append(getName());
+		
+		if(value != null)builder.append(", value="+value);
+		builder.append("]");
+		return builder.toString();
+	}
+
 	
 }
