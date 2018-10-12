@@ -1,9 +1,9 @@
 package doormax;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import doormax.structures.Action;
 import doormax.structures.Condition;
 import doormax.structures.Effect;
@@ -122,7 +122,5 @@ public class PFLearner {
 				+ ", failureConditions=" + failureConditions + ", predictions=" + predictions + ", contraditions="
 				+ contraditions + "]";
 	}
-	
-	
 
 }
