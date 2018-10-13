@@ -1,10 +1,12 @@
 package doormax.structures;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import doormax.OOMDPState;
 import doormax.ObjectClass;
+import doormax.ObjectInstance;
 import doormax.structures.attribute.Attribute;
-
 
 public class Effect {
 	public static final EffectType[] γ = { new ArithmeticEffect(), new AssignmentEffect() };
@@ -13,7 +15,7 @@ public class Effect {
 	private Attribute attribute;
 	private ObjectClass objClass;
 	private Double value;
-	
+
 	public Effect(EffectType type, Attribute attribute, ObjectClass objClass, Double value) {
 		super();
 		this.type = type;
@@ -106,8 +108,45 @@ public class Effect {
 
 	@Override
 	public String toString() {
-		return "Effect [type=" + type.name() + ", attribute=" + attribute.getName() + ", objClass=" + objClass.getName() + ", value=" + value
-				+ "]";
+		return "Effect [type=" + type.name() + ", attribute=" + attribute.getName() + ", objClass=" + objClass.getName()
+				+ ", value=" + value + "]";
 	}
-	
+
+	/*
+	 * Checks if this contradicts e for the given state
+	 * 
+	 * return true if this contradicts e TODO deve ter uma forma melhor de fazer
+	 * isso, corrigir depois
+	 */
+	public boolean contradicts(Effect e, OOMDPState state) {
+		if (!(this.objClass.equals(e.getObjClass().getName()) && this.attribute.equals(e.getAttribute())))
+			return false;
+
+		if (this.type.equals(e.type)) {// do mesmo tipo mas com valores diferentes
+			if (this.getValue() == e.getValue())
+				return false;
+			else
+				return true;
+		}
+
+		List<ObjectInstance> instances = state.getObjectsOfClass(this.objClass.getName());
+		assert (instances != null && instances.size() > 0);
+		for (ObjectInstance instance : instances) {
+			ObjectInstance instance1 = instance.copy();
+			ObjectInstance instance2 = instance.copy();
+			this.apply(instance1);
+			e.apply(instance2);
+
+			if (instance1.getAttributeValByName(this.attribute.getName()).getDoubleValue() != instance2
+					.getAttributeValByName(this.attribute.getName()).getDoubleValue()) {
+				return true;
+			}
+
+		}
+		return false;
+	}
+
+	public void apply(ObjectInstance objInstance) {
+		this.type.apply(objInstance.getAttributeValByName(this.attribute.getName()), this.value);
+	}
 }

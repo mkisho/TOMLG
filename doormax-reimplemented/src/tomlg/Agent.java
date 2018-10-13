@@ -1,7 +1,5 @@
 package tomlg;
 
-import javax.security.auth.login.Configuration;
-
 import doormax.OOMDP;
 import doormax.OOMDPState;
 import doormax.structures.Action;
@@ -33,11 +31,13 @@ public class Agent {
 	public void step(boolean finalEpisode) {
 		// perceive()
 		OOMDPState currentState = this.sensories.environmentToPerception();
-		Condition condition = Condition.evaluate(oomdp.getPfIndex(), currentState);// TODO remove
+		Condition condition = Condition.evaluate(oomdp.getPfIndex(), currentState);
 
+		checkPrediction(currentState);
+		
 		this.mind.learn(currentState);
 
-		if(finalEpisode)
+		if(finalEpisode)//todo fix ?
 			return;
 		
 		Intention intention = this.mind.reasoning();
@@ -47,7 +47,10 @@ public class Agent {
 
 		this.bodyActuators.doActionOnEnvironment(intention.getAction());
 	}
-	private int st = 0;
+
+	private void checkPrediction(OOMDPState currentState) {
+		
+	}
 
 	public Mind getMind() {
 		return this.mind;

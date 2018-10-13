@@ -37,6 +37,10 @@ public class Prediction {
 		return this.condition.matches(toUpdatePrediction.condition);
 	}
 
+	public boolean matches(Condition condition) {
+		return this.condition.matches(condition);
+	}
+	
 	public Prediction(Action action, Condition condition, Effect effect) {
 		super();
 		this.action = action;

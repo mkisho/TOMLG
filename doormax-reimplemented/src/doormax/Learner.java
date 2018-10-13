@@ -6,6 +6,7 @@ import java.util.Map;
 
 import doormax.structures.Action;
 import doormax.structures.Condition;
+import doormax.structures.Effect;
 import doormax.structures.attribute.Attribute;
 
 /**
@@ -43,8 +44,8 @@ public class Learner {
 				+ actionLearner.values();
 	}
 
-	public void predict(OOMDPState state, Action action) {
-
+	public List<Effect> predict(Condition condition, OOMDPState state, Action action) {
+		return this.actionLearner.get(action).predict(condition, state, action);
 	}
 
 	public void toBeliefs() {

@@ -134,4 +134,48 @@ public class PFLearner {
 				+ contraditions + "]";
 	}
 
+	private boolean checkForContradictoryEffects(Effect effect, List<Effect> maching, OOMDPState state) {
+		for (Effect e : maching) {
+			if (effect.contradicts(e, state)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private List<Effect> getMatchingNonContradictoryPredictions(Condition condition, OOMDPState state, Set<Prediction> setPpred) {
+		List<Effect> maching = new ArrayList<Effect>();
+		for (Prediction pred : setPpred) {
+			if (pred.matches(condition)) {
+				if (checkForContradictoryEffects(pred.getEffect(), maching, state)) {
+					System.out.println("Incompatible effects. Can not predict result yet");
+					return null;
+				} else {
+//					System.out.println("effect " + pred.getEffect() + " added to pool");
+					maching.add(pred.getEffect());
+				}
+			}
+		}
+		return maching;
+	}
+
+	public List<Effect> predict(Condition condition, OOMDPState state, Action action) {
+		// check for failure condition
+		for (Condition cond : this.failureConditions) {
+			if (condition.equals(cond)) { // TODO check if can combine failure conditions
+				return new ArrayList<Effect>();
+			}
+		}
+
+		List<Effect> effects = getMatchingNonContradictoryPredictions(condition, state, this.predictions);
+
+		if (effects == null) {
+			return null;
+		} else if (!effects.isEmpty()) {
+			return effects;
+		} else {
+			return null;
+		}
+	}
+
 }

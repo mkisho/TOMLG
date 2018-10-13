@@ -1,11 +1,14 @@
 package doormax;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import doormax.structures.Action;
 import doormax.structures.Condition;
+import doormax.structures.Effect;
+import doormax.structures.Prediction;
 import doormax.structures.attribute.Attribute;
 
 class HashLearnerKey {
@@ -131,6 +134,40 @@ public class DOORMax {
 			}
 		}
 		this.oldState = currentState;
+	}
+
+	public Map<Action, List<Effect>> predict(OOMDPState state0, List<Action> actions) {
+		if(state0 == null) state0 = this.oldState;
+		
+		Map<Action, List<Effect>> predicted = new HashMap<Action, List<Effect>>();
+
+		final Condition cond = Condition.evaluate(oomdp.getPfIndex(), state0);
+		for (Action action : actions) {
+			List<Effect> totalPool = new ArrayList<Effect>();
+			for (ObjectClass objClass : state0.getOomdp().getObjectClasses()) {
+				List<Effect> currentPool = getAllEffectPredictionForObjectClass(action, objClass, cond, state0);
+				if(currentPool == null) {
+					totalPool = currentPool;
+					break;
+				}else totalPool.addAll(currentPool);
+			}
+			predicted.put(action, totalPool);
+		}
+
+		return predicted;
+	}
+
+	private List<Effect> getAllEffectPredictionForObjectClass(Action action, ObjectClass objClass, Condition cond, OOMDPState state){
+		List<Effect> currentPool = new ArrayList<Effect>();
+		
+		HashLearnerKey key = new HashLearnerKey(objClass, null);
+		for(Attribute att:objClass.getAttributes()) {
+			key.setAttribute(att);
+			List<Effect> effects = this.learners.get(key).predict(cond, state, action);
+			if(effects == null) return null;
+			else currentPool.addAll(effects);
+		}
+		return currentPool;
 	}
 
 	@Override

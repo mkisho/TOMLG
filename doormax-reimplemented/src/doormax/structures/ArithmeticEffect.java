@@ -1,6 +1,7 @@
 package doormax.structures;
 import doormax.ObjectClass;
 import doormax.structures.attribute.Attribute;
+import doormax.structures.attribute.AttributeBoolean;
 import doormax.structures.attribute.AttributeInteger;
 
 public class ArithmeticEffect extends EffectType {
@@ -24,6 +25,15 @@ public class ArithmeticEffect extends EffectType {
 	@Override
 	public String name() {
 		return "ArithmeticEffect";
+	}
+	
+	public void apply(Attribute att, Object value) {
+		if (att instanceof AttributeInteger) {
+			((AttributeInteger) att).setValue(((AttributeInteger) att).getValue() + (Integer) value);
+		} else if (att instanceof AttributeBoolean) {//TODO ???
+			((AttributeBoolean) att).setValue(((Integer) value) == 1 ? true : false);
+		} else
+			assert (true == false);
 	}
 	
 	@Override

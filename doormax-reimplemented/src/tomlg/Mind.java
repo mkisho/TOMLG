@@ -38,6 +38,11 @@ public class Mind {
 	}
 
 	public Intention reasoning() {
+		System.out.println("Predictions>>>> \n");
+		System.out.println(this.agentLearner.predict(null, actionRepertoire));
+		System.out.println("END Predictions<<<< \n");
+		
+		
 		if (this.choosenGoal == null) {
 			// try new things
 			Action action = this.actionRepertoire.get(this.random.nextInt(this.actionRepertoire.size()));

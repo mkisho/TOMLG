@@ -27,6 +27,15 @@ public class AssignmentEffect extends EffectType {
 			return null;
 	}
 
+	public void apply(Attribute att, Object value) {
+		if (att instanceof AttributeInteger) {
+			((AttributeInteger) att).setValue((Integer) value);
+		} else if (att instanceof AttributeBoolean) {
+			((AttributeBoolean) att).setValue(((Integer) value) == 0 ? false : true);
+		} else
+			assert (true == false);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
