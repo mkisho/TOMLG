@@ -97,7 +97,7 @@ public class DOORMax {
 			oldState = currentState;
 			return;
 		}
-		Condition condition = Condition.evaluate(oomdp.getPfIndex(), currentState);
+		Condition condition = Condition.evaluate(oomdp.getPfIndex(), oldState);
 
 		List<ObjectInstance> oldInstances = this.oldState.getObjects();
 		List<ObjectInstance> newInstances = currentState.getObjects();
@@ -130,6 +130,7 @@ public class DOORMax {
 				this.learners.get(key).learn(oldAtt, newAtt, condition, action);
 			}
 		}
+		this.oldState = currentState;
 	}
 
 	@Override

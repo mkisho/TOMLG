@@ -106,7 +106,7 @@ public class Effect {
 
 	@Override
 	public String toString() {
-		return "Effect [type=" + type + ", attribute=" + attribute + ", objClass=" + objClass + ", value=" + value
+		return "Effect [type=" + type.name() + ", attribute=" + attribute.getName() + ", objClass=" + objClass.getName() + ", value=" + value
 				+ "]";
 	}
 	

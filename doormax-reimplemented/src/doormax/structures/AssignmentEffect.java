@@ -1,4 +1,5 @@
 package doormax.structures;
+
 import doormax.ObjectClass;
 import doormax.structures.attribute.Attribute;
 import doormax.structures.attribute.AttributeBoolean;
@@ -13,8 +14,7 @@ public class AssignmentEffect extends EffectType {
 	@Override
 	public Effect possibleEffectsExplanation(Attribute oldAtt, Attribute newAtt, ObjectClass objClass) {
 		assert (oldAtt.getName().equals(newAtt.getName()));
-		
-		
+
 		if (oldAtt instanceof AttributeInteger || oldAtt instanceof AttributeBoolean) {
 			Double val1 = oldAtt.getDoubleValue();
 			Double val2 = newAtt.getDoubleValue();
@@ -27,4 +27,14 @@ public class AssignmentEffect extends EffectType {
 			return null;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
+	}
 }

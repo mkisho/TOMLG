@@ -43,6 +43,10 @@ public class PFLearner {
 	}
 
 	public void learn(Attribute attOld, Attribute attNew, Condition condition) {
+		if (this.action.getName().equals("taxiMoveNorth") && this.attribute.getName().equals("yLocation")
+				&& this.objClass.getName().equals("taxi"))
+			System.out.println("waith");
+
 		if (attOld.sameValue(attNew)) {
 			// o valor não mudou, então adicione nas condições de falha
 			failureConditions.add(condition);
@@ -72,18 +76,25 @@ public class PFLearner {
 					if (remove)
 						this.predictions.remove(toUpdatePrediction);
 				} else {// nesse caso tentar criar uma nova predição
-						// verificar se já existe um efeito do mesmo tipo em w!
-					if (checkSameTypeExists(this.contraditions, hypEffect)) {
-						// se não existe um efeito do mesmo tipo, então criar um novo.
-						Prediction prediction = new Prediction(this.action, condition, hypEffect);
-						this.predictions.add(prediction);
-
+						// verificar se já existe um efeito do mesmo tipo em predictions!
+					if (checkSameTypeExists(this.predictions, hypEffect)) {
+//						Prediction prediction = new Prediction(this.action, condition, hypEffect);
+//						this.contraditions.add(prediction);
 						// Rule out predictions if more than k related predictions
 						List<Prediction> relatedPrediction = getRelatedPredictions(hypEffect);
+						this.predictions.removeAll(relatedPrediction);
+						this.contraditions.addAll(relatedPrediction);
 						if (relatedPrediction.size() > K) {
-							this.contraditions.add(prediction);
-							this.predictions.removeAll(relatedPrediction);
+							this.contraditions.clear();
+							System.out.println("Estouro");
+							assert (true == false);
+
 						}
+					} else if (checkSameTypeExists(this.contraditions, hypEffect)) {
+					} else {
+						// se não existe um efeito do mesmo tipo nas contradições, então criar um novo.
+						Prediction prediction = new Prediction(this.action, condition, hypEffect);
+						this.predictions.add(prediction);
 					}
 				}
 			}
@@ -118,8 +129,8 @@ public class PFLearner {
 
 	@Override
 	public String toString() {
-		return "PFLearner [objClass=" + objClass + ", attribute=" + attribute + ", action=" + action
-				+ ", failureConditions=" + failureConditions + ", predictions=" + predictions + ", contraditions="
+		return "PFLearner [" + objClass.getName() + ", attribute=" + attribute.getName() + ", action=" + action
+				+ "predictions=" + predictions + ", failureConditions=" + failureConditions + ", contraditions="
 				+ contraditions + "]";
 	}
 

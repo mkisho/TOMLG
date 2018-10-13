@@ -95,9 +95,9 @@ public class Condition {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(Arrays.toString(eval));
-		builder.append("  PFS: ");
+//		builder.append("  PFS: ");
 		
-		builder.append(Arrays.toString(this.pfIndex));
+//		builder.append(Arrays.toString(this.pfIndex));
 		return builder.toString();
 	}
 
