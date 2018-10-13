@@ -23,7 +23,7 @@ public class TaxiEnvironment2 extends tomlg.EnvironmentSimulator {
 			if (!cond.getEvalOfPropositionalFunction(Configurations.WALL_NORHT_PF)) {
 				ObjectInstance taxi = resultState.getObjectOfClass(Configurations.TAXI_CLASS_NAME);
 				AttributeInteger att = (AttributeInteger) taxi.getAttributeValByName(Configurations.TAXI_ATT_Y);
-				att.setValue(att.getValue() + 1);
+				att.setValue(att.getValue() - 1);
 			} else {
 				System.out.println("Parede em frente, não pode mover");
 			}
@@ -32,7 +32,7 @@ public class TaxiEnvironment2 extends tomlg.EnvironmentSimulator {
 			if (!cond.getEvalOfPropositionalFunction(Configurations.WALL_SOUTH_PF)) {
 				ObjectInstance taxi = resultState.getObjectOfClass(Configurations.TAXI_CLASS_NAME);
 				AttributeInteger att = (AttributeInteger) taxi.getAttributeValByName(Configurations.TAXI_ATT_Y);
-				att.setValue(att.getValue() - 1);
+				att.setValue(att.getValue() + 1);
 			} else {
 				System.out.println("Parede em frente, não pode mover");
 			}

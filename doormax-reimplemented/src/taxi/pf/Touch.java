@@ -40,17 +40,6 @@ public class Touch extends doormax.PropositionalFunction {
 			if (this.direction.equals(Configurations.DIRECTION_NORTH)
 					|| this.direction.equals(Configurations.DIRECTION_SOUTH)) {
 
-				int wallOffSet = ((AttributeInteger) o.getAttributeValByName(Configurations.WALL_VERTICAL_OFF_SET))
-						.getValue();
-				int bottomOfWall = ((AttributeInteger) o.getAttributeValByName(Configurations.WALL_VERTICAL_BOTTOM))
-						.getValue();
-				int topOfWall = ((AttributeInteger) o.getAttributeValByName(Configurations.WALL_VERTICAL_TOP))
-						.getValue();
-
-				int inc = (this.direction.equals(Configurations.DIRECTION_NORTH) ? 1 : -1);
-				if (between(wallOffSet + bottomOfWall, wallOffSet + topOfWall, taxiY + inc))
-					return true;
-			} else {
 				int wallOffSet = ((AttributeInteger) o.getAttributeValByName(Configurations.WALL_HORIZONTAL_OFF_SET))
 						.getValue();
 				int leftStartOfWall = ((AttributeInteger) o.getAttributeValByName(Configurations.WALL_HORIZONTAL_LEFT))
@@ -58,9 +47,28 @@ public class Touch extends doormax.PropositionalFunction {
 				int rightStartOfWall = ((AttributeInteger) o
 						.getAttributeValByName(Configurations.WALL_HORIZONTAL_RIGHT)).getValue();
 
-				int inc = (this.direction.equals(Configurations.DIRECTION_WEST) ? 1 : -1);
-				if (between(wallOffSet + leftStartOfWall, wallOffSet + rightStartOfWall, taxiY + inc))
+				if (!(between(leftStartOfWall, rightStartOfWall, taxiX)))
+					continue;
+				if (this.direction.equals(Configurations.DIRECTION_NORTH) && (taxiY == wallOffSet)) {
 					return true;
+				} else if (this.direction.equals(Configurations.DIRECTION_SOUTH) && (taxiY + 1 == wallOffSet))
+					return true;
+			} else {
+				int wallOffSet = ((AttributeInteger) o.getAttributeValByName(Configurations.WALL_VERTICAL_OFF_SET))
+						.getValue();
+				int bottomOfWall = ((AttributeInteger) o.getAttributeValByName(Configurations.WALL_VERTICAL_BOTTOM))
+						.getValue();
+				int topOfWall = ((AttributeInteger) o.getAttributeValByName(Configurations.WALL_VERTICAL_TOP))
+						.getValue();
+
+				if (!(between(bottomOfWall, topOfWall, taxiY)))
+					continue;
+
+				if (this.direction.equals(Configurations.DIRECTION_WEST) && ((taxiX + 1 == wallOffSet))) {
+					return true;
+				} else if (this.direction.equals(Configurations.DIRECTION_EAST) && (taxiX == wallOffSet)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -68,7 +76,7 @@ public class Touch extends doormax.PropositionalFunction {
 
 	private boolean between(int start, int end, int x) {
 		assert (start < end);
-		return !(start <= x && x <= end);
+		return (start <= x && x <= end);
 	}
 
 }

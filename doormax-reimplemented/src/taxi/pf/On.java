@@ -3,6 +3,7 @@ package taxi.pf;
 import doormax.OOMDPState;
 import doormax.ObjectInstance;
 import doormax.PropositionalFunction;
+import doormax.structures.attribute.AttributeBoolean;
 import doormax.structures.attribute.AttributeInteger;
 import taxi.Configurations;
 
@@ -32,8 +33,10 @@ public class On extends PropositionalFunction {
 
 		int checkX = ((AttributeInteger) objIntanceCheck.getAttributeValByName(Configurations.TAXI_ATT_X)).getValue();
 		int checkY = ((AttributeInteger) objIntanceCheck.getAttributeValByName(Configurations.TAXI_ATT_Y)).getValue();
+		boolean checkIn = ((AttributeBoolean) objIntanceCheck.getAttributeValByName(Configurations.PASSENGER_ATT_IN_TAXI))
+				.isValue();
 
-		return taxiX == checkX && taxiY == checkY;
+		return taxiX == checkX && taxiY == checkY && !checkIn;
 	}
 
 }

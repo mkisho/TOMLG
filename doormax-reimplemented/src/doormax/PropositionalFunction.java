@@ -10,7 +10,7 @@ public abstract class PropositionalFunction {
 
 	@Override
 	public String toString() {
-		return "PropositionalFunction [name=" + name + "]";
+		return name;
 	}
 
 	public abstract boolean evaluate(OOMDPState state);

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.security.auth.login.Configuration;
+
 import doormax.OOMDP;
 import doormax.OOMDPState;
 import doormax.PropositionalFunction;
@@ -11,6 +13,7 @@ import doormax.structures.Action;
 import doormax.structures.Effect;
 import doormax.structures.EffectType;
 import experiments.utils.OOMDPReaderFromFile;
+import taxi.Configurations;
 import taxi.TaxiEnvironment;
 import taxi.TaxiEnvironment2;
 import taxi.pf.old.PassengerInTaxi;
@@ -48,12 +51,12 @@ public class Experiment {
 	/// TODO deixar esse código descente
 	private void createEnvironmentInstance(String oomdpFile, String stateFile) {
 		List<PropositionalFunction> pfs = new ArrayList<PropositionalFunction>();
-		pfs.add(new WallToEastOfTaxi());
-		pfs.add(new WallToNorthOfTaxi());
-		pfs.add(new WallToSouthOfTaxi());
-		pfs.add(new WallToWestOfTaxi());
-		pfs.add(new PassengerInTaxi());
-		pfs.add(new TaxiAtPassenger());
+		pfs.add(Configurations.WALL_NORHT_PF);
+		pfs.add(Configurations.WALL_SOUTH_PF);
+		pfs.add(Configurations.WALL_WEST_PF);
+		pfs.add(Configurations.WALL_EAST_PF);
+		pfs.add(Configurations.PASSENGER_IN_TAXI_PF);
+		pfs.add(Configurations.TAXI_AT_PASSENGER_PF);
 
 		PropositionalFunction[] pfss = new PropositionalFunction[pfs.size()];
 		pfs.toArray(pfss);
@@ -78,9 +81,9 @@ public class Experiment {
 	private void runExperiment() {
 		System.out.println(this.environment.getState());
 
-		int step = this.maxSteps;
-		while (step-- > 0) {
-			System.out.println("On step: " + step);
+		int step = 0;
+		while (step <= this.maxSteps) {
+			System.out.println("On step: " + step++);
 			this.agent.step();
 			System.out.println(this.environment.getState());
 		}

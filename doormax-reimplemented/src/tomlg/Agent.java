@@ -3,6 +3,7 @@ package tomlg;
 import doormax.OOMDP;
 import doormax.OOMDPState;
 import doormax.structures.Action;
+import doormax.structures.Condition;
 
 public class Agent {
 	private Mind mind;
@@ -30,12 +31,13 @@ public class Agent {
 	public void step() {
 		// perceive()
 		OOMDPState currentState = this.sensories.environmentToPerception();
+		Condition condition = Condition.evaluate(oomdp.getPfIndex(), currentState);// TODO remove
 
 		this.mind.learn(currentState);
 
 		Intention intention = this.mind.reasoning();
 		assert (intention != null);
-		System.out.println("Reasoning >> " + intention);
+		System.out.println("Reasoning >> " + intention+ " cond: " + condition.toString());
 		this.bodyActuators.doActionOnEnvironment(intention.getAction());
 	}
 
