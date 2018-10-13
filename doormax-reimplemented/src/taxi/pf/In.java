@@ -17,7 +17,6 @@ public class In extends PropositionalFunction {
 		this.x = x;
 	}
 
-
 	@Override
 	public boolean evaluate(OOMDPState state) {
 		ObjectInstance objIntance = state.getObjectOfClass(this.objClass);// state.getObjectOfClass(Configurations.TAXI_CLASS_NAME);
@@ -33,9 +32,10 @@ public class In extends PropositionalFunction {
 
 		int checkX = ((AttributeInteger) objIntanceCheck.getAttributeValByName(Configurations.TAXI_ATT_X)).getValue();
 		int checkY = ((AttributeInteger) objIntanceCheck.getAttributeValByName(Configurations.TAXI_ATT_Y)).getValue();
-		
-		boolean passengerInTaxi = ((AttributeBoolean) objIntance.getAttributeValByName(Configurations.TAXI_PASSENGER_INSIDE)).isValue();
-		
+
+		boolean passengerInTaxi = ((AttributeBoolean) objIntance
+				.getAttributeValByName(Configurations.TAXI_ATT_PASSENGER_INSIDE)).isValue();
+
 		return taxiX == checkX && taxiY == checkY && passengerInTaxi;
 	}
 }

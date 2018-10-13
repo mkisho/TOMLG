@@ -61,7 +61,4 @@ public class Mind {
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
-
 }

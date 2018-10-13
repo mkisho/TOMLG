@@ -8,7 +8,6 @@ import doormax.structures.attribute.AttributeInteger;
 import taxi.Configurations;
 
 public class On extends PropositionalFunction {
-
 	private final String objClass;
 	private final String x;
 
@@ -33,10 +32,13 @@ public class On extends PropositionalFunction {
 
 		int checkX = ((AttributeInteger) objIntanceCheck.getAttributeValByName(Configurations.TAXI_ATT_X)).getValue();
 		int checkY = ((AttributeInteger) objIntanceCheck.getAttributeValByName(Configurations.TAXI_ATT_Y)).getValue();
-		boolean checkIn = ((AttributeBoolean) objIntanceCheck.getAttributeValByName(Configurations.PASSENGER_ATT_IN_TAXI))
-				.isValue();
+		
+		if(this.objClass.equals(Configurations.PASSENGER_CLASS_NAME)) {
+			boolean checkIn = ((AttributeBoolean) objIntanceCheck
+					.getAttributeValByName(Configurations.PASSENGER_ATT_IN_TAXI)).isValue();
+			return taxiX == checkX && taxiY == checkY && !checkIn;
+		}else return taxiX == checkX && taxiY == checkY; // FIX gambi
 
-		return taxiX == checkX && taxiY == checkY && !checkIn;
 	}
 
 }

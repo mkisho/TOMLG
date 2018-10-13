@@ -55,8 +55,9 @@ public class Experiment {
 		pfs.add(Configurations.WALL_SOUTH_PF);
 		pfs.add(Configurations.WALL_WEST_PF);
 		pfs.add(Configurations.WALL_EAST_PF);
+		pfs.add(Configurations.TAXI_ON_PASSENGER_PF);
 		pfs.add(Configurations.PASSENGER_IN_TAXI_PF);
-		pfs.add(Configurations.TAXI_AT_PASSENGER_PF);
+		pfs.add(Configurations.TAXI_ON_DESTINATION_PF);
 
 		PropositionalFunction[] pfss = new PropositionalFunction[pfs.size()];
 		pfs.toArray(pfss);
@@ -82,10 +83,12 @@ public class Experiment {
 		System.out.println(this.environment.getState());
 
 		int step = 0;
+		boolean episodeEnded = false;
 		while (step <= this.maxSteps) {
 			System.out.println("On step: " + step++);
-			this.agent.step();
+			this.agent.step(episodeEnded);
 			System.out.println(this.environment.getState());
+			episodeEnded = ((TaxiEnvironment2)this.environment.getEnvironmnetSimulator()).isEpisodeEnded();
 		}
 		System.out.println(this.agent.getMind());
 	}
@@ -96,7 +99,7 @@ public class Experiment {
 			args[0] = "src/Environment01.oomdp";
 			args[1] = "src/Environment01.state";
 			args[2] = "experiment01.xml";
-			args[3] = "300";
+			args[3] = "100000";
 		}
 		System.out.println(Arrays.toString(args));
 		if (args.length < 4) {

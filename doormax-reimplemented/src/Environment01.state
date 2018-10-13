@@ -5,34 +5,15 @@
 		)
 		
 		passenger(
-			xLocation : 1,
-			yLocation : 3,
+			xLocation : 0,
+			yLocation : 7,
 			inTaxi    : false
 		)
 	
-		goalLocation(
-			xLocation : 1,
-			yLocation : 3,
-			goalType  : PickUp
-		) 
-
-		goalLocation(
+		destination(
 			xLocation : 0,
-			yLocation : 0,
-			goalType  : PickUp
+			yLocation : 0
 		) 
-	
-		goalLocation(
-			xLocation : 7,
-			yLocation : 7,
-			goalType  : PickUp
-		) 	
-
-		goalLocation(
-			xLocation : 6,
-			yLocation : 1,
-			goalType  : DropOff
-		)
 		
 		verticalWall(
 			wallOffSet : 0,
