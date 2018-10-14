@@ -33,8 +33,6 @@ public class Agent {
 		OOMDPState currentState = this.sensories.environmentToPerception();
 		Condition condition = Condition.evaluate(oomdp.getPfIndex(), currentState);
 
-		checkPrediction(currentState);
-		
 		this.mind.learn(currentState);
 
 		if(finalEpisode)//todo fix ?
@@ -46,10 +44,7 @@ public class Agent {
 		System.out.println("Reasoning >> " + intention + " cond: " + condition.toString());
 
 		this.bodyActuators.doActionOnEnvironment(intention.getAction());
-	}
-
-	private void checkPrediction(OOMDPState currentState) {
-		
+		this.mind.addIntentionToHistory(intention);
 	}
 
 	public Mind getMind() {

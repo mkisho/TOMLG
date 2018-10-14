@@ -1,5 +1,7 @@
 package taxi;
 
+import java.util.Random;
+
 import doormax.PropositionalFunction;
 import taxi.pf.In;
 import taxi.pf.On;
@@ -57,4 +59,11 @@ public final class Configurations {
 	public static final PropositionalFunction TAXI_ON_PASSENGER_PF = new On(TAXI_CLASS_NAME, PASSENGER_CLASS_NAME);
 	public static final PropositionalFunction PASSENGER_IN_TAXI_PF = new In(TAXI_CLASS_NAME, PASSENGER_CLASS_NAME);
 	public static final PropositionalFunction TAXI_ON_DESTINATION_PF = new On(TAXI_CLASS_NAME, DESTINATION_CLASS_NAME);
+
+
+
+//////////////////////////////////
+	public static final Random random = new Random(0);
+
+
 }

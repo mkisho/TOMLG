@@ -99,7 +99,7 @@ public class Experiment {
 			args[0] = "src/Environment01.oomdp";
 			args[1] = "src/Environment01.state";
 			args[2] = "experiment01.xml";
-			args[3] = "100000";
+			args[3] = "10000000";
 		}
 		System.out.println(Arrays.toString(args));
 		if (args.length < 4) {
