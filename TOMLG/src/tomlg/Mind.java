@@ -47,9 +47,11 @@ public class Mind {
 				// primeiro verifica quais ações o agente ainda não sabe os efeitos
 				Map<Action, List<Effect>> actionPrediction = this.agentLearner.predict(null, actionRepertoire);
 				List<Action> unkown = new ArrayList<Action>();
+				List<Action> withEffect = new ArrayList<Action>();
 				for (Action action : actionPrediction.keySet()) {
 					if (actionPrediction.get(action) == null)
 						unkown.add(action);
+					else if(actionPrediction.get(action).size() != 0) withEffect.add(action);
 				}
 				// escolhe uma ação da lista de ações com efeito desconhecido
 				if (unkown.size() != 0) {
@@ -61,13 +63,14 @@ public class Mind {
 					return intention;
 				}
 				// TODO se todas as ações são conhecidas, escolha uma ação que resulte em um
-				// estado
-				// ainda não explorado
+				// estado ainda não explorado
+				if(withEffect.size() != 0) {
 				Goal goal = new Goal("intrinsicMotivation",
 						"Random action. Unkow actions: " + unkown.size());
 				Intention intention = new Intention(
-						this.actionRepertoire.get(Configurations.random.nextInt(this.actionRepertoire.size())), goal);
-				return intention;
+						withEffect.get(Configurations.random.nextInt(withEffect.size())), goal);
+					return intention;
+				}else return null; //TODO impossible situation?
 
 			} else {
 				// choose new goal
