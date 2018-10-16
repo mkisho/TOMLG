@@ -1,5 +1,6 @@
 package tomlg.planner;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -81,12 +82,12 @@ public class BreathFirstStateSpaceSearch implements Planner {
 		this.nodes = new HashMap<>();
 	}
 
-	private void addNewNode(OOMDPState state) {
-		Node node = new Node(state, this.actions);
-		nodes.put(state, node);
+//	private void addNewNode(OOMDPState state) {
+//		Node node = new Node(state, this.actions);
+//		nodes.put(state, node);
 
-		System.out.println("Planner\nNew State Added");
-	}
+//		System.out.println("Planner\nNew State Added");
+//	}
 
 	/*
 	 * expande todos os nós possíveis. chamar antes de realizar uma busca
@@ -109,7 +110,7 @@ public class BreathFirstStateSpaceSearch implements Planner {
 						this.nodes.put(newState, newNode);
 						node.putChildren(action, newNode);
 					} else {
-						node.putChildren(action, node);
+						node.putChildren(action, null);
 					}
 				}
 			}
@@ -125,36 +126,47 @@ public class BreathFirstStateSpaceSearch implements Planner {
 		openPaths.add(initPath);
 		
 		while(!openPaths.isEmpty()) {
+			System.out.println(openPaths);
 			final Path path = openPaths.poll();
 			assert(path != null);
-			if(path is a goal) {
-				return path.getActions();
+			Action currentAction = path.actions.peek();
+			
+			if(currentAction!= null && currentAction.equals(goal.getAction())) { //path is a goal) {
+				return new ArrayList<>(path.getActions());
 			} else {
-				for(Node node: this.nodes.get(path.currentState).getChildrens()) {
+				for(Map.Entry<Action, Node> key: this.nodes.get(path.currentState).getChildrens().entrySet()) {
+					Node node = key.getValue();
+					if(node == null) {
+						if(goal.getAction() == null) {
+							path.actions.add(key.getKey());
+							return new ArrayList<>(path.getActions());
+						
+						} else continue;
+					}
 					Path currentPath = path.copy();
-					if(currentPath.alreadyVisited(node.getValue())) {
+					if(currentPath.alreadyVisited(node.getValue())) {//i,pede loops
 						System.out.println("Node already visited for path. Ceifando caminho");
 						continue;
 					}
-					currentPath.addNewState(node.getValue());
 					
-
+					currentPath.addNewState(node.getValue());
+					currentPath.actions.add(key.getKey());
 					
 					//check if state is already in some path
 					boolean addPath = true;
 					for(Path checkPath: openPaths) {
 						if(checkPath.alreadyVisited(node.getValue())) {
-							if(checkPath.length()>currentPath.length()) {
+							if(checkPath.length()<currentPath.length()) {
 								openPaths.remove(checkPath);
 								break;
-							}else {
+							}else if(checkPath.length()>currentPath.length()){
 								addPath = false;
 								System.out.println("Path: "+currentPath+" node added because\n"+checkPath+" is smaller");
 							}
 						}
 					}
 					if(addPath)
-						openPaths.add(path);
+						openPaths.add(currentPath);
 				}
 			}
 		}
@@ -168,13 +180,16 @@ public class BreathFirstStateSpaceSearch implements Planner {
 		assert (goal != null);
 
 		this.expandNodes(doormax);
+		if(this.nodes.get(initState) == null) {
+			this.nodes.put(initState, new Node(initState, this.actions));
+		}
 
 		return this.search(initState, goal);
 	}
 }
 
 class Path {
-	List<Action> actions;
+	Queue<Action> actions;
 	OOMDPState currentState;
 	List<OOMDPState> states;
 
@@ -187,7 +202,7 @@ class Path {
 	}
 
 	public Path() {
-		this.actions = new ArrayList<Action>();
+		this.actions = new ArrayDeque<>();
 		this.currentState = null;
 		this.states = new ArrayList<OOMDPState>();
 	}
@@ -199,7 +214,7 @@ class Path {
 
 	public Path copy() {
 		Path path = new Path();
-		path.actions = new ArrayList<Action>();
+		path.actions = new ArrayDeque<>();
 		path.actions.addAll(this.actions);
 
 		path.states = new ArrayList<>();
@@ -217,11 +232,18 @@ class Path {
 		this.currentState = currentState;
 	}
 
-	public List<Action> getActions() {
+	public Queue<Action> getActions() {
 		return actions;
 	}
 
 	public List<OOMDPState> getStates() {
 		return states;
 	}
+
+	@Override
+	public String toString() {
+		return "Path [actions=" + actions +"]";
+	}
+	
+	
 }

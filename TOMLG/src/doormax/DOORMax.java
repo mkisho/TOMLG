@@ -192,7 +192,7 @@ public class DOORMax {
 			if (resultEffects.get(action) == null)
 				resultStates.put(action, null);
 			else {
-				resultStates.put(action, this.applyAllEffectsInState(state0, resultEffects.get(action)));
+				resultStates.put(action, this.applyAllEffectsInState(state0.copy(), resultEffects.get(action)));
 			}
 		}
 

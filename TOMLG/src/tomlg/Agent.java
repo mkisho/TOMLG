@@ -38,7 +38,7 @@ public class Agent {
 		if(finalEpisode)//todo fix ?
 			return;
 		
-		Intention intention = this.mind.reasoning();
+		Intention intention = this.mind.reasoning(currentState);
 		assert (intention != null);
 
 		System.out.println("Reasoning >> " + intention + " cond: " + condition.toString());

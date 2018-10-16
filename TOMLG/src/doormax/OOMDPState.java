@@ -77,7 +77,46 @@ public class OOMDPState {
 		str += "]\n";
 		return str;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((objects == null) ? 0 : objects.hashCode());
+		
+		for(ObjectInstance instance: this.objects) {
+			result = instance.hashAllCode();
+		}
+		
+		result = prime * result + ((oomdp == null) ? 0 : oomdp.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OOMDPState other = (OOMDPState) obj;
+		if (objects == null) {
+			if (other.objects != null)
+				return false;
+		} else if (!objects.equals(other.objects))
+			return false;
+		if (oomdp == null) {
+			if (other.oomdp != null)
+				return false;
+		} else if (!oomdp.equals(other.oomdp))
+			return false;
+		for (int i=0; i< this.objects.size(); i++){
+			if(this.objects.get(i).equalsPlus(other.objects.get(i)));
+		}
+		return true;
+	}
 	
-	FIX equals and Hash
+	 
 
 }

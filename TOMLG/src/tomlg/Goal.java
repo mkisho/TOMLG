@@ -1,8 +1,17 @@
 package tomlg;
 
+import java.util.List;
+
+import doormax.structures.Action;
+import doormax.structures.Effect;
+
 public class Goal {
 	private String name;
 	private String motivation; //TODO FIX FIX FIX
+	
+	private Action action;
+	private List<Effect> effects;
+	
 	public String getName() {
 		return name;
 	}
@@ -30,5 +39,16 @@ public class Goal {
 		this.name = name;
 		this.motivation = motivation;
 	}
-	
+	public Action getAction() {
+		return action;
+	}
+	public void setAction(Action action) {
+		this.action = action;
+	}
+	public List<Effect> getEffects() {
+		return effects;
+	}
+	public void setEffects(List<Effect> effects) {
+		this.effects = effects;
+	}
 }

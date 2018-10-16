@@ -28,8 +28,9 @@ public class ArithmeticEffect extends EffectType {
 	}
 	
 	public void apply(Attribute att, Object value) {
+		value = ((Double) value).intValue();
 		if (att instanceof AttributeInteger) {
-			((AttributeInteger) att).setValue(((AttributeInteger) att).getValue() + (Integer) value);
+			((AttributeInteger) att).setValue(((AttributeInteger) att).getValue() + ((Integer) value));
 		} else if (att instanceof AttributeBoolean) {//TODO ???
 			((AttributeBoolean) att).setValue(((Integer) value) == 1 ? true : false);
 		} else

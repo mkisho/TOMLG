@@ -28,6 +28,7 @@ public class AssignmentEffect extends EffectType {
 	}
 
 	public void apply(Attribute att, Object value) {
+		value = ((Double) value).intValue();
 		if (att instanceof AttributeInteger) {
 			((AttributeInteger) att).setValue((Integer) value);
 		} else if (att instanceof AttributeBoolean) {

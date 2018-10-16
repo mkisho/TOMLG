@@ -1,4 +1,5 @@
 package doormax;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,7 +61,7 @@ public class ObjectInstance implements Comparable<ObjectInstance> {
 
 	@Override
 	public String toString() {
-		return "["+ id + " " + oclass.getName() + " attributes={" + attributes + "}";
+		return "[" + id + " " + oclass.getName() + " attributes={" + attributes + "}";
 	}
 
 	@Override
@@ -68,6 +69,7 @@ public class ObjectInstance implements Comparable<ObjectInstance> {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((id == null) ? 0 : attributes.hashCode());
 		return result;
 	}
 
@@ -94,12 +96,44 @@ public class ObjectInstance implements Comparable<ObjectInstance> {
 	}
 
 	public Attribute getAttributeValByName(String string) {
-		for(Attribute attribute: this.attributes) {
-			if(attribute.getName().equals(string))
+		for (Attribute attribute : this.attributes) {
+			if (attribute.getName().equals(string))
 				return attribute;
 		}
 		return null;
 	}
 
-	 
+	public int hashAllCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((id == null) ? 0 : attributes.hashCode());
+		for (Attribute att : attributes) {
+			result += att.getDoubleValue().intValue() ^ 2;
+		}
+		return result;
+	}
+
+	public boolean equalsPlus(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ObjectInstance other = (ObjectInstance) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		for (int index = 0; index < attributes.size(); index++) {
+			if (this.attributes.get(index).getDoubleValue() != other.attributes.get(index).getDoubleValue()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 }

@@ -1,9 +1,10 @@
 package tomlg;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.Queue;
 
 import doormax.DOORMax;
 import doormax.OOMDP;
@@ -11,6 +12,8 @@ import doormax.OOMDPState;
 import doormax.structures.Action;
 import doormax.structures.Effect;
 import taxi.Configurations;
+import tomlg.planner.BreathFirstStateSpaceSearch;
+import tomlg.planner.Planner;
 
 public class Mind {
 	private DOORMax agentLearner;
@@ -18,10 +21,11 @@ public class Mind {
 
 	private List<Goal> goals;
 	private Goal choosenGoal;
-	private List<Intention> intentions;
+	private Queue<Intention> intentions;
 	private OOMDP oomdp;
 	private List<Action> actionRepertoire;
 	private List<Intention> intentionsHistory;
+	private Planner planner;
 
 	public Mind(String agentName, OOMDP oomdp) {
 		this.oomdp = oomdp;
@@ -30,8 +34,9 @@ public class Mind {
 		this.actionRepertoire = this.oomdp.getActions();
 		this.goals = new ArrayList<Goal>();
 		this.choosenGoal = null;
-		this.intentions = new ArrayList<Intention>();
+		this.intentions = new LinkedList<>();
 		this.intentionsHistory = new ArrayList<Intention>();
+		this.planner = new BreathFirstStateSpaceSearch(this.actionRepertoire);
 	}
 
 	public void learn(OOMDPState currentState) {
@@ -39,38 +44,52 @@ public class Mind {
 				: intentionsHistory.get(intentionsHistory.size() - 1).getAction()));
 	}
 
-	public Intention reasoning() {
+	public Intention reasoning(OOMDPState currentState) {
 
 		if (this.choosenGoal == null) {
 			if (this.goals.size() == 0) {
+				if (this.intentions.size() > 0) {
+					return intentions.remove();
+				}
 
 				// primeiro verifica quais ações o agente ainda não sabe os efeitos
 				Map<Action, List<Effect>> actionPrediction = this.agentLearner.predict(null, actionRepertoire);
-				List<Action> unkown = new ArrayList<Action>();
+				List<Action> unknown = new ArrayList<Action>();
 				List<Action> withEffect = new ArrayList<Action>();
 				for (Action action : actionPrediction.keySet()) {
 					if (actionPrediction.get(action) == null)
-						unkown.add(action);
-					else if(actionPrediction.get(action).size() != 0) withEffect.add(action);
+						unknown.add(action);
+					else if (actionPrediction.get(action).size() != 0)
+						withEffect.add(action);
 				}
 				// escolhe uma ação da lista de ações com efeito desconhecido
-				if (unkown.size() != 0) {
-					int actionIndex = Configurations.random.nextInt(unkown.size());
-					Action action = unkown.get(actionIndex);
+				if (unknown.size() != 0) {
+					int actionIndex = Configurations.random.nextInt(unknown.size());
+					Action action = unknown.get(actionIndex);
 					Goal goal = new Goal("intrinsicMotivation",
-							"Pursuing unkown effect action. Unkow actions: " + unkown.size());
+							"Pursuing unknown effect action. Unknown actions: " + unknown.size());
 					Intention intention = new Intention(action, goal);
 					return intention;
 				}
 				// TODO se todas as ações são conhecidas, escolha uma ação que resulte em um
 				// estado ainda não explorado
-				if(withEffect.size() != 0) {
-				Goal goal = new Goal("intrinsicMotivation",
-						"Random action. Unkow actions: " + unkown.size());
-				Intention intention = new Intention(
-						withEffect.get(Configurations.random.nextInt(withEffect.size())), goal);
-					return intention;
-				}else return null; //TODO impossible situation?
+				if (withEffect.size() != 0) {
+
+					Goal goal = new Goal("intrinsicMotivation", null);
+					List<Action> actionPlan = planner.planForGoal(goal, currentState, agentLearner);
+					if (actionPlan == null) {
+						return null;
+					}
+					goal.setMotivation("Planned actions: " + actionPlan.size() + " Plan: " + actionPlan);
+
+					for (Action e : actionPlan) {
+						this.intentions.add(new Intention(e, goal));
+					}
+					// Intention intention = new Intention(
+					// withEffect.get(Configurations.random.nextInt(withEffect.size())), goal);
+					return intentions.remove();
+				} else
+					return null; // TODO impossible situation?
 
 			} else {
 				// choose new goal
