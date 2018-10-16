@@ -149,4 +149,10 @@ public class Effect {
 	public void apply(ObjectInstance objInstance) {
 		this.type.apply(objInstance.getAttributeValByName(this.attribute.getName()), this.value);
 	}
+
+	public void apply(OOMDPState resultState) {
+		for(ObjectInstance instance:resultState.getObjectsOfClass(this.objClass.getName())) {
+			this.apply(instance);
+		}
+	}
 }

@@ -77,5 +77,7 @@ public class OOMDPState {
 		str += "]\n";
 		return str;
 	}
+	
+	FIX equals and Hash
 
 }
