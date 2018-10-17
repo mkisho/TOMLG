@@ -130,7 +130,7 @@ public class ObjectInstance implements Comparable<ObjectInstance> {
 			return false;
 		for (int index = 0; index < attributes.size(); index++) {
 			assert(this.attributes.get(index).getName().equals(other.attributes.get(index).getName()));
-			if ((this.attributes.get(index).getDoubleValue() - other.attributes.get(index).getDoubleValue())>0.0000001) {
+			if (Math.abs(this.attributes.get(index).getDoubleValue() - other.attributes.get(index).getDoubleValue())>0.0000001) {
 				return false;
 			}
 		}

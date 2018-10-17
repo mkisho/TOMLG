@@ -4,11 +4,14 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 
 import doormax.DOORMax;
 import doormax.OOMDPState;
@@ -103,11 +106,11 @@ public class BreathFirstStateSpaceSearch implements Planner {
 		nodesToExpand.addAll(this.nodes.values());
 		do {
 			countExpanded = 0;
-			System.out.println("Expanding nodes>> total: "+countTotalExpanded);
+			System.out.println("Expanding nodes>> total: " + countTotalExpanded);
 
-			while(nodesToExpand.size() > 0) {
+			while (nodesToExpand.size() > 0) {
 				Node node = nodesToExpand.poll();
-				
+
 				Map<Action, OOMDPState> predictions = doormax.predictOOMDPStates(node.getValue(),
 						node.getUnkownActions());
 				for (Action action : predictions.keySet()) {
@@ -116,7 +119,7 @@ public class BreathFirstStateSpaceSearch implements Planner {
 					if (newState == null) {
 						countUnkown++;
 					} else {
-						if (this.nodes.get(newState) == null && !node.getValue().equals(newState)) {
+						if (!this.nodes.containsKey(newState) && !node.getValue().equals(newState)) {
 							countExpanded++;
 							Node newNode = new Node(newState, this.actions);
 							this.nodes.put(newState, newNode);
@@ -124,7 +127,7 @@ public class BreathFirstStateSpaceSearch implements Planner {
 							nodesToExpand.add(newNode);
 						} else {
 							node.putChildren(action, node);
-							if(node.getValue().equals(newState))
+							if (!node.getValue().equals(newState))
 								node.getChildrens().remove(action);
 						}
 					}
@@ -135,12 +138,70 @@ public class BreathFirstStateSpaceSearch implements Planner {
 		System.out.println(">> " + countTotalExpanded + " nodes expanded " + " nodes unkown: " + countUnkown);
 	}
 
+	/**private void UniformCostSearch(Path source, Goal goal) {
+
+//		source.pathCost = 0;
+		PriorityQueue<Path> queue = new PriorityQueue<Path>(20, new Comparator<Path>() {
+			// override compare method
+			public int compare(Path i, Path j) {
+				if (i.pathCost() > j.pathCost()) {
+					return 1;
+				} else if (i.pathCost() < j.pathCost()) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+		});
+
+		queue.add(source);
+		Set<Node> explored = new HashSet<Node>();
+		boolean found = false;
+
+		// while frontier is not empty
+		do {
+
+			Path current = queue.poll();
+			explored.add(current);
+
+			if (current.getCurrentState() == null) {
+				found = true;
+			}
+
+			for (Node e : this.nodes.get(current.currentState).getChildrens()) {
+				Node child = e.target;
+				double cost = e.cost;
+				child.pathCost = current.pathCost + cost;
+
+				if (!explored.contains(child) && !queue.contains(child)) {
+
+					child.parent = current;
+					queue.add(child);
+
+					System.out.println(child);
+					System.out.println(queue);
+					System.out.println();
+
+				} else if ((queue.contains(child)) && (child.pathCost > current.pathCost)) {
+					child.parent = current;
+
+					// the next two calls decrease the key of the node in the queue
+					queue.remove(child);
+					queue.add(child);
+				}
+
+			}
+		} while (!queue.isEmpty());
+	}*/
+
 	private List<Action> search(OOMDPState initState, final Goal goal) {
 		Path initPath = new Path();
 		initPath.currentState = initState;
+		initPath.addNewState(initState);
 
 		Queue<Path> openPaths = new LinkedList<>();
 		openPaths.add(initPath);
+		List<Path> possiblePath = new ArrayList<Path>();
 
 		while (!openPaths.isEmpty()) {
 			System.out.println(openPaths);
@@ -167,7 +228,8 @@ public class BreathFirstStateSpaceSearch implements Planner {
 					Path currentPath = path.copy();
 					if (currentPath.alreadyVisited(node.getValue())) {// i,pede loops
 						System.out.println("Node already visited for path. Ceifando caminho");
-						openPaths.add(path);
+//						openPaths.add(path);
+						possiblePath.add(path);
 						continue;
 					}
 
@@ -185,7 +247,7 @@ public class BreathFirstStateSpaceSearch implements Planner {
 								addPath = false;
 								System.out.println(
 										"Path: " + currentPath + " node added because\n" + checkPath + " is smaller");
-							}else if(checkPath.length() == currentPath.length())
+							} else if (checkPath.length() == currentPath.length())
 								addPath = false;
 						}
 					}
@@ -194,7 +256,9 @@ public class BreathFirstStateSpaceSearch implements Planner {
 				}
 			}
 		}
-		return null;
+		List<Action> result = new ArrayList<Action>();
+		result.addAll(possiblePath.get(0).getActions());
+		return result;
 	}
 
 	public List<Action> planForGoal(final Goal goal, final OOMDPState initState, final DOORMax doormax) {
@@ -208,7 +272,7 @@ public class BreathFirstStateSpaceSearch implements Planner {
 		}
 
 		this.expandNodes(doormax);
-		
+
 		return this.search(initState, goal);
 	}
 }
@@ -219,6 +283,10 @@ class Path {
 	List<OOMDPState> states;
 
 	public int length() {
+		return this.actions.size();
+	}
+
+	public int pathCost() {
 		return this.actions.size();
 	}
 
