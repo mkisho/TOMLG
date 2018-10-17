@@ -107,10 +107,11 @@ public class ObjectInstance implements Comparable<ObjectInstance> {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((id == null) ? 0 : attributes.hashCode());
+//		result = prime * result + ((id == null) ? 0 : attributes.hashCode());
 		for (Attribute att : attributes) {
-			result += att.getDoubleValue().intValue() ^ 2;
+			result += att.getDoubleValue().intValue() + att.getName().hashCode()+att.getDomain().hashCode();
 		}
+		result *= prime;
 		return result;
 	}
 
@@ -128,7 +129,8 @@ public class ObjectInstance implements Comparable<ObjectInstance> {
 		} else if (!id.equals(other.id))
 			return false;
 		for (int index = 0; index < attributes.size(); index++) {
-			if (this.attributes.get(index).getDoubleValue() != other.attributes.get(index).getDoubleValue()) {
+			assert(this.attributes.get(index).getName().equals(other.attributes.get(index).getName()));
+			if ((this.attributes.get(index).getDoubleValue() - other.attributes.get(index).getDoubleValue())>0.0000001) {
 				return false;
 			}
 		}

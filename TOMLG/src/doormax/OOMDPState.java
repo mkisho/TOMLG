@@ -12,19 +12,19 @@ public class OOMDPState {
 		this.oomdp = oomdp;
 		this.objects = objects;
 	}
-	
+
 	public OOMDPState(OOMDP oomdp) {
 		this(oomdp, new ArrayList<ObjectInstance>());
 	}
 
 	public OOMDPState copy() {
 		List<ObjectInstance> objsCopy = new ArrayList<ObjectInstance>();
-		for(ObjectInstance instance: this.objects) {
+		for (ObjectInstance instance : this.objects) {
 			objsCopy.add(instance.copy());
 		}
 		return new OOMDPState(oomdp, objsCopy);
 	}
-	
+
 	/**
 	 * Returns sorted objects list by id
 	 * 
@@ -56,7 +56,7 @@ public class OOMDPState {
 				objs.add(o);
 		}
 		return objs;
-	} 
+	}
 
 	public ObjectInstance getObjById(String id) {
 		for (ObjectInstance o : this.objects) {
@@ -65,15 +65,15 @@ public class OOMDPState {
 		}
 		return null;
 	}
-	
+
 	public OOMDP getOomdp() {
 		return oomdp;
 	}
 
 	public String toString() {
 		String str = "State [\n" + this.getObjectsOfClass("taxi").toString();
-		str +="\n" + this.getObjectsOfClass("passenger").toString();
-		str +="\n" + this.getObjectsOfClass("goalLocation").toString();
+		str += "\n" + this.getObjectsOfClass("passenger").toString();
+		str += "\n" + this.getObjectsOfClass("goalLocation").toString();
 		str += "]\n";
 		return str;
 	}
@@ -83,11 +83,11 @@ public class OOMDPState {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((objects == null) ? 0 : objects.hashCode());
-		
-		for(ObjectInstance instance: this.objects) {
+
+		for (ObjectInstance instance : this.objects) {
 			result = instance.hashAllCode();
 		}
-		
+
 		result = prime * result + ((oomdp == null) ? 0 : oomdp.hashCode());
 		return result;
 	}
@@ -111,12 +111,14 @@ public class OOMDPState {
 				return false;
 		} else if (!oomdp.equals(other.oomdp))
 			return false;
-		for (int i=0; i< this.objects.size(); i++){
-			if(this.objects.get(i).equalsPlus(other.objects.get(i)));
+		List<ObjectInstance> myList = this.getObjects();
+		List<ObjectInstance> otherList = other.getObjects();
+		for(int i=0;i< myList.size();i++) {
+			assert(myList.get(i).getId().equals(otherList.get(i).getId()));
+			if (!myList.get(i).equalsPlus(otherList.get(i)))
+				return false;
 		}
 		return true;
 	}
-	
-	 
 
 }
