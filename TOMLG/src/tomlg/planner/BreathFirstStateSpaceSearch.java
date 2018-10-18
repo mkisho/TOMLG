@@ -34,6 +34,7 @@ class Node {
 				result.add(action);
 		}
 		return result;
+
 	}
 
 	public void putChildren(Action action, Node newNode) {
@@ -84,12 +85,12 @@ public class BreathFirstStateSpaceSearch implements Planner {
 		this.nodes = new HashMap<>();
 	}
 
-//	private void addNewNode(OOMDPState state) {
-//		Node node = new Node(state, this.actions);
-//		nodes.put(state, node);
+	// private void addNewNode(OOMDPState state) {
+	// Node node = new Node(state, this.actions);
+	// nodes.put(state, node);
 
-//		System.out.println("Planner\nNew State Added");
-//	}
+	// System.out.println("Planner\nNew State Added");
+	// }
 
 	/*
 	 * expande todos os nós possíveis. chamar antes de realizar uma busca
@@ -103,11 +104,11 @@ public class BreathFirstStateSpaceSearch implements Planner {
 		nodesToExpand.addAll(this.nodes.values());
 		do {
 			countExpanded = 0;
-			System.out.println("Expanding nodes>> total: "+countTotalExpanded);
+			System.out.println("Expanding nodes>> total: " + countTotalExpanded);
 
-			while(nodesToExpand.size() > 0) {
+			while (nodesToExpand.size() > 0) {
 				Node node = nodesToExpand.poll();
-				
+
 				Map<Action, OOMDPState> predictions = doormax.predictOOMDPStates(node.getValue(),
 						node.getUnkownActions());
 				for (Action action : predictions.keySet()) {
@@ -124,8 +125,8 @@ public class BreathFirstStateSpaceSearch implements Planner {
 							nodesToExpand.add(newNode);
 						} else {
 							node.putChildren(action, node);
-							if(node.getValue().equals(newState))
-								node.getChildrens().remove(action);
+							// if(node.getValue().equals(newState))
+							// node.getChildrens().remove(action);
 						}
 					}
 				}
@@ -142,6 +143,8 @@ public class BreathFirstStateSpaceSearch implements Planner {
 		Queue<Path> openPaths = new LinkedList<>();
 		openPaths.add(initPath);
 
+		System.out.println("State>> " + initState);
+
 		while (!openPaths.isEmpty()) {
 			System.out.println(openPaths);
 			final Path path = openPaths.poll();
@@ -154,7 +157,10 @@ public class BreathFirstStateSpaceSearch implements Planner {
 				return result;
 			} else {
 				for (Map.Entry<Action, Node> key : this.nodes.get(path.currentState).getChildrens().entrySet()) {
+
 					Node node = key.getValue();
+					System.out.println(">>>Visiting Node " + node + " with action" + key.getKey());
+
 					if (node == null) {
 						if (goal.getAction() == null) {
 							path.actions.add(key.getKey());
@@ -164,10 +170,15 @@ public class BreathFirstStateSpaceSearch implements Planner {
 						} else
 							continue;
 					}
+					System.out.println(">>>Childrens Nodes" + node.getChildrens() + " with action" + key.getKey());
+
 					Path currentPath = path.copy();
 					if (currentPath.alreadyVisited(node.getValue())) {// i,pede loops
-						System.out.println("Node already visited for path. Ceifando caminho");
-						openPaths.add(path);
+						System.out.println("Node " + node.getValue() + " already visited for path" + currentPath
+								+ " Ceifando caminho");
+						System.out.println(key.getKey());
+
+						// openPaths.add(path);
 						continue;
 					}
 
@@ -178,14 +189,14 @@ public class BreathFirstStateSpaceSearch implements Planner {
 					boolean addPath = true;
 					for (Path checkPath : openPaths) {
 						if (checkPath.alreadyVisited(node.getValue())) {
-							if (checkPath.length() < currentPath.length()) {
+							if (checkPath.length() > currentPath.length()) {
 								openPaths.remove(checkPath);
 								break;
-							} else if (checkPath.length() > currentPath.length()) {
+							} else if (checkPath.length() < currentPath.length()) {
 								addPath = false;
-								System.out.println(
-										"Path: " + currentPath + " node added because\n" + checkPath + " is smaller");
-							}else if(checkPath.length() == currentPath.length())
+								System.out.println("Path: " + currentPath + " not node added because\n" + checkPath
+										+ " is smaller");
+							} else if (checkPath.length() == currentPath.length())
 								addPath = false;
 						}
 					}
@@ -208,7 +219,7 @@ public class BreathFirstStateSpaceSearch implements Planner {
 		}
 
 		this.expandNodes(doormax);
-		
+
 		return this.search(initState, goal);
 	}
 }

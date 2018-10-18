@@ -110,7 +110,7 @@ public class Mind {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Mind [agentLearner=");
 		builder.append(agentLearner);
-		builder.append(", agentName=");
+		builder.append("\n, agentName=");
 		builder.append(agentName);
 		builder.append("]");
 		return builder.toString();

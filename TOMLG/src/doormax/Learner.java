@@ -40,7 +40,7 @@ public class Learner {
 
 	@Override
 	public String toString() {
-		return "Learner [attribute=" + attribute + ", objClass=" + objClass + ",\n actionLearner="
+		return "Learner [attribute=" + attribute + ", objClass=" + objClass + ",\n actionLearner=>>>  "
 				+ actionLearner.values();
 	}
 

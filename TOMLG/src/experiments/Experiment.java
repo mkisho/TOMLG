@@ -80,8 +80,7 @@ public class Experiment {
 	}
 
 	private void runExperiment() {
-		System.out.println(this.environment.getState());
-
+		System.out.println(this.environment.getState());		
 		int step = 0;
 		boolean episodeEnded = false;
 		while (step <= this.maxSteps && !episodeEnded) {
@@ -89,7 +88,9 @@ public class Experiment {
 			this.agent.step(episodeEnded);
 			System.out.println(this.environment.getState());
 			episodeEnded = ((TaxiEnvironment2)this.environment.getEnvironmnetSimulator()).isEpisodeEnded();
+			System.out.println(this.agent.getMind());
 		}
+		this.agent.step(episodeEnded);
 		System.out.println(this.agent.getMind());
 	}
 

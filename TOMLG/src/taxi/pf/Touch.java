@@ -64,9 +64,9 @@ public class Touch extends doormax.PropositionalFunction {
 				if (!(between(bottomOfWall, topOfWall, taxiY)))
 					continue;
 
-				if (this.direction.equals(Configurations.DIRECTION_WEST) && ((taxiX + 1 == wallOffSet))) {
+				if (this.direction.equals(Configurations.DIRECTION_WEST) && ((taxiX  == wallOffSet))) {
 					return true;
-				} else if (this.direction.equals(Configurations.DIRECTION_EAST) && (taxiX == wallOffSet)) {
+				} else if (this.direction.equals(Configurations.DIRECTION_EAST) && (taxiX + 1 == wallOffSet)) {
 					return true;
 				}
 			}

@@ -130,7 +130,7 @@ public class PFLearner {
 	@Override
 	public String toString() {
 		return "PFLearner [" + objClass.getName() + ", attribute=" + attribute.getName() + ", action=" + action
-				+ "predictions=" + predictions + ", failureConditions=" + failureConditions + ", contraditions="
+				+ "\n>>>>>>>>>>>> predictions=" + predictions + ", failureConditions=" + failureConditions + ", contraditions="
 				+ contraditions + "]";
 	}
 
