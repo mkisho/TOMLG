@@ -80,10 +80,19 @@ public class PFLearner {
 					if (checkSameTypeExists(this.predictions, hypEffect)) {
 //						Prediction prediction = new Prediction(this.action, condition, hypEffect);
 //						this.contraditions.add(prediction);
-						// Rule out predictions if more than k related predictions
+						// Rule out predictions if more than k related prediction
 						List<Prediction> relatedPrediction = getRelatedPredictions(hypEffect);
+						assert(relatedPrediction.size() > 0);
 						this.predictions.removeAll(relatedPrediction);
-						this.contraditions.addAll(relatedPrediction);
+						
+						for(Prediction pred:relatedPrediction) {
+							System.out.println("Ading pred to >>>>>"+pred);
+
+							this.contraditions.add(pred);
+						
+						}
+						assert(this.contraditions.size() > 0);
+//						System.exit(-1);
 						if (relatedPrediction.size() > K) {
 							this.contraditions.clear();
 							System.out.println("Estouro");

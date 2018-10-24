@@ -119,11 +119,13 @@ public class Effect {
 	 * isso, corrigir depois
 	 */
 	public boolean contradicts(Effect e, OOMDPState state) {
-		if (!(this.objClass.equals(e.getObjClass().getName()) && this.attribute.equals(e.getAttribute())))
+		if (!(this.objClass.getName().equals(e.getObjClass().getName()) && this.attribute.equals(e.getAttribute()))) {
+			System.exit(-1);	
 			return false;
+		}
 
 		if (this.type.equals(e.type)) {// do mesmo tipo mas com valores diferentes
-			if (this.getValue() == e.getValue())
+			if (Math.abs((this.getValue() - e.getValue())) > 0.001)
 				return false;
 			else
 				return true;
@@ -137,8 +139,8 @@ public class Effect {
 			this.apply(instance1);
 			e.apply(instance2);
 
-			if (instance1.getAttributeValByName(this.attribute.getName()).getDoubleValue() != instance2
-					.getAttributeValByName(this.attribute.getName()).getDoubleValue()) {
+			if (Math.abs(instance1.getAttributeValByName(this.attribute.getName()).getDoubleValue()
+					- instance2.getAttributeValByName(this.attribute.getName()).getDoubleValue()) > 0.001) {
 				return true;
 			}
 
@@ -151,7 +153,7 @@ public class Effect {
 	}
 
 	public void apply(OOMDPState resultState) {
-		for(ObjectInstance instance:resultState.getObjectsOfClass(this.objClass.getName())) {
+		for (ObjectInstance instance : resultState.getObjectsOfClass(this.objClass.getName())) {
 			this.apply(instance);
 		}
 	}

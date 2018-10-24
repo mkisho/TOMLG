@@ -16,6 +16,7 @@ import java.util.Set;
 import doormax.DOORMax;
 import doormax.OOMDPState;
 import doormax.structures.Action;
+import doormax.structures.Effect;
 import tomlg.Goal;
 
 class Node {
@@ -111,12 +112,25 @@ public class BreathFirstStateSpaceSearch implements Planner {
 
 			while (nodesToExpand.size() > 0) {
 				Node node = nodesToExpand.poll();
+//				System.out.println("Expanded node:" +node.getValue());
+////////////////////////////// DEBUG
+				System.out.println("\nPredictions for state>>>\n"+node.getValue());
 
+				
+				Map<Action, List<Effect>> predict = doormax.predict(node.getValue(), this.actions);
+				
+				System.out.println(predict);
+
+////////////////////////////////// 				
 				Map<Action, OOMDPState> predictions = doormax.predictOOMDPStates(node.getValue(),
 						node.getUnkownActions());
+				
+				
+				
 				for (Action action : predictions.keySet()) {
+					
 					OOMDPState newState = predictions.get(action);
-
+					
 					if (newState == null) {
 						countUnkown++;
 					} else {
@@ -127,17 +141,18 @@ public class BreathFirstStateSpaceSearch implements Planner {
 							node.putChildren(action, newNode);
 							nodesToExpand.add(newNode);
 						} else {
-							node.putChildren(action, node);
-<<<<<<< HEAD
-							// if(node.getValue().equals(newState))
-							// node.getChildrens().remove(action);
-=======
-							if (!node.getValue().equals(newState))
+//							if (!node.getValue().equals(newState))
+//								node.putChildren(action, node);
+							if (this.nodes.containsKey(newState))
+								node.putChildren(action, this.nodes.get(newState));
+							if (node.getValue().equals(newState)) {
 								node.getChildrens().remove(action);
->>>>>>> branch 'master' of https://github.com/mkisho/TOMLG
+							}
 						}
 					}
 				}
+//				System.out.println("\nEND OF Predictions for state>>>\n");
+				
 			}
 			countTotalExpanded += countExpanded;
 		} while (countExpanded != 0);
@@ -213,7 +228,8 @@ public class BreathFirstStateSpaceSearch implements Planner {
 
 		while (!openPaths.isEmpty()) {
 			System.out.println(openPaths);
-			final Path path = openPaths.poll();
+			//final Path path = openPaths.poll();
+			 Path path = openPaths.poll();
 			assert (path != null);
 			Action currentAction = path.actions.peek();
 
@@ -222,8 +238,9 @@ public class BreathFirstStateSpaceSearch implements Planner {
 				result.addAll(path.getActions());
 				return result;
 			} else {
-				for (Map.Entry<Action, Node> key : this.nodes.get(path.currentState).getChildrens().entrySet()) {
-
+				Set<Map.Entry<Action, Node>> a = this.nodes.get(path.currentState).getChildrens().entrySet();
+//				for (Map.Entry<Action, Node> key : this.nodes.get(path.currentState).getChildrens().entrySet()) {
+				for (Map.Entry<Action, Node> key : a) {
 					Node node = key.getValue();
 					System.out.println(">>>Visiting Node " + node + " with action" + key.getKey());
 
@@ -240,17 +257,11 @@ public class BreathFirstStateSpaceSearch implements Planner {
 
 					Path currentPath = path.copy();
 					if (currentPath.alreadyVisited(node.getValue())) {// i,pede loops
-<<<<<<< HEAD
 						System.out.println("Node " + node.getValue() + " already visited for path" + currentPath
 								+ " Ceifando caminho");
 						System.out.println(key.getKey());
-
-						// openPaths.add(path);
-=======
-						System.out.println("Node already visited for path. Ceifando caminho");
 //						openPaths.add(path);
 						possiblePath.add(path);
->>>>>>> branch 'master' of https://github.com/mkisho/TOMLG
 						continue;
 					}
 
@@ -266,13 +277,9 @@ public class BreathFirstStateSpaceSearch implements Planner {
 								break;
 							} else if (checkPath.length() < currentPath.length()) {
 								addPath = false;
-<<<<<<< HEAD
 								System.out.println("Path: " + currentPath + " not node added because\n" + checkPath
 										+ " is smaller");
-=======
-								System.out.println(
-										"Path: " + currentPath + " node added because\n" + checkPath + " is smaller");
->>>>>>> branch 'master' of https://github.com/mkisho/TOMLG
+
 							} else if (checkPath.length() == currentPath.length())
 								addPath = false;
 						}
