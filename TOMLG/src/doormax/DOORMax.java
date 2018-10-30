@@ -71,7 +71,7 @@ class HashLearnerKey implements Serializable {
 
 }
 
-public class DOORMax implements Serializable{
+public class DOORMax implements Serializable {
 	private static final long serialVersionUID = 7759131257535126841L;
 	private transient OOMDPState oldState;
 	private OOMDP oomdp;
@@ -138,8 +138,9 @@ public class DOORMax implements Serializable{
 		this.oldState = currentState;
 	}
 
-	
 	public List<Effect> predict(OOMDPState state0, Action action) {
+		if (action == null)
+			return null;
 		if (state0 == null)
 			state0 = this.oldState;
 
@@ -155,12 +156,16 @@ public class DOORMax implements Serializable{
 			} else
 				totalPool.addAll(currentPool);
 		}
+		if (totalPool == null) {
+			return null;
+		}
 		predicted.addAll(totalPool);
-
 		return predicted;
 	}
+
 	/**
 	 * TODO Refatorar o método para usar o método de cima
+	 * 
 	 * @param state0
 	 * @param actions
 	 * @return
@@ -209,6 +214,7 @@ public class DOORMax implements Serializable{
 
 	/**
 	 * Retorna OOMDPStates preditos aplicando actions a state0.
+	 * 
 	 * @param state0
 	 * @param actions
 	 * @return
@@ -248,14 +254,15 @@ public class DOORMax implements Serializable{
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("DOORMax [learners=");
-		for(Learner l : learners.values())
-			builder.append(">>"+l+"\n\n");
+		for (Learner l : learners.values())
+			builder.append(">>" + l + "\n\n");
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 	/**
 	 * The last state visited by the algorithm
+	 * 
 	 * @return
 	 */
 	public OOMDPState getOldState() {

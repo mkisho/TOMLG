@@ -64,6 +64,6 @@ public final class Configurations {
 
 //////////////////////////////////
 	public static final Random random = new Random(0);
-	public static final int MAX_GOALS_GENERATED = 1;
+	public static final int MAX_GOALS_GENERATED = 2;
 	public static final String INTRINSIC_MOTIVATION_GOAL_LABEL = "IntrinsicMotivation";
 }

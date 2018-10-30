@@ -184,8 +184,11 @@ public class GoalLearner {
 			double score = e.score(historyWithEffects.getActionHistory().size());
 			System.out.println(score + " - " + e.getAction() + " " + e.getEffects());
 		}
+//		if(actionEffectsCounter.size()==null)
 
 		List<Goal> generatedGoals = new ArrayList<Goal>();
+		
+		maxGoals = (actionEffectsCounter.size()>maxGoals? maxGoals:actionEffectsCounter.size());
 		for (int i = 1; i <= maxGoals; i++) {
 			ActionEffectKey key = actionEffectsCounter.get(actionEffectsCounter.size() - i);
 
