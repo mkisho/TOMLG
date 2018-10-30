@@ -85,7 +85,7 @@ public class OOMDPState {
 		result = prime * result + ((objects == null) ? 0 : objects.hashCode());
 
 		for (ObjectInstance instance : this.objects) {
-			result = instance.hashAllCode();
+			result += prime * instance.hashAllCode();
 		}
 
 		result = prime * result + ((oomdp == null) ? 0 : oomdp.hashCode());
@@ -104,8 +104,8 @@ public class OOMDPState {
 		if (objects == null) {
 			if (other.objects != null)
 				return false;
-		} else if (!objects.equals(other.objects))
-			return false;
+		} // else if (!objects.equals(other.objects))
+			// return false;
 		if (oomdp == null) {
 			if (other.oomdp != null)
 				return false;
@@ -113,8 +113,8 @@ public class OOMDPState {
 			return false;
 		List<ObjectInstance> myList = this.getObjects();
 		List<ObjectInstance> otherList = other.getObjects();
-		for(int i=0;i< myList.size();i++) {
-			assert(myList.get(i).getId().equals(otherList.get(i).getId()));
+		for (int i = 0; i < myList.size(); i++) {
+			assert (myList.get(i).getId().equals(otherList.get(i).getId()));
 			if (!myList.get(i).equalsPlus(otherList.get(i)))
 				return false;
 		}

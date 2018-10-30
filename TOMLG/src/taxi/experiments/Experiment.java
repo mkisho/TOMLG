@@ -112,8 +112,8 @@ public class Experiment {
 			args[1] = "src/Environment01.state";
 			args[2] = "experiment01.xml";
 			args[3] = "100000";
-			args[4] = "thehopeislost";
-			args[5] = "gogopowerranger";
+			args[4] = "thehopeislost1";
+			args[5] = "thehopeislost";
 		}
 		System.out.println(Arrays.toString(args));
 		if (args.length < 4) {

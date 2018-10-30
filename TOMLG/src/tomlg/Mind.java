@@ -67,9 +67,29 @@ public class Mind implements Serializable {
 	}
 
 	public Intention reasoning(OOMDPState currentState) {
-
 		if (this.choosenGoal == null) {
-			if (this.goals.size() == 0) {
+			if (!this.goals.isEmpty()) {
+				// TODO ESSA PARTE É BEM IMPORTANTE, IMPLEMENTA-LA IGUAL O MODELO
+				for (Goal goal : this.goals) {
+					List<Action> actionPlan = planner.planForGoal(goal, currentState, agentLearner);
+					if (actionPlan == null) {
+						continue;
+					}
+					for (Action e : actionPlan) {
+						this.intentions.add(new Intention(e, goal));
+					}
+					// Intention intention = new Intention(
+					// withEffect.get(Configurations.random.nextInt(withEffect.size())), goal);
+					System.out.println("Plan Generated for Goal: "+this.intentions.size());
+					this.choosenGoal = goal;
+					return intentions.remove();
+					// choose new goal
+				}
+				System.out.println("No plan for goals");
+			} else {
+
+				// if (this.goals.size() == 0)
+
 				if (this.intentions.size() > 0) {
 					return intentions.remove();
 				}
@@ -110,32 +130,25 @@ public class Mind implements Serializable {
 					// Intention intention = new Intention(
 					// withEffect.get(Configurations.random.nextInt(withEffect.size())), goal);
 					return intentions.remove();
-				} else
+				} else {
+					assert (true == false);
 					return null; // TODO impossible situation?
 
-			} else {
-				// TODO ESSA PARTE É BEM IMPORTANTE, IMPLEMENTA-LA IGUAL O MODELO
-				Goal goal = this.goals.get(0);
-				List<Action> actionPlan = planner.planForGoal(goal, currentState, agentLearner);
-				if (actionPlan == null) {
-					return null;
 				}
-				for (Action e : actionPlan) {
-					this.intentions.add(new Intention(e, goal));
-				}
-				// Intention intention = new Intention(
-				// withEffect.get(Configurations.random.nextInt(withEffect.size())), goal);
-				return intentions.remove();
-				// choose new goal
 			}
 		} else {
 			// TODO IMPLEMENTAR AQUI IGUAL O MODELO
 			// Intention intention = new Intention(new Action("taxiMoveNorth"), null);
 			// EXECUTAR PLANO PARA O CHOOSEN GOAL
-			
-			return null;
-			// return intention;
+			if (intentions.isEmpty()) {
+				choosenGoal = null;
+			} else {
+				return intentions.remove();
+			}
 		}
+
+		System.exit(-1);
+		return null;
 	}
 
 	public void addIntentionToHistory(Intention intention) {

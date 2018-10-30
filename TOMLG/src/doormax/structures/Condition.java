@@ -9,7 +9,7 @@ import doormax.PropositionalFunction;
 public class Condition implements Serializable{
 	private static final long serialVersionUID = 3100363735838894243L;
 	
-	private transient PropositionalFunction[] pfIndex;
+	private PropositionalFunction[] pfIndex;
 	private char[] eval;
 
 	public Condition(PropositionalFunction[] pfIndex) {
