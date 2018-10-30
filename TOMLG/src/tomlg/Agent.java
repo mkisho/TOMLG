@@ -35,9 +35,11 @@ public class Agent {
 
 		this.mind.learn(currentState);
 
-		if(finalEpisode)//todo fix ?
+		if (finalEpisode) {// TODO fix this
+			this.mind.saveHistory(); // TODO Remover na versão final
 			return;
-		
+		}
+
 		Intention intention = this.mind.reasoning(currentState);
 		assert (intention != null);
 

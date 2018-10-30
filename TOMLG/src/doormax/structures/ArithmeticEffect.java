@@ -5,6 +5,7 @@ import doormax.structures.attribute.AttributeBoolean;
 import doormax.structures.attribute.AttributeInteger;
 
 public class ArithmeticEffect extends EffectType {
+	private static final long serialVersionUID = 2545374839507160749L;
 
 	@Override
 	public Effect possibleEffectsExplanation(Attribute oldAtt, Attribute newAtt, ObjectClass objClass) {

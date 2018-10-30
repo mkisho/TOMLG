@@ -1,11 +1,15 @@
 package doormax.structures;
 
+import java.io.Serializable;
+
 import doormax.ObjectClass;
 import doormax.structures.attribute.Attribute;
 import doormax.structures.attribute.AttributeBoolean;
 import doormax.structures.attribute.AttributeInteger;
 
-public class AssignmentEffect extends EffectType {
+public class AssignmentEffect extends EffectType implements Serializable{
+	private static final long serialVersionUID = -6010459199171598446L;
+
 	@Override
 	public String name() {
 		return "AssignmentEffect";

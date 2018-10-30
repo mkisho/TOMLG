@@ -1,5 +1,6 @@
 package doormax.structures;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,9 @@ import doormax.ObjectClass;
 import doormax.ObjectInstance;
 import doormax.structures.attribute.Attribute;
 
-public class Effect {
+public class Effect implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	public static final EffectType[] γ = { new ArithmeticEffect(), new AssignmentEffect() };
 
 	private EffectType type;

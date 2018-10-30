@@ -1,6 +1,9 @@
 package doormax.structures.attribute;
 
-public abstract class Attribute implements Comparable<Attribute> {
+import java.io.Serializable;
+
+public abstract class Attribute implements Comparable<Attribute>, Serializable {
+	private static final long serialVersionUID = 3838991671603327823L;
 	private String name;
 	public final String domain;
 

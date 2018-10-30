@@ -1,13 +1,15 @@
 package doormax.structures;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import doormax.OOMDPState;
 import doormax.PropositionalFunction;
 
-public class Condition {
-
-	private PropositionalFunction[] pfIndex;
+public class Condition implements Serializable{
+	private static final long serialVersionUID = 3100363735838894243L;
+	
+	private transient PropositionalFunction[] pfIndex;
 	private char[] eval;
 
 	public Condition(PropositionalFunction[] pfIndex) {

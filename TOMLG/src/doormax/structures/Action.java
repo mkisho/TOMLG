@@ -1,10 +1,14 @@
 package doormax.structures;
+
+import java.io.Serializable;
+
 /**
  * Class to represent an Action
  * @author chronius
  *
  */
-public class Action {
+public class Action implements Serializable{
+	private static final long serialVersionUID = -3810200338447408106L;
 	private String name;
 	
 	public Action(String name) {

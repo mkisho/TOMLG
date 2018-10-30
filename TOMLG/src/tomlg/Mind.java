@@ -10,8 +10,10 @@ import doormax.DOORMax;
 import doormax.OOMDP;
 import doormax.OOMDPState;
 import doormax.structures.Action;
+import doormax.structures.Condition;
 import doormax.structures.Effect;
 import taxi.Configurations;
+import tomlg.goallearning.ActionsEpisodeHistory;
 import tomlg.planner.BreathFirstStateSpaceSearch;
 import tomlg.planner.Planner;
 
@@ -26,7 +28,9 @@ public class Mind {
 	private List<Action> actionRepertoire;
 	private List<Intention> intentionsHistory;
 	private Planner planner;
-
+	private ActionsEpisodeHistory actionsHistory;
+	
+	
 	public Mind(String agentName, OOMDP oomdp) {
 		this.oomdp = oomdp;
 		this.agentName = agentName;
@@ -37,11 +41,26 @@ public class Mind {
 		this.intentions = new LinkedList<>();
 		this.intentionsHistory = new ArrayList<Intention>();
 		this.planner = new BreathFirstStateSpaceSearch(this.actionRepertoire);
+		this.actionsHistory = new ActionsEpisodeHistory();
 	}
 
 	public void learn(OOMDPState currentState) {
+		OOMDPState oldState = this.agentLearner.getOldState();
+		
 		this.agentLearner.learn(currentState, (intentionsHistory.size() == 0 ? null
 				: intentionsHistory.get(intentionsHistory.size() - 1).getAction()));
+
+		this.addIntentionalActionToHistory(oldState);
+	}
+	
+	private void addIntentionalActionToHistory(OOMDPState oldState) {
+		if(intentionsHistory.isEmpty())
+			return;
+		
+		Condition oldCondition = Condition.evaluate(this.oomdp.getPfIndex(), oldState);
+		Intention intentionalAction = intentionsHistory.get(intentionsHistory.size() - 1);
+		List<Effect> effects = this.agentLearner.predict(oldState, intentionalAction.getAction());
+		this.actionsHistory.addAction(intentionalAction, effects, oldCondition);
 	}
 
 	public Intention reasoning(OOMDPState currentState) {
@@ -113,6 +132,14 @@ public class Mind {
 		builder.append("\n, agentName=");
 		builder.append(agentName);
 		builder.append("]");
+		builder.append("History:\n\n"+this.actionsHistory);
 		return builder.toString();
+	}
+
+	/**
+	 * TODO Remover na versão final
+	 */
+	public void saveHistory() {
+		this.actionsHistory.toFile();
 	}
 }

@@ -99,7 +99,7 @@ public class PFLearner {
 							assert (true == false);
 
 						}
-					} else if (checkSameTypeExists(this.contraditions, hypEffect)) {
+					} else if (checkSameTypeExists(this.contraditions, hypEffect)) {//TODO checar se esse if precisa de alguma operação
 					} else {
 						// se não existe um efeito do mesmo tipo nas contradições, então criar um novo.
 						Prediction prediction = new Prediction(this.action, condition, hypEffect);

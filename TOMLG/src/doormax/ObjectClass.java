@@ -1,10 +1,13 @@
 package doormax;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import doormax.structures.attribute.Attribute;
 
-public class ObjectClass {
+public class ObjectClass implements Serializable{
+	private static final long serialVersionUID = 4599128964331227026L;
+
 	private String name;
 	
 	private List<Attribute> attributes;

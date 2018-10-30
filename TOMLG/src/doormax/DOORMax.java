@@ -136,6 +136,33 @@ public class DOORMax {
 		this.oldState = currentState;
 	}
 
+	
+	public List<Effect> predict(OOMDPState state0, Action action) {
+		if (state0 == null)
+			state0 = this.oldState;
+
+		List<Effect> predicted = new ArrayList<Effect>();
+
+		final Condition cond = Condition.evaluate(oomdp.getPfIndex(), state0);
+		List<Effect> totalPool = new ArrayList<Effect>();
+		for (ObjectClass objClass : state0.getOomdp().getObjectClasses()) {
+			List<Effect> currentPool = getAllEffectPredictionForObjectClass(action, objClass, cond, state0);
+			if (currentPool == null) {
+				totalPool = currentPool;
+				break;
+			} else
+				totalPool.addAll(currentPool);
+		}
+		predicted.addAll(totalPool);
+
+		return predicted;
+	}
+	/**
+	 * TODO Refatorar o método para usar o método de cima
+	 * @param state0
+	 * @param actions
+	 * @return
+	 */
 	public Map<Action, List<Effect>> predict(OOMDPState state0, List<Action> actions) {
 		if (state0 == null)
 			state0 = this.oldState;
@@ -224,5 +251,12 @@ public class DOORMax {
 		builder.append("]");
 		return builder.toString();
 	}
-
+	
+	/**
+	 * The last state visited by the algorithm
+	 * @return
+	 */
+	public OOMDPState getOldState() {
+		return oldState;
+	}
 }
