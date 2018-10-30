@@ -1,0 +1,52 @@
+Taxi {
+	Actions{
+		taxiMoveNorth,
+		taxiMoveEast,
+		taxiMoveSouth,
+		taxiMoveWest,
+		pickupPassenger,
+		dropOffPassenger
+	}
+	
+	Classes{
+		destination(
+			xLocation : IntegerDomain,
+			yLocation : IntegerDomain
+		) 
+		
+		taxi(
+			xLocation : IntegerDomain,
+			yLocation : IntegerDomain,
+			passengerInTaxi : BooleanDomain
+		)
+		
+		passenger(
+			xLocation : IntegerDomain,
+			yLocation : IntegerDomain,
+			inTaxi    : BooleanDomain
+		)
+		
+		verticalWall(
+			wallOffSet : IntegerDomain,
+			bottomOfWall : IntegerDomain,
+			topOfWall : IntegerDomain
+		)
+		
+		horizontalWall(
+			wallOffSet : IntegerDomain, 
+			leftStartOfWall: IntegerDomain, 
+			rightStartOfWall : IntegerDomain
+		)
+	}
+	
+	Propositions{
+		wallToNorthOfTaxi,
+		wallToEastOfTaxi, 
+		wallToSouthOfTaxi, 
+		wallToWestTaxi, 
+		passengerInTaxi, 
+		taxiAtPassenger
+	}
+
+	gamma : 0.95
+}

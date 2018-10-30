@@ -1,11 +1,10 @@
 package taxi.experiments;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.security.auth.login.Configuration;
-
 import doormax.OOMDP;
 import doormax.OOMDPState;
 import doormax.PropositionalFunction;
@@ -38,17 +37,23 @@ public class Experiment {
 	private OOMDPState currentState;
 	private Environment environment;
 	private Agent agent;
-	private String mindSaveFile;
+	private final String mindSaveFile;
+	private final String statiscsFile;
+	private final String stateFile;
+	private final String mindLoadFile;
 
 	public Experiment(String oomdpFile, String stateFile, String outputFile, int maxSteps, String mindSaveFile,
-			String mindLoadFile) {
+			String mindLoadFile, String statiscsFile) {
 		this.maxSteps = maxSteps;
 		this.createEnvironmentInstance(oomdpFile, stateFile);
 		// cria OOMDP e OOMDPState inicial
+		this.mindSaveFile = mindSaveFile;
+		this.stateFile = stateFile;
+		this.statiscsFile = statiscsFile;
+		this.mindLoadFile = mindLoadFile;
 
 		this.agent = new Agent("Taxi", (Action[]) oomdp.getActionsArray(), this.environment, this.oomdp);
 
-		this.mindSaveFile = mindSaveFile;
 		if (mindLoadFile != null) {
 			System.out.println("Loading Mind of Agent From file: " + mindLoadFile);
 			this.agent.loadMindFromFile(mindLoadFile);
@@ -103,32 +108,51 @@ public class Experiment {
 			System.out.println("Saving agent Mind to File: " + this.mindSaveFile);
 			this.agent.saveMindToFile(this.mindSaveFile);
 		}
+
+		if (this.statiscsFile != null) {
+			try {
+				String str = this.stateFile + ", " + this.mindLoadFile + ", " + this.mindSaveFile + ", " + step;
+
+				BufferedWriter writer = new BufferedWriter(new FileWriter(statiscsFile, true));
+				writer.append(str);
+				writer.append("\n");
+
+				writer.close();
+			} catch (Exception e) {
+				System.out.println("Error saving statistics file");
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void main(String args[]) {
-		if (true) {
-			args = new String[6];
+		if (false) {
+			args = new String[7];
 			args[0] = "src/Environment01.oomdp";
 			args[1] = "src/Environment01.state";
 			args[2] = "experiment01.xml";
 			args[3] = "100000";
-			args[4] = "thehopeislost";
-			args[5] = "gogopowerranger";
+			args[4] = "statistics";
+			args[5] = "thehopeislost";
+			args[6] = "gogopowerranger";
 		}
 		System.out.println(Arrays.toString(args));
 		if (args.length < 4) {
-			System.out.println("The params must be: oodmp_file, state_file, output_file, max_steps, mind_save_file,"
-					+ "mind_load_file");
+			System.out.println(
+					"The params must be: oodmp_file, state_file, output_file, max_steps, statiscs_file, mind_save_file,"
+							+ "mind_load_file");
 			System.exit(-1);
 		}
 		String oomdpFile = args[0];
 		String stateFile = args[1];
 		String outputFile = args[2];
 		int maxSteps = Integer.parseInt(args[3]);
-		String mindSaveFile = (args.length > 4 ? args[4] : null);
-		String mindLoadFile = (args.length > 5 ? args[5] : null);
+		String statiscsFile = (args.length > 4 ? args[4] : null);
+		String mindSaveFile = (args.length > 5 ? args[5] : null);
+		String mindLoadFile = (args.length > 6 ? args[6] : null);
 
-		Experiment experiment = new Experiment(oomdpFile, stateFile, outputFile, maxSteps, mindSaveFile, mindLoadFile);
+		Experiment experiment = new Experiment(oomdpFile, stateFile, outputFile, maxSteps, mindSaveFile, mindLoadFile,
+				statiscsFile);
 		experiment.runExperiment();
 	}
 }
