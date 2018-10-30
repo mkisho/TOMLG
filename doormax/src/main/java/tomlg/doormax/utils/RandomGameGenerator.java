@@ -38,11 +38,16 @@ public class RandomGameGenerator {
 		// }
 		// System.out.println(")");
 		writer.println(name + "(");
-		for (String str : attributes) {
-			writer.println(str + ",");
 
-		}
-		writer.println(")");
+/*		String data = "";
+		for (String str : attributes) {
+			data += str + ",\n";
+			// writer.println(str + ",");
+
+		}*/
+		String data = String.join(",\n",attributes);
+		//data = data.substring(0, data.length() - 2);
+		writer.println(data + ")");
 	}
 
 	public boolean gerar(String arquivo) {
