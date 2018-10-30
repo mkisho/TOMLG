@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import doormax.structures.Condition;
 import doormax.structures.Effect;
+import taxi.Configurations;
 import tomlg.Intention;
 
 public class ActionsEpisodeHistory implements Serializable {
@@ -66,7 +67,16 @@ public class ActionsEpisodeHistory implements Serializable {
 
 		return withEffects;
 	}
-	
-	
+
+	public ActionsEpisodeHistory getActionsWithEffectsAndInstrisicMotivationOnly() {
+		ActionsEpisodeHistory withEffects = new ActionsEpisodeHistory();
+		for (ActionEffectConditionTuple tuple : this.actionHistory) {
+			if (!tuple.getEffects().isEmpty()
+					&& tuple.getIntention().getGoal().getName().equals(Configurations.INTRINSIC_MOTIVATION_GOAL_LABEL))
+				withEffects.actionHistory.add(tuple);
+		}
+
+		return withEffects;
+	}
 
 }

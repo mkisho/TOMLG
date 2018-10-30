@@ -1,11 +1,13 @@
 package doormax;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 import doormax.structures.Action;
 
-public class OOMDP {
+public class OOMDP implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private List<Action> actions;
 	private Action[] actionsArray;
 	private List<ObjectClass> objectClasses;

@@ -1,5 +1,6 @@
 package doormax;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,10 +9,10 @@ import java.util.Map;
 import doormax.structures.Action;
 import doormax.structures.Condition;
 import doormax.structures.Effect;
-import doormax.structures.Prediction;
 import doormax.structures.attribute.Attribute;
 
-class HashLearnerKey {
+class HashLearnerKey implements Serializable {
+	private static final long serialVersionUID = 291202025579285782L;
 	private ObjectClass objClass;
 	private Attribute attribute;
 
@@ -70,8 +71,9 @@ class HashLearnerKey {
 
 }
 
-public class DOORMax {
-	private OOMDPState oldState;
+public class DOORMax implements Serializable{
+	private static final long serialVersionUID = 7759131257535126841L;
+	private transient OOMDPState oldState;
 	private OOMDP oomdp;
 	private List<Action> actionList;
 

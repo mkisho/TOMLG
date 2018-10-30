@@ -1,6 +1,9 @@
 package doormax.structures;
 
-public class Prediction {
+import java.io.Serializable;
+
+public class Prediction implements Serializable{
+	private static final long serialVersionUID = 2372934731105068411L;
 	private Action action;
 	private Condition condition;
 	private Effect effect;

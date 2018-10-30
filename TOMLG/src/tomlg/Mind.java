@@ -1,5 +1,6 @@
 package tomlg;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,23 +15,25 @@ import doormax.structures.Condition;
 import doormax.structures.Effect;
 import taxi.Configurations;
 import tomlg.goallearning.ActionsEpisodeHistory;
+import tomlg.goallearning.GoalLearner;
 import tomlg.planner.BreathFirstStateSpaceSearch;
 import tomlg.planner.Planner;
 
-public class Mind {
+public class Mind implements Serializable {
+	private static final long serialVersionUID = -3257744343001935691L;
+
 	private DOORMax agentLearner;
 	private String agentName;
 
 	private List<Goal> goals;
 	private Goal choosenGoal;
 	private Queue<Intention> intentions;
-	private OOMDP oomdp;
+	private OOMDP oomdp; // TODO é necessário salvar o OOMDP também????
 	private List<Action> actionRepertoire;
-	private List<Intention> intentionsHistory;
-	private Planner planner;
-	private ActionsEpisodeHistory actionsHistory;
-	
-	
+	private transient List<Intention> intentionsHistory;
+	private transient Planner planner;
+	private transient ActionsEpisodeHistory actionsHistory;
+
 	public Mind(String agentName, OOMDP oomdp) {
 		this.oomdp = oomdp;
 		this.agentName = agentName;
@@ -46,17 +49,17 @@ public class Mind {
 
 	public void learn(OOMDPState currentState) {
 		OOMDPState oldState = this.agentLearner.getOldState();
-		
+
 		this.agentLearner.learn(currentState, (intentionsHistory.size() == 0 ? null
 				: intentionsHistory.get(intentionsHistory.size() - 1).getAction()));
 
 		this.addIntentionalActionToHistory(oldState);
 	}
-	
+
 	private void addIntentionalActionToHistory(OOMDPState oldState) {
-		if(intentionsHistory.isEmpty())
+		if (intentionsHistory.isEmpty())
 			return;
-		
+
 		Condition oldCondition = Condition.evaluate(this.oomdp.getPfIndex(), oldState);
 		Intention intentionalAction = intentionsHistory.get(intentionsHistory.size() - 1);
 		List<Effect> effects = this.agentLearner.predict(oldState, intentionalAction.getAction());
@@ -85,7 +88,7 @@ public class Mind {
 				if (unknown.size() != 0) {
 					int actionIndex = Configurations.random.nextInt(unknown.size());
 					Action action = unknown.get(actionIndex);
-					Goal goal = new Goal("intrinsicMotivation",
+					Goal goal = new Goal(Configurations.INTRINSIC_MOTIVATION_GOAL_LABEL,
 							"Pursuing unknown effect action. Unknown actions: " + unknown.size());
 					Intention intention = new Intention(action, goal);
 					return intention;
@@ -94,7 +97,7 @@ public class Mind {
 				// estado ainda não explorado
 				if (withEffect.size() != 0) {
 
-					Goal goal = new Goal("intrinsicMotivation", null);
+					Goal goal = new Goal(Configurations.INTRINSIC_MOTIVATION_GOAL_LABEL, null);
 					List<Action> actionPlan = planner.planForGoal(goal, currentState, agentLearner);
 					if (actionPlan == null) {
 						return null;
@@ -111,13 +114,28 @@ public class Mind {
 					return null; // TODO impossible situation?
 
 			} else {
+				// TODO ESSA PARTE É BEM IMPORTANTE, IMPLEMENTA-LA IGUAL O MODELO
+				Goal goal = this.goals.get(0);
+				List<Action> actionPlan = planner.planForGoal(goal, currentState, agentLearner);
+				if (actionPlan == null) {
+					return null;
+				}
+				for (Action e : actionPlan) {
+					this.intentions.add(new Intention(e, goal));
+				}
+				// Intention intention = new Intention(
+				// withEffect.get(Configurations.random.nextInt(withEffect.size())), goal);
+				return intentions.remove();
 				// choose new goal
 			}
 		} else {
-			Intention intention = new Intention(new Action("taxiMoveNorth"), null);
-			return intention;
+			// TODO IMPLEMENTAR AQUI IGUAL O MODELO
+			// Intention intention = new Intention(new Action("taxiMoveNorth"), null);
+			// EXECUTAR PLANO PARA O CHOOSEN GOAL
+			
+			return null;
+			// return intention;
 		}
-		return null;
 	}
 
 	public void addIntentionToHistory(Intention intention) {
@@ -132,7 +150,7 @@ public class Mind {
 		builder.append("\n, agentName=");
 		builder.append(agentName);
 		builder.append("]");
-		builder.append("History:\n\n"+this.actionsHistory);
+		builder.append("History:\n\n" + this.actionsHistory);
 		return builder.toString();
 	}
 
@@ -141,5 +159,23 @@ public class Mind {
 	 */
 	public void saveHistory() {
 		this.actionsHistory.toFile();
+	}
+
+	public void initializeMindWhenLoadedFromFile() {
+		this.intentionsHistory = new ArrayList<Intention>();
+		this.planner = new BreathFirstStateSpaceSearch(this.actionRepertoire);
+		this.actionsHistory = new ActionsEpisodeHistory();
+	}
+
+	public void reasonAboutGoals() {
+		List<Goal> newGoals = GoalLearner.reasoning(this.actionsHistory, Configurations.MAX_GOALS_GENERATED);
+
+		for (Goal goal : newGoals) {
+			if (!this.goals.contains(goal)) {
+				System.out.println("Adding new Learned Goal To the List Of Goals");
+				this.goals.add(goal);
+			}
+		}
+
 	}
 }

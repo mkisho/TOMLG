@@ -1,6 +1,9 @@
 package doormax;
 
-public abstract class PropositionalFunction {
+import java.io.Serializable;
+
+public abstract class PropositionalFunction implements Serializable{
+	private static final long serialVersionUID = 1L;
 	public final String name;
 
 	public PropositionalFunction(String name) {

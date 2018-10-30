@@ -34,7 +34,7 @@ class ActionEffectKey {
 			if (!list.contains(key)) {
 				list.add(key);
 			}
-			if (key.getAction().getName().equals(Configurations.PICK)) {
+			if (key.getAction().getName().equals(Configurations.PICK)) {//TODO remove
 				tuple.setReward(0.75);
 			} else if (key.getAction().getName().equals(Configurations.DROP)) {
 				tuple.setReward(0.99);
@@ -156,20 +156,12 @@ class ActionEffectKey {
 }
 
 public class GoalLearner {
-	private ActionsEpisodeHistory actionHistory;
-	private Mind mind;
-
-	public GoalLearner(ActionsEpisodeHistory actionHistory, Mind mind) {
-		this.actionHistory = actionHistory;
-		this.mind = mind;
-	}
-
 	/**
 	 * The GoalLear algorithm will analyze the History of Intentional Action and
 	 * will try to identify a possible subgoal/goal that the agent could use to
 	 * guide its actions to fulfill the same "objectives" as in its history.
 	 */
-	public List<Goal> reasoning(int maxGoals) {
+	public static List<Goal> reasoning(ActionsEpisodeHistory actionHistory, int maxGoals) {
 		/**
 		 * As ações que realmente importam serem analizadas, são aquelas que tiveram
 		 * sucesso, ou seja, produziram um determinado efeito.
@@ -179,8 +171,8 @@ public class GoalLearner {
 		 * formação de pares de ação/efeito/condição
 		 */
 
-		ActionsEpisodeHistory historyWithEffects = this.actionHistory.getActionsWithEffectsOnly();
-
+		ActionsEpisodeHistory historyWithEffects = actionHistory.getActionsWithEffectsAndInstrisicMotivationOnly();
+		
 		/**
 		 * TODO Todas as ações com uma motivação diferente da intrinsica, em teoria não
 		 * precisam ser realmente analisadas?
@@ -190,7 +182,7 @@ public class GoalLearner {
 
 		for (ActionEffectKey e : actionEffectsCounter) {
 			double score = e.score(historyWithEffects.getActionHistory().size());
-//			System.out.println(score + " - " + e.getAction() + " " + e.getEffects());
+			System.out.println(score + " - " + e.getAction() + " " + e.getEffects());
 		}
 
 		List<Goal> generatedGoals = new ArrayList<Goal>();

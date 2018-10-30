@@ -1,18 +1,25 @@
 package tomlg;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import doormax.OOMDP;
 import doormax.OOMDPState;
 import doormax.structures.Action;
 import doormax.structures.Condition;
 
-public class Agent {
+public class Agent implements Serializable {
+	private static final long serialVersionUID = -8490880585101019596L;
+
 	private Mind mind;
 
 	private String name;
-	private Action[] actionRepertoire;
-	private SensoryMonitor sensories;
-	private AgentActuator bodyActuators;
-	private OOMDP oomdp;
+	private transient Action[] actionRepertoire;
+	private transient SensoryMonitor sensories;
+	private transient AgentActuator bodyActuators;
+	private transient OOMDP oomdp;
 
 	public Agent(String name, Action[] actionRepertoire, Environment environment, OOMDP oomdp) {
 		this.name = name;
@@ -36,7 +43,9 @@ public class Agent {
 		this.mind.learn(currentState);
 
 		if (finalEpisode) {// TODO fix this
-			this.mind.saveHistory(); // TODO Remover na versão final
+//			this.mind.saveHistory(); // TODO Remover na versão final
+			this.mind.reasonAboutGoals();
+//			this.saveMindToFile();
 			return;
 		}
 
@@ -47,6 +56,32 @@ public class Agent {
 
 		this.bodyActuators.doActionOnEnvironment(intention.getAction());
 		this.mind.addIntentionToHistory(intention);
+	}
+
+	public void saveMindToFile(String fileName) {
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			objectOutputStream.writeObject(this.mind);
+			objectOutputStream.flush();
+			objectOutputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+	}
+
+	public void loadMindFromFile(String fileName) {
+		try {
+			FileInputStream fileInputStream = new FileInputStream(fileName);
+			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+			this.mind = (Mind) objectInputStream.readObject();
+			this.mind.initializeMindWhenLoadedFromFile();
+			objectInputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 
 	public Mind getMind() {

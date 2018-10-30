@@ -1,5 +1,6 @@
 package doormax;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +18,9 @@ import doormax.structures.attribute.Attribute;
  * @author chronius
  *
  */
-public class PFLearner {
+public class PFLearner implements Serializable{
+	private static final long serialVersionUID = -308472332613031147L;
+
 	private static int K = 100;
 
 	private ObjectClass objClass;
