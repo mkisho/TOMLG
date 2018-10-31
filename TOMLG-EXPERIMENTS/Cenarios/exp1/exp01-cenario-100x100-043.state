@@ -1,0 +1,121 @@
+goalLocation(
+xLocation :51,
+yLocation :80,
+goalType :destination)
+taxi(
+xLocation :26,
+yLocation :80,
+passengerInTaxi :false)
+passenger(
+xLocation :78,
+yLocation :86,
+goalType :Passenger,
+inTaxi :false)
+verticalWall(
+wallOffSet :0,
+bottomOfWall :0,
+topOfWall :100)
+verticalWall(
+wallOffSet :100,
+bottomOfWall :0,
+topOfWall :100)
+verticalWall(
+wallOffSet :58,
+bottomOfWall :87,
+topOfWall :99)
+verticalWall(
+wallOffSet :73,
+bottomOfWall :28,
+topOfWall :42)
+verticalWall(
+wallOffSet :34,
+bottomOfWall :65,
+topOfWall :72)
+verticalWall(
+wallOffSet :14,
+bottomOfWall :24,
+topOfWall :73)
+verticalWall(
+wallOffSet :1,
+bottomOfWall :54,
+topOfWall :54)
+verticalWall(
+wallOffSet :87,
+bottomOfWall :79,
+topOfWall :79)
+verticalWall(
+wallOffSet :34,
+bottomOfWall :60,
+topOfWall :69)
+verticalWall(
+wallOffSet :30,
+bottomOfWall :75,
+topOfWall :87)
+verticalWall(
+wallOffSet :63,
+bottomOfWall :39,
+topOfWall :69)
+verticalWall(
+wallOffSet :67,
+bottomOfWall :88,
+topOfWall :99)
+verticalWall(
+wallOffSet :75,
+bottomOfWall :37,
+topOfWall :47)
+verticalWall(
+wallOffSet :75,
+bottomOfWall :61,
+topOfWall :75)
+verticalWall(
+wallOffSet :76,
+bottomOfWall :35,
+topOfWall :89)
+verticalWall(
+wallOffSet :41,
+bottomOfWall :35,
+topOfWall :96)
+verticalWall(
+wallOffSet :78,
+bottomOfWall :81,
+topOfWall :82)
+verticalWall(
+wallOffSet :76,
+bottomOfWall :7,
+topOfWall :64)
+verticalWall(
+wallOffSet :35,
+bottomOfWall :89,
+topOfWall :89)
+verticalWall(
+wallOffSet :21,
+bottomOfWall :9,
+topOfWall :11)
+verticalWall(
+wallOffSet :74,
+bottomOfWall :81,
+topOfWall :82)
+verticalWall(
+wallOffSet :8,
+bottomOfWall :93,
+topOfWall :93)
+verticalWall(
+wallOffSet :50,
+bottomOfWall :78,
+topOfWall :93)
+horizontalWall(
+wallOffSet :0,
+leftStartOfWall :0,
+rightStartOfWall :100)
+horizontalWall(
+wallOffSet :100,
+leftStartOfWall :0,
+rightStartOfWall :100)
+horizontalWall(
+wallOffSet :76,
+leftStartOfWall :55,
+rightStartOfWall :64)
+horizontalWall(
+wallOffSet :5,
+leftStartOfWall :16,
+rightStartOfWall :27)
