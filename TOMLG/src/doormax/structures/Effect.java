@@ -104,7 +104,7 @@ public class Effect implements Serializable{
 		if (value == null) {
 			if (other.value != null)
 				return false;
-		} else if (!value.equals(other.value))
+		} else if (Double.compare(value, other.value)!=0)//!value.equals(other.value))
 			return false;
 		return true;
 	}

@@ -1,15 +1,15 @@
 		destination(
-		xLocation :1,
-		yLocation :2
+		xLocation :7,
+		yLocation :6
 		)
 		taxi(
-		xLocation :3,
-		yLocation :9,
+		xLocation :7,
+		yLocation :6,
 		passengerInTaxi :false
 		)
 		passenger(
-		xLocation :3,
-		yLocation :3,
+		xLocation :6,
+		yLocation :5,
 		inTaxi :false
 		)
 		verticalWall(
@@ -23,44 +23,19 @@
 		topOfWall :10
 		)
 		verticalWall(
-		wallOffSet :1,
-		bottomOfWall :1,
-		topOfWall :2
-		)
-		verticalWall(
-		wallOffSet :4,
-		bottomOfWall :2,
-		topOfWall :2
-		)
-		verticalWall(
-		wallOffSet :5,
-		bottomOfWall :5,
-		topOfWall :7
-		)
-		verticalWall(
 		wallOffSet :7,
-		bottomOfWall :3,
-		topOfWall :7
-		)
-		verticalWall(
-		wallOffSet :2,
-		bottomOfWall :5,
-		topOfWall :5
+		bottomOfWall :2,
+		topOfWall :2
 		)
 		verticalWall(
 		wallOffSet :4,
-		bottomOfWall :2,
-		topOfWall :7
+		bottomOfWall :8,
+		topOfWall :8
 		)
 		verticalWall(
 		wallOffSet :1,
 		bottomOfWall :9,
 		topOfWall :9
-		)
-		verticalWall(
-		wallOffSet :5,
-		bottomOfWall :0,
-		topOfWall :0
 		)
 		horizontalWall(
 		wallOffSet :0,

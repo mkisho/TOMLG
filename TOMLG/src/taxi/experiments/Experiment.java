@@ -11,6 +11,7 @@ import doormax.PropositionalFunction;
 import doormax.structures.Action;
 import doormax.structures.Effect;
 import doormax.structures.EffectType;
+import doormax.utils.Util;
 import experiments.utils.OOMDPReaderFromFile;
 import taxi.Configurations;
 import taxi.TaxiEnvironment;
@@ -77,11 +78,14 @@ public class Experiment {
 		try {
 			OOMDPReaderFromFile a = new OOMDPReaderFromFile();
 			this.oomdp = a.leitura(oomdpFile, pfss);
-			this.currentState = a.stateReader(stateFile, this.oomdp);
+			
+			this.currentState = Util.readOOMDPStateFromFile(stateFile, oomdp);//a.stateReader(stateFile, this.oomdp);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+		
+		System.out.println("Current State has "+this.currentState.getObjects().size()+" objects");
 
 		List<EffectType> effectsToUse = new ArrayList<>();
 		for (EffectType e : Effect.γ) {
@@ -126,7 +130,7 @@ public class Experiment {
 	}
 
 	public static void main(String args[]) {
-		if (false) {
+		if (true) {
 			args = new String[7];
 			args[0] = "src/Environment01.oomdp";
 			args[1] = "src/Environment01.state";
@@ -149,7 +153,7 @@ public class Experiment {
 		int maxSteps = Integer.parseInt(args[3]);
 		String statiscsFile = (args.length > 4 ? args[4] : null);
 		String mindSaveFile = (args.length > 5 ? args[5] : null);
-		String mindLoadFile = (args.length > 6 ? args[6] : null);
+		String mindLoadFile = null;//(args.length > 6 ? args[6] : null);
 
 		Experiment experiment = new Experiment(oomdpFile, stateFile, outputFile, maxSteps, mindSaveFile, mindLoadFile,
 				statiscsFile);

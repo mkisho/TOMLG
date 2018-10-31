@@ -3,7 +3,9 @@ package doormax;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import doormax.structures.Action;
 import doormax.structures.Condition;
@@ -18,7 +20,7 @@ import doormax.structures.attribute.Attribute;
  * @author chronius
  *
  */
-public class PFLearner implements Serializable{
+public class PFLearner implements Serializable {
 	private static final long serialVersionUID = -308472332613031147L;
 
 	private static int K = 100;
@@ -40,9 +42,9 @@ public class PFLearner implements Serializable{
 		this.attribute = attribute;
 		this.action = action;
 
-		this.failureConditions = new HashSet<>();
-		this.predictions = new HashSet<>();
-		this.contraditions = new HashSet<>();
+		this.failureConditions = new LinkedHashSet<>();
+		this.predictions = new LinkedHashSet<>();
+		this.contraditions = new LinkedHashSet<>();
 	}
 
 	public void learn(Attribute attOld, Attribute attNew, Condition condition) {
@@ -85,16 +87,20 @@ public class PFLearner implements Serializable{
 //						this.contraditions.add(prediction);
 						// Rule out predictions if more than k related prediction
 						List<Prediction> relatedPrediction = getRelatedPredictions(hypEffect);
-						assert(relatedPrediction.size() > 0);
-						this.predictions.removeAll(relatedPrediction);
-						
-						for(Prediction pred:relatedPrediction) {
-							System.out.println("Ading pred to >>>>>"+pred);
+						assert (relatedPrediction.size() > 0);
+//						this.predictions.removeAll(relatedPrediction);
+						assert(this.predictions.removeIf(p -> p.getEffect().getType().equals(hypEffect.getType())));
+
+						System.out.println("");
+						for (Prediction pred : relatedPrediction) {
+							//							assert(toRemove.isPresent());
+//							this.predictions.remove(toRemove.get());
+							System.out.println("Ading pred to Contradiction>>>>>" + pred);
 
 							this.contraditions.add(pred);
-						
+
 						}
-						assert(this.contraditions.size() > 0);
+						assert (this.contraditions.size() > 0);
 //						System.exit(-1);
 						if (relatedPrediction.size() > K) {
 							this.contraditions.clear();
@@ -102,7 +108,8 @@ public class PFLearner implements Serializable{
 							assert (true == false);
 
 						}
-					} else if (checkSameTypeExists(this.contraditions, hypEffect)) {//TODO checar se esse if precisa de alguma operação
+					} else if (checkSameTypeExists(this.contraditions, hypEffect)) {// TODO checar se esse if precisa de
+																					// alguma operação
 					} else {
 						// se não existe um efeito do mesmo tipo nas contradições, então criar um novo.
 						Prediction prediction = new Prediction(this.action, condition, hypEffect);
@@ -142,8 +149,8 @@ public class PFLearner implements Serializable{
 	@Override
 	public String toString() {
 		return "PFLearner [" + objClass.getName() + ", attribute=" + attribute.getName() + ", action=" + action
-				+ "\n>>>>>>>>>>>> predictions=" + predictions + ", failureConditions=" + failureConditions + ", contraditions="
-				+ contraditions + "]";
+				+ "\n>>>>>>>>>>>> predictions=" + predictions + ", failureConditions=" + failureConditions
+				+ ", contraditions=" + contraditions + "]";
 	}
 
 	private boolean checkForContradictoryEffects(Effect effect, List<Effect> maching, OOMDPState state) {
@@ -160,7 +167,14 @@ public class PFLearner implements Serializable{
 		for (Prediction pred : setPpred) {
 			if (pred.matches(condition)) {
 				if (checkForContradictoryEffects(pred.getEffect(), maching, state)) {
+					System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 					System.out.println("Incompatible effects. Can not predict result yet");
+					System.out.println("Condition: "+ condition );
+					System.out.println("On: "+ this.action+" - "+this.attribute);
+					System.out.println("Contradictory Prediction: "+ setPpred);
+					System.out.println("State: "+ state);
+
+					System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 					return null;
 				} else {
 //					System.out.println("effect " + pred.getEffect() + " added to pool");
