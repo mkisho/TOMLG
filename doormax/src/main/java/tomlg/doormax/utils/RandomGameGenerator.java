@@ -47,10 +47,10 @@ public class RandomGameGenerator {
 		}*/
 		String data = String.join(",\n",attributes);
 		//data = data.substring(0, data.length() - 2);
-		writer.println(data + ")");
+		writer.println(data + "\n )");
 	}
 
-	public boolean gerar(String arquivo) {
+	public boolean gerar(String arquivo, final int size) {
 		try {
 			// String line;
 			String className;
@@ -58,9 +58,9 @@ public class RandomGameGenerator {
 			String attribute;
 			String tmp = null;
 			writer = new PrintWriter(arquivo, "UTF-8");
-			HEIGHT = ThreadLocalRandom.current().nextInt(4, 11);
+			HEIGHT = size//ThreadLocalRandom.current().nextInt(4, 11);
 			;
-			WIDTH = ThreadLocalRandom.current().nextInt(4, 11);
+			WIDTH = size//ThreadLocalRandom.current().nextInt(4, 11);
 			;
 
 			// in = new BufferedReader(new FileReader(""+nomeArquivo));
@@ -76,7 +76,7 @@ public class RandomGameGenerator {
 			// int rand = ThreadLocalRandom.current().nextInt(0, validIntentions.size());
 
 			// Generate goal
-			className = "goalLocation";
+			className = "destination";
 
 			randInt = ThreadLocalRandom.current().nextInt(0, WIDTH);
 			tmp = String.valueOf(randInt);
@@ -88,9 +88,9 @@ public class RandomGameGenerator {
 			attribute = "yLocation :" + tmp;
 			attributesList.add(attribute);
 
-			tmp = "destination";
-			attribute = "goalType :" + tmp;
-			attributesList.add(attribute);
+//			tmp = "destination";
+//			attribute = "goalType :" + tmp;
+//			attributesList.add(attribute);
 
 			printObjectToFile(className, attributesList);
 			attributesList.clear();
@@ -107,7 +107,7 @@ public class RandomGameGenerator {
 			attribute = "yLocation :" + tmp;
 			attributesList.add(attribute);
 
-			tmp = String.valueOf(ThreadLocalRandom.current().nextBoolean());
+			tmp = "false";
 			attribute = "passengerInTaxi :" + tmp;
 			attributesList.add(attribute);
 
@@ -126,11 +126,11 @@ public class RandomGameGenerator {
 			attribute = "yLocation :" + tmp;
 			attributesList.add(attribute);
 
-			tmp = "Passenger";
-			attribute = "goalType :" + tmp;
-			attributesList.add(attribute);
+//			tmp = "Passenger";
+//			attribute = "goalType :" + tmp;
+//			attributesList.add(attribute);
 
-			tmp = String.valueOf(ThreadLocalRandom.current().nextBoolean());
+			tmp = "false";
 			attribute = "inTaxi :" + tmp;
 			attributesList.add(attribute);
 
@@ -166,7 +166,7 @@ public class RandomGameGenerator {
 
 			// Random vertical walls
 			int numberOfWalls = ThreadLocalRandom.current().nextInt(0, WIDTH);
-			for (int i = 0; i < numberOfWalls; i++) {
+			for (int i = 0; i < numberOfWalls/4; i++) {
 				tmp = String.valueOf(ThreadLocalRandom.current().nextInt(1, WIDTH));
 				attribute = "wallOffSet :" + tmp;
 				attributesList.add(attribute);
@@ -211,7 +211,7 @@ public class RandomGameGenerator {
 			attributesList.clear();
 
 			numberOfWalls = ThreadLocalRandom.current().nextInt(0, HEIGHT);
-			for (int i = 0; i < numberOfWalls; i++) {
+			for (int i = 0; i < numberOfWalls/4; i++) {
 				tmp = String.valueOf(ThreadLocalRandom.current().nextInt(1, HEIGHT));
 				attribute = "wallOffSet :" + tmp;
 				attributesList.add(attribute);
@@ -269,29 +269,33 @@ public class RandomGameGenerator {
 		while (!listX.isEmpty()) {
 			x = listX.remove(0);
 			y = listY.remove(0);
-			houses[x][y].visited = true;
+			
 			if (x > 0) {
 				if (!houses[x - 1][y].visited && !houses[x][y].wallLeft) {
 					listX.add(x - 1);
 					listY.add(y);
+					houses[x-1][y].visited = true;
 				}
 			}
 			if (y > 0) {
 				if (!houses[x][y - 1].visited && !houses[x][y].wallDown) {
 					listX.add(x);
 					listY.add(y - 1);
+					houses[x][y-1].visited = true;
 				}
 			}
 			if (x < HEIGHT - 1) {
 				if (!houses[x + 1][y].visited && !houses[x][y].wallUp) {
 					listX.add(x + 1);
 					listY.add(y);
+					houses[x+1][y].visited = true;
 				}
 			}
 			if (y < WIDTH - 1) {
 				if (!houses[x][y + 1].visited && !houses[x][y].wallRight) {
 					listX.add(x);
 					listY.add(y + 1);
+					houses[x][y+1].visited = true;
 				}
 			}
 

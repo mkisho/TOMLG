@@ -1,0 +1,53 @@
+goalLocation(
+xLocation :11,
+yLocation :9,
+goalType :destination)
+taxi(
+xLocation :4,
+yLocation :3,
+passengerInTaxi :false)
+passenger(
+xLocation :19,
+yLocation :6,
+goalType :Passenger,
+inTaxi :true)
+verticalWall(
+wallOffSet :0,
+bottomOfWall :0,
+topOfWall :20)
+verticalWall(
+wallOffSet :20,
+bottomOfWall :0,
+topOfWall :20)
+verticalWall(
+wallOffSet :9,
+bottomOfWall :13,
+topOfWall :17)
+verticalWall(
+wallOffSet :11,
+bottomOfWall :9,
+topOfWall :19)
+verticalWall(
+wallOffSet :7,
+bottomOfWall :17,
+topOfWall :18)
+horizontalWall(
+wallOffSet :0,
+leftStartOfWall :0,
+rightStartOfWall :20)
+horizontalWall(
+wallOffSet :20,
+leftStartOfWall :0,
+rightStartOfWall :20)
+horizontalWall(
+wallOffSet :3,
+leftStartOfWall :16,
+rightStartOfWall :16)
+horizontalWall(
+wallOffSet :4,
+leftStartOfWall :11,
+rightStartOfWall :14)
+horizontalWall(
+wallOffSet :8,
+leftStartOfWall :14,
+rightStartOfWall :14)
