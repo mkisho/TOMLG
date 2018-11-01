@@ -67,6 +67,16 @@ public class Mind implements Serializable {
 	}
 
 	public Intention reasoning(OOMDPState currentState) {
+//		if (this.intentions.size() > 0) {
+//			return intentions.remove();
+//		}
+		
+		if (intentions.isEmpty()) {
+			choosenGoal = null;
+		} else {
+			return intentions.remove();
+		}
+		
 		if (this.choosenGoal == null) {
 			if (!this.goals.isEmpty()) {
 				// TODO ESSA PARTE É BEM IMPORTANTE, IMPLEMENTA-LA IGUAL O MODELO
@@ -80,19 +90,16 @@ public class Mind implements Serializable {
 					}
 					// Intention intention = new Intention(
 					// withEffect.get(Configurations.random.nextInt(withEffect.size())), goal);
-					System.out.println("Plan Generated for Goal: "+this.intentions.size());
+					System.out.println("Plan Generated for Goal: "+actionPlan);
+					System.out.println("Agent Choosed goal: "+ goal);
 					this.choosenGoal = goal;
 					return intentions.remove();
 					// choose new goal
 				}
 				System.out.println("No plan for goals");
-			} else {
-
-				// if (this.goals.size() == 0)
-
-				if (this.intentions.size() > 0) {
-					return intentions.remove();
-				}
+			}
+			System.out.println("Agent Has no achievable goals or have no goals");
+//			else {
 
 				// primeiro verifica quais ações o agente ainda não sabe os efeitos
 				Map<Action, List<Effect>> actionPrediction = this.agentLearner.predict(null, actionRepertoire);
@@ -135,18 +142,9 @@ public class Mind implements Serializable {
 					return null; // TODO impossible situation?
 
 				}
-			}
-		} else {
-			// TODO IMPLEMENTAR AQUI IGUAL O MODELO
-			// Intention intention = new Intention(new Action("taxiMoveNorth"), null);
-			// EXECUTAR PLANO PARA O CHOOSEN GOAL
-			if (intentions.isEmpty()) {
-				choosenGoal = null;
-			} else {
-				return intentions.remove();
-			}
-		}
-
+//			}
+		} 
+		
 		System.exit(-1);
 		return null;
 	}

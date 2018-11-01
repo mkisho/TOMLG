@@ -7,7 +7,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import doormax.OOMDP;
 import doormax.OOMDPState;
-import doormax.structures.Action;
 import doormax.structures.Condition;
 
 public class Agent implements Serializable {
@@ -16,14 +15,12 @@ public class Agent implements Serializable {
 	private Mind mind;
 
 	private String name;
-	private transient Action[] actionRepertoire;
 	private transient SensoryMonitor sensories;
 	private transient AgentActuator bodyActuators;
 	private transient OOMDP oomdp;
 
-	public Agent(String name, Action[] actionRepertoire, Environment environment, OOMDP oomdp) {
+	public Agent(String name, Environment environment, OOMDP oomdp) {
 		this.name = name;
-		this.actionRepertoire = actionRepertoire;
 		System.out.println("Initializing agent: " + name);
 		this.sensories = new SensoryMonitor(environment);
 		this.bodyActuators = new AgentActuator(environment);

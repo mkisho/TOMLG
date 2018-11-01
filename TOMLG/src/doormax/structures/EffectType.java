@@ -13,5 +13,7 @@ public abstract class EffectType implements Serializable{
 	public abstract String name();
 	
 	public abstract void apply(Attribute att, Object value);
+	
+	
 
 }

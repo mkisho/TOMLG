@@ -2,21 +2,15 @@ package tomlg.planner;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
-
 import doormax.DOORMax;
 import doormax.OOMDPState;
 import doormax.structures.Action;
-import doormax.structures.Effect;
 import taxi.Configurations;
 import tomlg.Goal;
 
@@ -115,11 +109,11 @@ public class BreathFirstStateSpaceSearch implements Planner {
 				Node node = nodesToExpand.poll();
 				// System.out.println("Expanded node:" +node.getValue());
 				////////////////////////////// DEBUG
-				System.out.println("\nPredictions for state>>>\n" + node.getValue());
+//				System.out.println("\nPredictions for state>>>\n" + node.getValue());
 
-				Map<Action, List<Effect>> predict = doormax.predict(node.getValue(), this.actions);
+//				Map<Action, List<Effect>> predict = doormax.predict(node.getValue(), this.actions);
 
-				System.out.println(predict);
+//				System.out.println(predict);
 
 				//////////////////////////////////
 				Map<Action, OOMDPState> predictions = doormax.predictOOMDPStates(node.getValue(),
@@ -166,21 +160,22 @@ public class BreathFirstStateSpaceSearch implements Planner {
 		openPaths.add(initPath);
 		List<Path> possiblePath = new ArrayList<Path>();
 
-		System.out.println("State>> " + initState);
+//		System.out.println("State>> " + initState);
 
 		while (!openPaths.isEmpty()) {
-			System.out.println(">>>>>>\n" + openPaths);
+//			System.out.println(">>>>>>\n" + openPaths);
 			// final Path path = openPaths.poll();
 			Path path = openPaths.poll();
 			assert (path != null);
 			Action currentAction = path.getLastAction();// .actions.peek();
 
-			if (currentAction != null && currentAction.getName().equals(Configurations.DROP)) {
-				System.out.print("xx");
-			}
+//			if (currentAction != null && currentAction.getName().equals(Configurations.DROP)) {
+//				System.out.print("xx");
+//			}
 			// path is a goal
 			if (currentAction != null && !goal.getName().equals(Configurations.INTRINSIC_MOTIVATION_GOAL_LABEL)
 					&& goal.checkObjective(currentAction, doormax.predict(path.getLastBeforeState(), currentAction))) {
+				System.out.println("Achou o Plano");
 				ArrayList<Action> result = new ArrayList<Action>();
 				result.addAll(path.getActions());
 				result.add(goal.getAction());
@@ -191,10 +186,11 @@ public class BreathFirstStateSpaceSearch implements Planner {
 				// this.nodes.get(path.currentState).getChildrens().entrySet()) {
 				for (Map.Entry<Action, Node> key : a) {
 					Node node = key.getValue();
-					System.out.println(">>>Visiting Node " + node + " with action" + key.getKey());
+//					System.out.println(">>>Visiting Node " + node + " with action" + key.getKey());
 
 					if (node == null) {
-						if (goal.getAction() == null) {
+						if (goal.getName().equals(Configurations.INTRINSIC_MOTIVATION_GOAL_LABEL)) {
+							System.out.println("Achou uma ação com efeito desconhecido.");
 							path.actions.add(key.getKey());
 							ArrayList<Action> result = new ArrayList<Action>();
 							result.addAll(path.getActions());
@@ -202,16 +198,16 @@ public class BreathFirstStateSpaceSearch implements Planner {
 						} else
 							continue;
 					}
-					System.out.println(">>>Childrens Nodes" + node.getChildrens() + " with action" + key.getKey());
+//					System.out.println(">>>Childrens Nodes" + node.getChildrens() + " with action" + key.getKey());
 
 					Path currentPath = path.copy();
 //					if (key.getKey().getName().equals(Configurations.DROP)) {
 //						System.out.println("gogogogog");
 //					}
 					if (currentPath.alreadyVisited(node.getValue())) {// i,pede loops
-						System.out.println("Node " + node.getValue() + " already visited for path" + currentPath
-								+ " Ceifando caminho");
-						System.out.println(key.getKey());
+//						System.out.println("Node " + node.getValue() + " already visited for path" + currentPath
+//								+ " Ceifando caminho");
+//						System.out.println(key.getKey());
 						// openPaths.add(path);
 						possiblePath.add(path);
 						continue;
@@ -229,8 +225,8 @@ public class BreathFirstStateSpaceSearch implements Planner {
 								break;
 							} else if (checkPath.length() < currentPath.length()) {
 								addPath = false;
-								System.out.println("Path: " + currentPath + " not node added because\n" + checkPath
-										+ " is smaller");
+//								System.out.println("Path: " + currentPath + " not node added because\n" + checkPath
+//										+ " is smaller");
 							} else if (checkPath.length() == currentPath.length())
 								addPath = false;
 						}
@@ -240,9 +236,10 @@ public class BreathFirstStateSpaceSearch implements Planner {
 				}
 			}
 		}
-		List<Action> result = new ArrayList<Action>();
-		result.addAll(possiblePath.get(0).getActions());
-		return result;
+		//List<Action> result = new ArrayList<Action>();
+		
+		//result.addAll(possiblePath.get(0).getActions());
+		return null;//result;
 	}
 
 	public List<Action> planForGoal(final Goal goal, final OOMDPState initState, final DOORMax doormax) {

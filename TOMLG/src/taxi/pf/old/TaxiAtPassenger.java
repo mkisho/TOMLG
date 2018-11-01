@@ -6,6 +6,8 @@ import doormax.PropositionalFunction;
 import taxi.Configurations;
 
 public class TaxiAtPassenger extends PropositionalFunction {
+	private static final long serialVersionUID = -3218720233222537573L;
+
 	public TaxiAtPassenger() {
 		super("TaxiAtPassenger");
 	}

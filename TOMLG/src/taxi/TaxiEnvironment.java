@@ -3,7 +3,6 @@ package taxi;
 import java.util.List;
 
 import doormax.OOMDPState;
-import doormax.ObjectClass;
 import doormax.ObjectInstance;
 import doormax.structures.Action;
 import doormax.structures.attribute.Attribute;

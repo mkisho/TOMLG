@@ -6,6 +6,8 @@ import doormax.PropositionalFunction;
 import doormax.structures.attribute.AttributeBoolean;
 import taxi.Configurations;
 public class TaxiAgentGoal extends PropositionalFunction {
+	private static final long serialVersionUID = 1107486209871136368L;
+
 	public TaxiAgentGoal() {
 		super("TaxiAgentGoal");
 	}

@@ -1,6 +1,7 @@
 package doormax.structures.attribute;
 
 public class AttributeInteger extends Attribute {
+	private static final long serialVersionUID = -4040666887892702892L;
 	private Integer value;
 
 	public AttributeInteger(String name) {

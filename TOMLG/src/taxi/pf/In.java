@@ -8,6 +8,7 @@ import doormax.structures.attribute.AttributeInteger;
 import taxi.Configurations;
 
 public class In extends PropositionalFunction {
+	private static final long serialVersionUID = -1957515832860185529L;
 	private final String objClass;
 	private final String x;
 

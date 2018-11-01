@@ -9,10 +9,10 @@ import doormax.structures.attribute.AttributeInteger;
 
 public class AssignmentEffect extends EffectType implements Serializable{
 	private static final long serialVersionUID = -6010459199171598446L;
-
+	private String name = "AssignmentEffect";
 	@Override
 	public String name() {
-		return "AssignmentEffect";
+		return this.name;
 	}
 
 	@Override
@@ -41,6 +41,20 @@ public class AssignmentEffect extends EffectType implements Serializable{
 			assert (true == false);
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -49,6 +63,14 @@ public class AssignmentEffect extends EffectType implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+		AssignmentEffect other = (AssignmentEffect) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
 		return true;
 	}
+	 
+	
 }

@@ -1,0 +1,129 @@
+destination(
+xLocation :77,
+yLocation :65
+ )
+taxi(
+xLocation :24,
+yLocation :80,
+passengerInTaxi :false
+ )
+passenger(
+xLocation :31,
+yLocation :81,
+inTaxi :false
+ )
+verticalWall(
+wallOffSet :0,
+bottomOfWall :0,
+topOfWall :100
+ )
+verticalWall(
+wallOffSet :100,
+bottomOfWall :0,
+topOfWall :100
+ )
+horizontalWall(
+wallOffSet :0,
+leftStartOfWall :0,
+rightStartOfWall :100
+ )
+horizontalWall(
+wallOffSet :100,
+leftStartOfWall :0,
+rightStartOfWall :100
+ )
+horizontalWall(
+wallOffSet :92,
+leftStartOfWall :7,
+rightStartOfWall :93
+ )
+horizontalWall(
+wallOffSet :9,
+leftStartOfWall :74,
+rightStartOfWall :91
+ )
+horizontalWall(
+wallOffSet :96,
+leftStartOfWall :8,
+rightStartOfWall :84
+ )
+horizontalWall(
+wallOffSet :43,
+leftStartOfWall :70,
+rightStartOfWall :84
+ )
+horizontalWall(
+wallOffSet :15,
+leftStartOfWall :87,
+rightStartOfWall :92
+ )
+horizontalWall(
+wallOffSet :21,
+leftStartOfWall :37,
+rightStartOfWall :85
+ )
+horizontalWall(
+wallOffSet :48,
+leftStartOfWall :98,
+rightStartOfWall :98
+ )
+horizontalWall(
+wallOffSet :14,
+leftStartOfWall :84,
+rightStartOfWall :84
+ )
+horizontalWall(
+wallOffSet :37,
+leftStartOfWall :85,
+rightStartOfWall :91
+ )
+horizontalWall(
+wallOffSet :38,
+leftStartOfWall :19,
+rightStartOfWall :31
+ )
+horizontalWall(
+wallOffSet :61,
+leftStartOfWall :15,
+rightStartOfWall :54
+ )
+horizontalWall(
+wallOffSet :34,
+leftStartOfWall :27,
+rightStartOfWall :75
+ )
+horizontalWall(
+wallOffSet :90,
+leftStartOfWall :13,
+rightStartOfWall :85
+ )
+horizontalWall(
+wallOffSet :71,
+leftStartOfWall :95,
+rightStartOfWall :98
+ )
+horizontalWall(
+wallOffSet :81,
+leftStartOfWall :13,
+rightStartOfWall :51
+ )
+horizontalWall(
+wallOffSet :26,
+leftStartOfWall :98,
+rightStartOfWall :98
+ )
+horizontalWall(
+wallOffSet :54,
+leftStartOfWall :7,
+rightStartOfWall :49
+ )
+horizontalWall(
+wallOffSet :58,
+leftStartOfWall :36,
+rightStartOfWall :54
+ )
+horizontalWall(
+wallOffSet :50,
+leftStartOfWall :0,
+rightStartOfWall :83
+ )

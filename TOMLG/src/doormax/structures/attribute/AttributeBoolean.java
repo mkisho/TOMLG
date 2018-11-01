@@ -1,6 +1,7 @@
 package doormax.structures.attribute;
 
 public class AttributeBoolean extends Attribute {
+	private static final long serialVersionUID = 6625684648059190734L;
 
 	public AttributeBoolean(String name) {
 		super(name, "Boolean");

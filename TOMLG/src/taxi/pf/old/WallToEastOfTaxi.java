@@ -7,6 +7,8 @@ import doormax.structures.attribute.AttributeInteger;
 import taxi.Configurations;
 
 public class WallToEastOfTaxi extends PropositionalFunction {
+	private static final long serialVersionUID = 3708862199758369283L;
+
 	public WallToEastOfTaxi() {
 		super("WallToEastOfTaxi");
 	}

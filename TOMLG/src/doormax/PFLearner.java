@@ -2,11 +2,8 @@ package doormax;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import doormax.structures.Action;
 import doormax.structures.Condition;
 import doormax.structures.Effect;
@@ -30,11 +27,11 @@ public class PFLearner implements Serializable {
 	private Action action;
 
 	// Em que condições a ação não possui efeito sobre o atributo
-	private Set<Condition> failureConditions;
+	private List<Condition> failureConditions;
 
-	private Set<Prediction> predictions;
+	private List<Prediction> predictions;
 
-	private Set<Prediction> contraditions;
+	private List<Prediction> contraditions;
 
 	public PFLearner(ObjectClass objClass, Attribute attribute, Action action) {
 		super();
@@ -42,9 +39,9 @@ public class PFLearner implements Serializable {
 		this.attribute = attribute;
 		this.action = action;
 
-		this.failureConditions = new LinkedHashSet<>();
-		this.predictions = new LinkedHashSet<>();
-		this.contraditions = new LinkedHashSet<>();
+		this.failureConditions = new LinkedList<>();
+		this.predictions = new LinkedList<>();
+		this.contraditions = new LinkedList<>();
 	}
 
 	public void learn(Attribute attOld, Attribute attNew, Condition condition) {
@@ -88,8 +85,12 @@ public class PFLearner implements Serializable {
 						// Rule out predictions if more than k related prediction
 						List<Prediction> relatedPrediction = getRelatedPredictions(hypEffect);
 						assert (relatedPrediction.size() > 0);
-//						this.predictions.removeAll(relatedPrediction);
-						assert(this.predictions.removeIf(p -> p.getEffect().getType().equals(hypEffect.getType())));
+//						this.predictions.removeAll(relatedPrediction); 
+						System.out.println("");
+						final int lengthPredBefore = this.predictions.size();
+						this.predictions.removeAll(relatedPrediction);
+						assert(lengthPredBefore< this.predictions.size());
+						//.removeIf(p -> p.getEffect().getType().equals(hypEffect.getType())));
 
 						System.out.println("");
 						for (Prediction pred : relatedPrediction) {
@@ -120,7 +121,7 @@ public class PFLearner implements Serializable {
 		}
 	}
 
-	private boolean checkSameTypeExists(Set<Prediction> setPred, Effect hypEffect) {
+	private boolean checkSameTypeExists(List<Prediction> setPred, Effect hypEffect) {
 		for (Prediction pred : setPred) {
 			if (pred.getEffect().getType().equals(hypEffect.getType()))
 				return true;
@@ -162,7 +163,7 @@ public class PFLearner implements Serializable {
 		return false;
 	}
 
-	private List<Effect> getMatchingNonContradictoryPredictions(Condition condition, OOMDPState state, Set<Prediction> setPpred) {
+	private List<Effect> getMatchingNonContradictoryPredictions(Condition condition, OOMDPState state, List<Prediction> setPpred) {
 		List<Effect> maching = new ArrayList<Effect>();
 		for (Prediction pred : setPpred) {
 			if (pred.matches(condition)) {

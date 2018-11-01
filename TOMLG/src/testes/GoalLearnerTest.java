@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import tomlg.goallearning.ActionsEpisodeHistory;
-import tomlg.goallearning.GoalLearner;
 
 public class GoalLearnerTest {
 

@@ -1,16 +1,11 @@
 package tomlg.goallearning;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import doormax.structures.Action;
 import doormax.structures.Effect;
 import taxi.Configurations;
 import tomlg.Goal;
-import tomlg.Intention;
-import tomlg.Mind;
 
 class ActionEffectKey {
 	private Action action;
@@ -39,7 +34,7 @@ class ActionEffectKey {
 			} else if (key.getAction().getName().equals(Configurations.DROP)) {
 				tuple.setReward(0.99);
 			} else
-				tuple.setReward(0.1);
+				tuple.setReward(0.0001);
 
 			list.get(list.indexOf(key)).countOne(tuple.getReward());
 

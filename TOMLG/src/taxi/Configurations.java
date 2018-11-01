@@ -6,12 +6,6 @@ import doormax.PropositionalFunction;
 import taxi.pf.In;
 import taxi.pf.On;
 import taxi.pf.Touch;
-import taxi.pf.old.PassengerInTaxi;
-import taxi.pf.old.TaxiAtPassenger;
-import taxi.pf.old.WallToEastOfTaxi;
-import taxi.pf.old.WallToNorthOfTaxi;
-import taxi.pf.old.WallToSouthOfTaxi;
-import taxi.pf.old.WallToWestOfTaxi;
 
 public final class Configurations {
 	public static final String TAXI_CLASS_NAME = "taxi";

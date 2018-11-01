@@ -35,7 +35,7 @@ public class Util {
 			// checa se a classe é definida no OOMDP
 			Optional<ObjectClass> obj = oomdp.getObjectClasses().stream().filter(p -> p.getName().equals(className))
 					.findFirst();
-			assert (obj.isPresent());
+			assert (obj.isPresent()==true);
 			ObjectClass objClass = obj.get();
 			List<Attribute> attributes = new ArrayList<Attribute>();
 
@@ -46,7 +46,7 @@ public class Util {
 
 				Optional<Attribute> att = objClass.getAttributes().stream().filter(p -> p.getName().equals(attName))
 						.findFirst();
-				assert (att.isPresent());
+				assert (att.isPresent()==true);
 
 				Attribute objAttribute = att.get().copy();
 				if (objAttribute instanceof AttributeBoolean) {

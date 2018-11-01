@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import doormax.structures.attribute.Attribute;
-import doormax.structures.attribute.AttributeBoolean;
 
 public class ObjectInstance implements Comparable<ObjectInstance> {
 	private static int UNIVERSAL_ID;

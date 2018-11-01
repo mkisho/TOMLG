@@ -6,6 +6,7 @@ import doormax.structures.attribute.AttributeInteger;
 import taxi.Configurations;
 
 public class Touch extends doormax.PropositionalFunction {
+	private static final long serialVersionUID = -3305623246473304363L;
 	private final String objClass;
 	private final String direction;
 

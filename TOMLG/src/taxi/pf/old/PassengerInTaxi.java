@@ -1,7 +1,5 @@
 package taxi.pf.old;
 
-import javax.security.auth.login.Configuration;
-
 import doormax.OOMDPState;
 import doormax.ObjectInstance;
 import doormax.PropositionalFunction;
@@ -9,6 +7,8 @@ import doormax.structures.attribute.AttributeBoolean;
 import taxi.Configurations;
 
 public class PassengerInTaxi extends PropositionalFunction {
+	private static final long serialVersionUID = 3499466464254924211L;
+
 	public PassengerInTaxi() {
 		super("PassengerInTaxi");
 	}

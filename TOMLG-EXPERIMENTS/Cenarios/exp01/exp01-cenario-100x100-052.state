@@ -1,0 +1,134 @@
+destination(
+xLocation :34,
+yLocation :35
+ )
+taxi(
+xLocation :40,
+yLocation :99,
+passengerInTaxi :false
+ )
+passenger(
+xLocation :25,
+yLocation :97,
+inTaxi :false
+ )
+verticalWall(
+wallOffSet :0,
+bottomOfWall :0,
+topOfWall :100
+ )
+verticalWall(
+wallOffSet :100,
+bottomOfWall :0,
+topOfWall :100
+ )
+horizontalWall(
+wallOffSet :0,
+leftStartOfWall :0,
+rightStartOfWall :100
+ )
+horizontalWall(
+wallOffSet :100,
+leftStartOfWall :0,
+rightStartOfWall :100
+ )
+horizontalWall(
+wallOffSet :47,
+leftStartOfWall :79,
+rightStartOfWall :91
+ )
+horizontalWall(
+wallOffSet :13,
+leftStartOfWall :93,
+rightStartOfWall :96
+ )
+horizontalWall(
+wallOffSet :66,
+leftStartOfWall :14,
+rightStartOfWall :74
+ )
+horizontalWall(
+wallOffSet :60,
+leftStartOfWall :73,
+rightStartOfWall :83
+ )
+horizontalWall(
+wallOffSet :27,
+leftStartOfWall :17,
+rightStartOfWall :47
+ )
+horizontalWall(
+wallOffSet :16,
+leftStartOfWall :62,
+rightStartOfWall :97
+ )
+horizontalWall(
+wallOffSet :50,
+leftStartOfWall :87,
+rightStartOfWall :98
+ )
+horizontalWall(
+wallOffSet :19,
+leftStartOfWall :66,
+rightStartOfWall :70
+ )
+horizontalWall(
+wallOffSet :84,
+leftStartOfWall :88,
+rightStartOfWall :94
+ )
+horizontalWall(
+wallOffSet :21,
+leftStartOfWall :91,
+rightStartOfWall :98
+ )
+horizontalWall(
+wallOffSet :30,
+leftStartOfWall :89,
+rightStartOfWall :89
+ )
+horizontalWall(
+wallOffSet :42,
+leftStartOfWall :46,
+rightStartOfWall :89
+ )
+horizontalWall(
+wallOffSet :35,
+leftStartOfWall :6,
+rightStartOfWall :51
+ )
+horizontalWall(
+wallOffSet :48,
+leftStartOfWall :69,
+rightStartOfWall :95
+ )
+horizontalWall(
+wallOffSet :90,
+leftStartOfWall :68,
+rightStartOfWall :75
+ )
+horizontalWall(
+wallOffSet :98,
+leftStartOfWall :0,
+rightStartOfWall :79
+ )
+horizontalWall(
+wallOffSet :46,
+leftStartOfWall :15,
+rightStartOfWall :90
+ )
+horizontalWall(
+wallOffSet :85,
+leftStartOfWall :58,
+rightStartOfWall :62
+ )
+horizontalWall(
+wallOffSet :42,
+leftStartOfWall :12,
+rightStartOfWall :51
+ )
+horizontalWall(
+wallOffSet :73,
+leftStartOfWall :65,
+rightStartOfWall :78
+ )
