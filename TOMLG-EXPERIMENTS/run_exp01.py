@@ -19,7 +19,7 @@ def make_str_exp_all(exp_prefix, index_variation):
     for exp in exp_prefix:
        states += [exp.format(i) for i in index_variation]
     
-    for state in states:
+    for state in states[0:101]:
         # first run in the state and save its mind
         train_mind = 'trainned_minds/'+state+".trainned.mind"
         os_line = default.format(
@@ -28,10 +28,10 @@ def make_str_exp_all(exp_prefix, index_variation):
             train_mind,
             ""
             )
-        #print(os_line)
+        print(os_line)
         subprocess.call(os_line, shell=True)
         # run
-        for state_conf in []:#states:
+        for state_conf in states[0:101]:
             os_line = default.format(
                 state_conf,
                 "no_needed.xml",
