@@ -89,7 +89,7 @@ public class PFLearner implements Serializable {
 						System.out.println("");
 						final int lengthPredBefore = this.predictions.size();
 						this.predictions.removeAll(relatedPrediction);
-						assert(lengthPredBefore< this.predictions.size());
+						assert(lengthPredBefore < this.predictions.size());
 						//.removeIf(p -> p.getEffect().getType().equals(hypEffect.getType())));
 
 						System.out.println("");

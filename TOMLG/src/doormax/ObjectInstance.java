@@ -1,12 +1,14 @@
 package doormax;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import doormax.structures.attribute.Attribute;
 
-public class ObjectInstance implements Comparable<ObjectInstance> {
+public class ObjectInstance implements Comparable<ObjectInstance>, Serializable {
+	private static final long serialVersionUID = -4369177936027082074L;
 	private static int UNIVERSAL_ID;
 	private String id;
 

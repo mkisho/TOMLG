@@ -102,6 +102,8 @@ public class DOORMax implements Serializable {
 			oldState = currentState;
 			return;
 		}
+		assert(this.actionList.contains(action)==true);
+
 		Condition condition = Condition.evaluate(oomdp.getPfIndex(), oldState);
 
 		List<ObjectInstance> oldInstances = this.oldState.getObjects();

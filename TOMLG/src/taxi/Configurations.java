@@ -60,4 +60,6 @@ public final class Configurations {
 	public static final Random random = new Random(0);
 	public static final int MAX_GOALS_GENERATED = 2;
 	public static final String INTRINSIC_MOTIVATION_GOAL_LABEL = "IntrinsicMotivation";
+	public static final boolean CONTINUE_WHEN_MIND_NOT_FOUND = true;
+	public static final int MIN_NUM_SEQUENCES_DERIVE_FDI = 7;
 }

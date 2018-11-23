@@ -7,7 +7,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import doormax.OOMDP;
 import doormax.OOMDPState;
+import doormax.structures.Action;
 import doormax.structures.Condition;
+import taxi.Configurations;
 
 public class Agent implements Serializable {
 	private static final long serialVersionUID = -8490880585101019596L;
@@ -18,6 +20,7 @@ public class Agent implements Serializable {
 	private transient SensoryMonitor sensories;
 	private transient AgentActuator bodyActuators;
 	private transient OOMDP oomdp;
+	private transient Action lastAction;
 
 	public Agent(String name, Environment environment, OOMDP oomdp) {
 		this.name = name;
@@ -53,6 +56,7 @@ public class Agent implements Serializable {
 
 		this.bodyActuators.doActionOnEnvironment(intention.getAction());
 		this.mind.addIntentionToHistory(intention);
+		this.lastAction = intention.getAction();
 	}
 
 	public void saveMindToFile(String fileName) {
@@ -76,12 +80,19 @@ public class Agent implements Serializable {
 			this.mind.initializeMindWhenLoadedFromFile();
 			objectInputStream.close();
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
+			System.out.println("Mind file " + fileName + " not found");
+			if (!Configurations.CONTINUE_WHEN_MIND_NOT_FOUND) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
 	}
 
 	public Mind getMind() {
 		return this.mind;
+	}
+
+	public Action getLastAction() {
+		return this.lastAction;
 	}
 }

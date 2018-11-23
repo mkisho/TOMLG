@@ -70,13 +70,13 @@ public class Mind implements Serializable {
 //		if (this.intentions.size() > 0) {
 //			return intentions.remove();
 //		}
-		
+
 		if (intentions.isEmpty()) {
 			choosenGoal = null;
 		} else {
 			return intentions.remove();
 		}
-		
+
 		if (this.choosenGoal == null) {
 			if (!this.goals.isEmpty()) {
 				// TODO ESSA PARTE É BEM IMPORTANTE, IMPLEMENTA-LA IGUAL O MODELO
@@ -90,8 +90,8 @@ public class Mind implements Serializable {
 					}
 					// Intention intention = new Intention(
 					// withEffect.get(Configurations.random.nextInt(withEffect.size())), goal);
-					System.out.println("Plan Generated for Goal: "+actionPlan);
-					System.out.println("Agent Choosed goal: "+ goal);
+					System.out.println("Plan Generated for Goal: " + actionPlan);
+					System.out.println("Agent Choosed goal: " + goal);
 					this.choosenGoal = goal;
 					return intentions.remove();
 					// choose new goal
@@ -101,50 +101,50 @@ public class Mind implements Serializable {
 			System.out.println("Agent Has no achievable goals or have no goals");
 //			else {
 
-				// primeiro verifica quais ações o agente ainda não sabe os efeitos
-				Map<Action, List<Effect>> actionPrediction = this.agentLearner.predict(null, actionRepertoire);
-				List<Action> unknown = new ArrayList<Action>();
-				List<Action> withEffect = new ArrayList<Action>();
-				for (Action action : actionPrediction.keySet()) {
-					if (actionPrediction.get(action) == null)
-						unknown.add(action);
-					else if (actionPrediction.get(action).size() != 0)
-						withEffect.add(action);
-				}
-				// escolhe uma ação da lista de ações com efeito desconhecido
-				if (unknown.size() != 0) {
-					int actionIndex = Configurations.random.nextInt(unknown.size());
-					Action action = unknown.get(actionIndex);
-					Goal goal = new Goal(Configurations.INTRINSIC_MOTIVATION_GOAL_LABEL,
-							"Pursuing unknown effect action. Unknown actions: " + unknown.size());
-					Intention intention = new Intention(action, goal);
-					return intention;
-				}
-				// TODO se todas as ações são conhecidas, escolha uma ação que resulte em um
-				// estado ainda não explorado
-				if (withEffect.size() != 0) {
+			// primeiro verifica quais ações o agente ainda não sabe os efeitos
+			Map<Action, List<Effect>> actionPrediction = this.agentLearner.predict(null, actionRepertoire);
+			List<Action> unknown = new ArrayList<Action>();
+			List<Action> withEffect = new ArrayList<Action>();
+			for (Action action : actionPrediction.keySet()) {
+				if (actionPrediction.get(action) == null)
+					unknown.add(action);
+				else if (actionPrediction.get(action).size() != 0)
+					withEffect.add(action);
+			}
+			// escolhe uma ação da lista de ações com efeito desconhecido
+			if (unknown.size() != 0) {
+				int actionIndex = Configurations.random.nextInt(unknown.size());
+				Action action = unknown.get(actionIndex);
+				Goal goal = new Goal(Configurations.INTRINSIC_MOTIVATION_GOAL_LABEL,
+						"Pursuing unknown effect action. Unknown actions: " + unknown.size());
+				Intention intention = new Intention(action, goal);
+				return intention;
+			}
+			// TODO se todas as ações são conhecidas, escolha uma ação que resulte em um
+			// estado ainda não explorado
+			if (withEffect.size() != 0) {
 
-					Goal goal = new Goal(Configurations.INTRINSIC_MOTIVATION_GOAL_LABEL, null);
-					List<Action> actionPlan = planner.planForGoal(goal, currentState, agentLearner);
-					if (actionPlan == null) {
-						return null;
-					}
-					goal.setMotivation("Planned actions: " + actionPlan.size() + " Plan: " + actionPlan);
-
-					for (Action e : actionPlan) {
-						this.intentions.add(new Intention(e, goal));
-					}
-					// Intention intention = new Intention(
-					// withEffect.get(Configurations.random.nextInt(withEffect.size())), goal);
-					return intentions.remove();
-				} else {
-					assert (true == false);
-					return null; // TODO impossible situation?
-
+				Goal goal = new Goal(Configurations.INTRINSIC_MOTIVATION_GOAL_LABEL, null);
+				List<Action> actionPlan = planner.planForGoal(goal, currentState, agentLearner);
+				if (actionPlan == null) {
+					return null;
 				}
+				goal.setMotivation("Planned actions: " + actionPlan.size() + " Plan: " + actionPlan);
+
+				for (Action e : actionPlan) {
+					this.intentions.add(new Intention(e, goal));
+				}
+				// Intention intention = new Intention(
+				// withEffect.get(Configurations.random.nextInt(withEffect.size())), goal);
+				return intentions.remove();
+			} else {
+				assert (true == false);
+				return null; // TODO impossible situation?
+
+			}
 //			}
-		} 
-		
+		}
+
 		System.exit(-1);
 		return null;
 	}
@@ -182,9 +182,11 @@ public class Mind implements Serializable {
 		List<Goal> newGoals = GoalLearner.reasoning(this.actionsHistory, Configurations.MAX_GOALS_GENERATED);
 
 		for (Goal goal : newGoals) {
-			if (!this.goals.contains(goal)) {
-				System.out.println("Adding new Learned Goal To the List Of Goals");
-				this.goals.add(goal);
+			if (this.goals.size() < 2) {
+				if (!this.goals.contains(goal)) {
+					System.out.println("Adding new Learned Goal To the List Of Goals");
+					this.goals.add(goal);
+				}
 			}
 		}
 

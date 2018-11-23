@@ -1,10 +1,13 @@
 package doormax;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class OOMDPState {
+public class OOMDPState implements Serializable {
+	private static final long serialVersionUID = 5220435988536652242L;
+	
 	private OOMDP oomdp;
 	private List<ObjectInstance> objects;
 
