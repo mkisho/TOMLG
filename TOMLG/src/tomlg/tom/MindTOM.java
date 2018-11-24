@@ -2,9 +2,12 @@ package tomlg.tom;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
+
 import doormax.DOORMax;
 import doormax.OOMDP;
 import doormax.OOMDPState;
@@ -23,8 +26,8 @@ public class MindTOM implements Serializable {
 	private DOORMax agentLearner;
 	private String agentName;
 
-	private List<Goal> goals;
-	private List<Goal> invalidGoals;
+	private Set<Goal> goals;
+	private Set<Goal> invalidGoals;
 	private transient Goal choosenGoal;
 	
 	private transient Queue<Intention> intentions;
@@ -46,7 +49,7 @@ public class MindTOM implements Serializable {
 		this.agentName = agentName;
 		this.agentLearner = new DOORMax(oomdp);
 		this.actionRepertoire = this.oomdp.getActions();
-		this.goals = new ArrayList<Goal>();
+		this.goals = new HashSet<Goal>();
 		this.choosenGoal = null;
 		this.intentions = new LinkedList<>();
 		this.intentionsHistory = new ArrayList<Intention>();
@@ -54,7 +57,7 @@ public class MindTOM implements Serializable {
 		this.actionsHistory = new ActionsEpisodeHistory();
 
 		this.matrixCounter = new MatrixCounter(this.actionRepertoire);
-		this.invalidGoals = new ArrayList<Goal>();
+		this.invalidGoals = new HashSet<Goal>();
 		this.predictedActions = new ArrayList<Action>();
 	}
 	
@@ -99,6 +102,7 @@ public class MindTOM implements Serializable {
 					if (actionPlan == null) {
 						continue;
 					}
+					actionPlan.remove(actionPlan.size()-1);
 					for (Action e : actionPlan) {
 						this.intentions.add(new Intention(e, goal));
 					}
@@ -134,10 +138,15 @@ public class MindTOM implements Serializable {
 			invalidNewGoals.addAll(this.invalidGoals);
 			assert(invalidNewGoals.size() == (this.goals.size() + this.invalidGoals.size()));
 			
-			Goal newInferedGoal = this.matrixCounter.predictGoalByMin(this.invalidGoals);
+			Goal newInferedGoal = this.matrixCounter.predictGoalByMin(invalidNewGoals);
 			if(newInferedGoal != null) {
 				newInferedGoal.setTrySucessfully(true);
 				this.goals.add(newInferedGoal);
+			}else if(newInferedGoal == null) {
+				if((this.invalidGoals.size() + this.goals.size())>= this.actionRepertoire.size()) {
+					this.invalidGoals.clear();
+//					inferFDI();
+				}
 			}
 			
 		}

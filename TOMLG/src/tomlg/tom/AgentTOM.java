@@ -68,7 +68,7 @@ public class AgentTOM implements Serializable {
 				System.out.println("not hit: "+previsions.get(i).getAction()+":"+observations.get(i).getAction());
 			}
 		}
-		if(hits != total)
+		if(hits/(total+0.0) < 0.9)
 			this.mind.inferFDI();
 		return previsions;
 	}

@@ -104,7 +104,7 @@ public class Experiment02 {
 
 		if (this.statiscsFile != null) {
 			try {
-				String str = this.stateFile + ", " + this.mindLoadFile + ", " + this.mindSaveFile + ", " + hits+", "+total;//+", "+this.agent.getMind().getGoals();
+				String str = this.stateFile + ", " + this.mindLoadFile + ", " + this.mindSaveFile + ", " + hits+", "+total+", "+this.agent.getMind().getGoals();
 
 				BufferedWriter writer = new BufferedWriter(new FileWriter(statiscsFile, true));
 				writer.append(str);
@@ -122,12 +122,12 @@ public class Experiment02 {
 		if (false) {
 			args = new String[7];
 			args[0] = "src/Environment01.oomdp";
-			args[1] = "../TOMLG-EXPERIMENTS/Cenarios/exp02/exp02-10x10-012.state";
+			args[1] = "../TOMLG-EXPERIMENTS/Cenarios/exp02/exp02-10x10-013.state";
 			args[2] = "experiment01.xml";
 			args[3] = "100000";
-			args[4] = "../TOMLG-EXPERIMENTS/results/exp0002-mod.csv";
-			args[5] = "../TOMLG-EXPERIMENTS/trainned_minds/exp000xxx02.trainned.mind";
-			args[6] = "../TOMLG-EXPERIMENTS/trainned_minds/exp000xxx02.trainned.mind";
+			args[4] = "../TOMLG-EXPERIMENTS/results/exp0002-xmod.csv";
+			args[5] = "../TOMLG-EXPERIMENTS/trainned_minds/complete.trainned.exp00xxx02--mod.1.mind";
+			args[6] = "../TOMLG-EXPERIMENTS/trainned_minds/complete.trainned.exp00xxx02--mod.1.mind";
 		}
 		System.out.println(Arrays.toString(args));
 		if (args.length < 4) {
