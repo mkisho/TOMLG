@@ -100,8 +100,6 @@ public class Mind implements Serializable {
 				System.out.println("No plan for goals");
 			}
 			System.out.println("Agent Has no achievable goals or have no goals");
-//			else {
-
 			// primeiro verifica quais ações o agente ainda não sabe os efeitos
 			Map<Action, List<Effect>> actionPrediction = this.agentLearner.predict(null, actionRepertoire);
 			List<Action> unknown = new ArrayList<Action>();
@@ -125,7 +123,7 @@ public class Mind implements Serializable {
 			// estado ainda não explorado
 			if (withEffect.size() != 0) {
 
-				Goal goal = new Goal(Configurations.INTRINSIC_MOTIVATION_GOAL_LABEL, null);
+				Goal goal = new Goal(Configurations.INTRINSIC_MOTIVATION_GOAL_LABEL, "Plan for unkow state");
 				List<Action> actionPlan = planner.planForGoal(goal, currentState, agentLearner);
 				if (actionPlan == null) {
 					return null;
@@ -141,9 +139,7 @@ public class Mind implements Serializable {
 			} else {
 				assert (true == false);
 				return null; // TODO impossible situation?
-
 			}
-//			}
 		}
 
 		System.exit(-1);
@@ -195,6 +191,7 @@ public class Mind implements Serializable {
 
 	/**
 	 * TODO arrumar em versões posteriores
+	 * 
 	 * @param mind
 	 */
 	public void transferLearning(MindTOM mind) {
@@ -204,4 +201,26 @@ public class Mind implements Serializable {
 	public DOORMax getAgentLearning() {
 		return this.agentLearner;
 	}
+
+	public Intention getLastIntention() {
+		if (!intentionsHistory.isEmpty())
+			return intentionsHistory.get(intentionsHistory.size() - 1);
+		else
+			return null;
+	}
+
+	/**
+	 * @return the goals
+	 */
+	public List<Goal> getAchievementGoals() {
+		return this.goals;
+	}
+
+	/**
+	 * @return the choosenGoal
+	 */
+	public Goal getChoosenFDI() {
+		return this.choosenGoal;
+	}
+	
 }

@@ -1,6 +1,7 @@
 package doormax;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import doormax.structures.attribute.Attribute;
  * @author chronius
  *
  */
-public class Learner implements Serializable{
+public class Learner implements Serializable {
 	private static final long serialVersionUID = 5071624047918122820L;
 	private Attribute attribute;
 	private ObjectClass objClass;
@@ -50,8 +51,8 @@ public class Learner implements Serializable{
 		return this.actionLearner.get(action).predict(condition, state, action);
 	}
 
-	public void toBeliefs() {
-
+	public Collection<PFLearner> getPFLearners() {
+		return this.actionLearner.values();
 	}
 
 }

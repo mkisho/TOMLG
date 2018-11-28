@@ -112,5 +112,14 @@ public class Condition implements Serializable{
 
 		return null;
 	}
+	
+	public char getEvalOfPropositionalFunctionComplete(PropositionalFunction f) {
+		for (int i = 0; i < this.pfIndex.length; i++) {
+			if (this.pfIndex[i].equals(f)) {
+				return (this.eval[i]);
+			}
+		}
+		return 'X';
+	}
 
 }

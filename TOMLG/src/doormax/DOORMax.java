@@ -2,6 +2,7 @@ package doormax;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -250,6 +251,14 @@ public class DOORMax implements Serializable {
 				currentPool.addAll(effects);
 		}
 		return currentPool;
+	}
+	
+	/**
+	 * Somente usado para a saída lógica
+	 * @return
+	 */
+	public Collection<Learner> getLearners() {
+		return this.learners.values();
 	}
 
 	@Override

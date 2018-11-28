@@ -89,12 +89,12 @@ public class PFLearner implements Serializable {
 						System.out.println("");
 						final int lengthPredBefore = this.predictions.size();
 						this.predictions.removeAll(relatedPrediction);
-						assert(lengthPredBefore < this.predictions.size());
-						//.removeIf(p -> p.getEffect().getType().equals(hypEffect.getType())));
+						assert (lengthPredBefore < this.predictions.size());
+						// .removeIf(p -> p.getEffect().getType().equals(hypEffect.getType())));
 
 						System.out.println("");
 						for (Prediction pred : relatedPrediction) {
-							//							assert(toRemove.isPresent());
+							// assert(toRemove.isPresent());
 //							this.predictions.remove(toRemove.get());
 							System.out.println("Ading pred to Contradiction>>>>>" + pred);
 
@@ -163,17 +163,18 @@ public class PFLearner implements Serializable {
 		return false;
 	}
 
-	private List<Effect> getMatchingNonContradictoryPredictions(Condition condition, OOMDPState state, List<Prediction> setPpred) {
+	private List<Effect> getMatchingNonContradictoryPredictions(Condition condition, OOMDPState state,
+			List<Prediction> setPpred) {
 		List<Effect> maching = new ArrayList<Effect>();
 		for (Prediction pred : setPpred) {
 			if (pred.matches(condition)) {
 				if (checkForContradictoryEffects(pred.getEffect(), maching, state)) {
 					System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 					System.out.println("Incompatible effects. Can not predict result yet");
-					System.out.println("Condition: "+ condition );
-					System.out.println("On: "+ this.action+" - "+this.attribute);
-					System.out.println("Contradictory Prediction: "+ setPpred);
-					System.out.println("State: "+ state);
+					System.out.println("Condition: " + condition);
+					System.out.println("On: " + this.action + " - " + this.attribute);
+					System.out.println("Contradictory Prediction: " + setPpred);
+					System.out.println("State: " + state);
 
 					System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 					return null;
@@ -205,4 +206,47 @@ public class PFLearner implements Serializable {
 		}
 	}
 
+	/**
+	 * @return the failureConditions
+	 */
+	public List<Condition> getFailureConditions() {
+		return failureConditions;
+	}
+
+	/**
+	 * @return the predictions
+	 */
+	public List<Prediction> getPredictions() {
+		return predictions;
+	}
+
+	/**
+	 * @return the contraditions
+	 */
+	public List<Prediction> getContraditions() {
+		return contraditions;
+	}
+
+	/**
+	 * @return the action
+	 */
+	public Action getAction() {
+		return action;
+	}
+
+	/**
+	 * @return the objClass
+	 */
+	public ObjectClass getObjClass() {
+		return objClass;
+	}
+
+	/**
+	 * @return the attribute
+	 */
+	public Attribute getAttribute() {
+		return attribute;
+	}
+	
+	
 }

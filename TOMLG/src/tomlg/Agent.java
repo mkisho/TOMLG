@@ -95,4 +95,14 @@ public class Agent implements Serializable {
 	public Action getLastAction() {
 		return this.lastAction;
 	}
+	
+	public Condition getPerceptionsLowLevel() {
+		OOMDPState state = this.sensories.environmentToPerception();
+		return Condition.evaluate(oomdp.getPfIndex(), state);
+
+	}
+
+	public OOMDPState getPercetionHighLevel() {
+		return this.sensories.environmentToPerception();
+	}
 }

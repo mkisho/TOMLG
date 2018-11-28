@@ -2,9 +2,14 @@ package taxi.experiments;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
+
+import javax.xml.soap.SAAJResult;
+
 import doormax.OOMDP;
 import doormax.OOMDPState;
 import doormax.PropositionalFunction;
@@ -12,6 +17,7 @@ import doormax.structures.Effect;
 import doormax.structures.EffectType;
 import doormax.utils.Util;
 import experiments.utils.OOMDPReaderFromFile;
+import logicoutput.LogicOutput;
 import taxi.Configurations;
 import taxi.TaxiEnvironment2;
 import tomlg.Agent;
@@ -33,6 +39,7 @@ public class Experiment01 {
 	private final String statiscsFile;
 	private final String stateFile;
 	private final String mindLoadFile;
+	private final String outputFile;
 
 	public Experiment01(String oomdpFile, String stateFile, String outputFile, int maxSteps, String mindSaveFile,
 			String mindLoadFile, String statiscsFile) {
@@ -43,6 +50,7 @@ public class Experiment01 {
 		this.stateFile = stateFile;
 		this.statiscsFile = statiscsFile;
 		this.mindLoadFile = mindLoadFile;
+		this.outputFile = outputFile;
 
 		this.agent = new Agent("Taxi", this.environment, this.oomdp);
 
@@ -69,14 +77,14 @@ public class Experiment01 {
 		try {
 			OOMDPReaderFromFile a = new OOMDPReaderFromFile();
 			this.oomdp = a.leitura(oomdpFile, pfss);
-			
-			this.currentState = Util.readOOMDPStateFromFile(stateFile, oomdp);//a.stateReader(stateFile, this.oomdp);
+
+			this.currentState = Util.readOOMDPStateFromFile(stateFile, oomdp);// a.stateReader(stateFile, this.oomdp);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
-		System.out.println("Current State has "+this.currentState.getObjects().size()+" objects");
+
+		System.out.println("Current State has " + this.currentState.getObjects().size() + " objects");
 
 		List<EffectType> effectsToUse = new ArrayList<>();
 		for (EffectType e : Effect.γ) {
@@ -86,11 +94,18 @@ public class Experiment01 {
 		this.environment = new Environment(this.currentState, new TaxiEnvironment2());
 	}
 
-	private void runExperiment() {
+	private void runExperiment() throws IOException {
+		LogicOutput logicOutput = new LogicOutput(this.outputFile);
+		logicOutput.output(this.agent);
+//		Scanner scan = new Scanner(System.in); // TODO remove
+
 		System.out.println(this.environment.getState());
 		int step = 0;
 		boolean episodeEnded = false;
 		while (step <= this.maxSteps && !episodeEnded) {
+			logicOutput.output(this.agent);
+//			scan.nextLine();
+
 			System.out.println("On step: " + step++);
 			this.agent.step(episodeEnded);
 			System.out.println(this.environment.getState());
@@ -118,5 +133,43 @@ public class Experiment01 {
 				e.printStackTrace();
 			}
 		}
+
+		logicOutput.finalize();
 	}
+
+	public static void main(String args[]) throws IOException {
+		if (true) {
+			args = new String[7];
+			args[0] = "src/Environment01.oomdp";
+			args[1] = "../TOMLG-EXPERIMENTS/Cenarios/exp01/exp01-cenario-10x10-002.state";
+			args[2] = "experiment01.xml";
+			args[3] = "100000";
+			args[4] = "statistics";
+			args[5] = "thehopeislost";
+			args[6] = "../TOMLG-EXPERIMENTS/trainned_minds/exp01-cenario-10x10-001.state.trainned.mind";
+		}
+		System.out.println(Arrays.toString(args));
+		if (args.length < 4) {
+			System.out.println(
+					"The params must be: oodmp_file, state_file, output_file, max_steps, statiscs_file, mind_save_file,"
+							+ "mind_load_file");
+			System.exit(-1);
+		}
+		String oomdpFile = args[0];
+		String stateFile = args[1];
+		String outputFile = args[2];
+		int maxSteps = Integer.parseInt(args[3]);
+		String statiscsFile = (args.length > 4 ? args[4] : null);
+		String mindSaveFile = (args.length > 5 ? args[5] : null);
+		String mindLoadFile = (args.length > 6 ? args[6] : null);
+
+		Experiment01 experiment = new Experiment01(oomdpFile, stateFile, outputFile, maxSteps, mindSaveFile,
+				mindLoadFile, statiscsFile);
+		try {
+			experiment.runExperiment();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

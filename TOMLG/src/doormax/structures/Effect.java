@@ -2,6 +2,7 @@ package doormax.structures;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import doormax.OOMDPState;
@@ -9,7 +10,7 @@ import doormax.ObjectClass;
 import doormax.ObjectInstance;
 import doormax.structures.attribute.Attribute;
 
-public class Effect implements Serializable{
+public class Effect implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final EffectType[] γ = { new ArithmeticEffect(), new AssignmentEffect() };
@@ -104,7 +105,7 @@ public class Effect implements Serializable{
 		if (value == null) {
 			if (other.value != null)
 				return false;
-		} else if (Double.compare(value, other.value)!=0)//!value.equals(other.value))
+		} else if (Double.compare(value, other.value) != 0)// !value.equals(other.value))
 			return false;
 		return true;
 	}
@@ -115,6 +116,11 @@ public class Effect implements Serializable{
 				+ ", value=" + value + "]";
 	}
 
+	public String toLogicFormat() {
+		return String.join(", ", (List<String>) Arrays.asList(this.objClass.getName(), this.attribute.getName(),
+				this.getType().name(), this.getValue().intValue() + ""));
+	}
+
 	/*
 	 * Checks if this contradicts e for the given state
 	 * 
@@ -123,7 +129,7 @@ public class Effect implements Serializable{
 	 */
 	public boolean contradicts(Effect e, OOMDPState state) {
 		if (!(this.objClass.getName().equals(e.getObjClass().getName()) && this.attribute.equals(e.getAttribute()))) {
-			System.exit(-1);	
+			System.exit(-1);
 			return false;
 		}
 
