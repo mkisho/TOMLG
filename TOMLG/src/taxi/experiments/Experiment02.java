@@ -42,7 +42,14 @@ public class Experiment02 {
 
 		if (mindLoadFile != null) {
 			System.out.println("Loading Mind of Agent From file: " + mindLoadFile);
-			this.agent.loadMindFromFile(mindLoadFile);
+			
+			if(true) {
+				//TODO only for exp 03.
+				//o certo seria alterar o método de transferência. mas como o tempo é curto, isso foi modificado aqui, remover em versões posteriores
+				this.agent.loadBeliefsMindFromFile(mindLoadFile);
+			}
+			
+			//this.agent.loadMindFromFile(mindLoadFile);
 		}
 	}
 

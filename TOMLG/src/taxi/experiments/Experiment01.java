@@ -119,35 +119,4 @@ public class Experiment01 {
 			}
 		}
 	}
-
-	public static void main(String args[]) {
-		if (false) {
-			args = new String[7];
-			args[0] = "src/Environment01.oomdp";
-			args[1] = "../TOMLG-EXPERIMENTS/Cenarios/exp01/exp01-cenario-10x10-002.state";
-			args[2] = "experiment01.xml";
-			args[3] = "100000";
-			args[4] = "statistics";
-			args[5] = "thehopeislost";
-			args[6] = "../TOMLG-EXPERIMENTS/trainned_minds/exp01-cenario-10x10-001.state.trainned.mind";
-		}
-		System.out.println(Arrays.toString(args));
-		if (args.length < 4) {
-			System.out.println(
-					"The params must be: oodmp_file, state_file, output_file, max_steps, statiscs_file, mind_save_file,"
-							+ "mind_load_file");
-			System.exit(-1);
-		}
-		String oomdpFile = args[0];
-		String stateFile = args[1];
-		String outputFile = args[2];
-		int maxSteps = Integer.parseInt(args[3]);
-		String statiscsFile = (args.length > 4 ? args[4] : null);
-		String mindSaveFile = (args.length > 5 ? args[5] : null);
-		String mindLoadFile = (args.length > 6 ? args[6] : null);
-
-		Experiment01 experiment = new Experiment01(oomdpFile, stateFile, outputFile, maxSteps, mindSaveFile, mindLoadFile,
-				statiscsFile);
-		experiment.runExperiment();
-	}
 }

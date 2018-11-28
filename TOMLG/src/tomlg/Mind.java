@@ -18,6 +18,7 @@ import tomlg.goallearning.ActionsEpisodeHistory;
 import tomlg.goallearning.GoalLearner;
 import tomlg.planner.BreathFirstStateSpaceSearch;
 import tomlg.planner.Planner;
+import tomlg.tom.MindTOM;
 
 public class Mind implements Serializable {
 	private static final long serialVersionUID = -3257744343001935691L;
@@ -190,5 +191,17 @@ public class Mind implements Serializable {
 			}
 		}
 
+	}
+
+	/**
+	 * TODO arrumar em versões posteriores
+	 * @param mind
+	 */
+	public void transferLearning(MindTOM mind) {
+		this.agentLearner.combine(mind.getAgentLearning());
+	}
+
+	public DOORMax getAgentLearning() {
+		return this.agentLearner;
 	}
 }

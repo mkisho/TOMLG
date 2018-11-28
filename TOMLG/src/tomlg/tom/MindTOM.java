@@ -15,6 +15,7 @@ import doormax.structures.Action;
 import taxi.Configurations;
 import tomlg.Goal;
 import tomlg.Intention;
+import tomlg.Mind;
 import tomlg.goallearning.ActionsEpisodeHistory;
 import tomlg.goallearning.MatrixCounter;
 import tomlg.planner.BreathFirstStateSpaceSearch;
@@ -190,6 +191,20 @@ public class MindTOM implements Serializable {
 
 	public void endReasoning() {
 		this.matrixCounter.incObservedSequenceCounter();
+	}
+
+
+	public DOORMax getAgentLearning() {
+		return this.agentLearner;
+	}
+
+
+		/**
+	 * TODO arrumar em versões posteriores
+	 * @param mind
+	 */
+	public void transferLearning(Mind mind) {
+		this.agentLearner.combine(mind.getAgentLearning());
 	}
 
 }

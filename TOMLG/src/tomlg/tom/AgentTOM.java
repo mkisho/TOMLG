@@ -14,6 +14,7 @@ import doormax.structures.Action;
 import doormax.structures.Condition;
 import tomlg.Environment;
 import tomlg.Intention;
+import tomlg.Mind;
 
 public class AgentTOM implements Serializable {
 	private static final long serialVersionUID = -95505017414567460L;
@@ -102,5 +103,24 @@ public class AgentTOM implements Serializable {
 
 	public MindTOM getMind() {
 		return this.mind;
+	}
+
+	/**
+	 * TODO remover em versões posteriores. Somente para o experimento 03 ficar mais fácil de implementar
+	 * @param mindLoadFile
+	 */
+	public void loadBeliefsMindFromFile(String mindLoadFile) {
+		try {
+			FileInputStream fileInputStream = new FileInputStream(mindLoadFile);
+			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+			Mind mind = (Mind) objectInputStream.readObject();
+			this.mind.transferLearning(mind);
+			objectInputStream.close();
+		} catch (Exception e) {
+			System.out.println("Could not open mind file");
+			e.printStackTrace();
+//			System.exit(-1);
+		}
+		
 	}
 }

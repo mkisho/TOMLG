@@ -270,4 +270,13 @@ public class DOORMax implements Serializable {
 	public OOMDPState getOldState() {
 		return oldState;
 	}
+
+	public void combine(DOORMax agentLearning) {
+		for(Map.Entry<HashLearnerKey, Learner> k : agentLearning.learners.entrySet()) {
+			this.learners.put(k.getKey(), k.getValue());
+			// TODO em uma futura versão o conhecimento deve ser efetivamente combinado. 
+			// No experimento 03 não fará diferença no final, mas para uma utilização mais complexa 
+			// seria necessário usar um update e não um put
+		}
+	}
 }
