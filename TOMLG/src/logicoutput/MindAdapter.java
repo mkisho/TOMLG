@@ -22,7 +22,7 @@ public class MindAdapter extends TypeAdapter<Mind> {
 		}
 
 		String str = type + "_{me}<me:" + goal.getAction().getName() + ">(" + String.join("\\land ", effects) + ")";
-		str += " \\ddagger" + goal.getMotivation() + " \\ddager";
+		str += " 	\\ddagger" + goal.getMotivation() + " \\ddager";
 		return str;
 	}
 
@@ -50,8 +50,11 @@ public class MindAdapter extends TypeAdapter<Mind> {
 		if (intention != null) {
 			writer.name("intention");
 			intention.getAction();
-			writer.value("Goal_{me}<<me:" + intention.getAction() + ">>\\top" + " \\ddagger"
-					+ intention.getGoal().getName() + " - " + intention.getGoal().getMotivation() + " \\ddager");
+			writer.value("Goal_{me}\\ll me:" + intention.getAction() + "\\gg \\top");
+			/*
+			 * + " \\ddagger  " + intention.getGoal().getName() + " - " +
+			 * intention.getGoal().getMotivation() + " \\ddager"
+			 */
 		}
 
 		writer.endObject();

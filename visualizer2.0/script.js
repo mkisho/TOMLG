@@ -1,32 +1,46 @@
 
 var data = null;
-
+var step = 0;
 $.getJSON('./experiment01.json', function(json) {
     data=json;
     data=data.Minds;
 //    console.log(json);
-
-    updateScreenStepId(0); // inicializaÃ§Ã£o
-
+    updateScreenStepId("primeiro"); // inicializaÃ§Ã£o
 });
 
-function updateScreenStepId(id){
-    printPerception(data[id]);
-    rintEffects(data[id], "me");
-    printGoals(data[id].goals, "me");
+function updateScreenStepId(event){
+    switch(event) {
+    case "primeiro":
+        step = 0;
+        break;
+    case "ultimo":
+        step = data.length - 1;
+        break;
+    case "proximo":
+        step++;
+        break;
+    case "anterior":
+        step--;
+        break;
+    default:
+    }
+    printPerception(data[step]);
+    printEffects(data[step], "me");
+    printGoals(data[step].goals, "me");
 }
 
 function printGoals(datax){
     text  = " ";
+
     if(datax.AchivementGoals != null){
 	text = _genericPrintLoop(datax.AchivementGoals);
     }
 
+    console.log(datax.intention);
     if(datax.intention != null){
-	text+= "  " +_genericPrintLoop(datax.intention);
+	text += " $$"+datax.intention+"$$";
     }
-    
-    
+      
     document.getElementById("reasoning").getElementsByClassName("text")[0].innerHTML = text;
 }
 
@@ -45,6 +59,8 @@ function _beliefLoop(array, who){
     for (var index in array){
 	text += "$$ Belief_{"+who+"}( "+array[index]+" ) $$"; //+"</br>";
     }
+    console.log(text);
+    //text = text.replace("\\\\", "\\");
     return text;
 }
 

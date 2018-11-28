@@ -141,12 +141,12 @@ public class Experiment01 {
 		if (true) {
 			args = new String[7];
 			args[0] = "src/Environment01.oomdp";
-			args[1] = "../TOMLG-EXPERIMENTS/Cenarios/exp01/exp01-cenario-10x10-002.state";
-			args[2] = "experiment01.xml";
+			args[1] = "../TOMLG-EXPERIMENTS/Cenarios/demo/TesteCenarioCorreto.state";
+			args[2] = "../visualizer2.0/experiment01.json";
 			args[3] = "100000";
 			args[4] = "statistics";
-			args[5] = "thehopeislost";
-			args[6] = "../TOMLG-EXPERIMENTS/trainned_minds/exp01-cenario-10x10-001.state.trainned.mind";
+			args[5] = "../TOMLG-EXPERIMENTS/demo.mind";
+			args[6] = null;//"../TOMLG-EXPERIMENTS/trainned_minds/exp01-cenario-10x10-001.state.trainned.mind";
 		}
 		System.out.println(Arrays.toString(args));
 		if (args.length < 4) {

@@ -1,4 +1,5 @@
 <!doctype html>
+<meta charset="ISO-8859-1">
 <head>
 <title>TOMLG-Visualizer</title>
   <link rel="stylesheet" href="css.css">
@@ -6,30 +7,50 @@
 
   <!-- <script type="text/javascript" async src="./MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
   <script type="text/javascript" async
-	  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-      CommonHTML: { linebreaks: { automatic: true } },
-      "HTML-CSS": { linebreaks: { automatic: true } },
-      SVG: { linebreaks: { automatic: true } }
-      });
-    </script>
-  </script>
-  <script src="./script.js"></script>
-  
+	  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"
+	  <script/>
+	  
+	  <script type="text/x-mathjax-config">
+	    MathJax.Hub.Config({
+	    tex2jax: {
+	    inlineMath: [["$","$"],["\\(","\\)"]]
+	    },
+	    linebreaks: { automatic: true } 
+	    
+	    });
+	  </script>
+
+	  <script type="text/javascript">
+	    	  function update(event){
+		     updateScreenStepId(event);
+		     MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                  }
+	  </script>
+
+	  <script src="./script.js"></script>
 </head>
 <main class="grid">
-  <article id="gui-visualizer">
+  <article id="buttons">
+    Controle
+    <div class="text">
+      <button onclick="update('primeiro')">Primeiro</button>
+      <button onclick="update('proximo')">Próximo</button>
+      <button onclick="update('anterior')">Anterior</button>
+      <button onclick="update('ultimo')">Último</button>
+    </div>
+  </article>
+
+<!--  <article id="gui-visualizer">
     GUI visualizer
     <div class="text">
     </div>
-  </article>
-  <article id="Perceptions">
+  </article> -->
+  <article id="Effects">
     <h1><b>Perceptions</b></h1>
     <div class="text">
     </div>
   </article>
-  <article id="Effects">
+  <article id="Perceptions">
     Effects
     <div class="text">
     </div>

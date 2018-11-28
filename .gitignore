@@ -6,7 +6,6 @@ DoormaxEllis/
 xmlvisualizer/
 goalLearning/
 ellisPaperCode/
-doormax/
 TOMLG-EXPERIMENTS/*.py~
 TOMLG-EXPERIMENTS/results/*.csv~
 TOMLG-EXPERIMENTS/NULL
@@ -24,3 +23,4 @@ tomlg-diagrams/
 TOMLG/.settings/org.eclipse.m2e.core.prefs
 TOMLG-EXPERIMENTS/*.pyc
 TOMLG/.settings/org.eclipse.jdt.core.prefs
+visualizer2.0/*#*

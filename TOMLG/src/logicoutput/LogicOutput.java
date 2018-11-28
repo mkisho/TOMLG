@@ -49,11 +49,11 @@ public class LogicOutput {
 
 	public void output(Agent agent) throws IOException {
 		step++;
-		System.out.println("\n\n\n");
-		System.out.println(gson.toJson(agent));
+//		System.out.println("\n\n\n");
+//		System.out.println(gson.toJson(agent));
 //		this.jsonWriter.name("Mind");
 		new AgentAdapter().write(this.jsonWriter, agent);
-		System.out.println("\n\n\n");
+//		System.out.println("\n\n\n");
 	}
 
 	public void finalize() {

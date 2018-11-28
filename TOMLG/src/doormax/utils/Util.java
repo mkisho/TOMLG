@@ -36,7 +36,7 @@ public class Util {
 			Optional<ObjectClass> obj = oomdp.getObjectClasses().stream().filter(p -> p.getName().equals(className))
 					.findFirst();
 			assert (obj.isPresent()==true);
-			ObjectClass objClass = obj.get();
+				ObjectClass objClass = obj.get();
 			List<Attribute> attributes = new ArrayList<Attribute>();
 
 			for (String attribute : instance.split("\\(")[1].trim().split(",")) {
