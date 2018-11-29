@@ -35,10 +35,10 @@ public class DoormaxAdapter extends TypeAdapter<DOORMax> {
 					for (final PropositionalFunction pf : condition.getPfIndex()) {
 						if (condition.getEvalOfPropositionalFunctionComplete(pf) == '*')
 							continue;
-						String negation = (condition.getEvalOfPropositionalFunction(pf) ? "" : "\\neg ");
+						String negation = (condition.getEvalOfPropositionalFunction(pf) ? "" : " \\neg ");
 						condEvaluated.add(negation + pf.name);
 					}
-					String preCondition = String.join("\\land ", condEvaluated);
+					String preCondition = String.join(" \\land ", condEvaluated);
 
 					String text = MessageFormat.format("\\gamma^+({0}, {1}) \\to {2}", pred.getAction().getName(),
 							effect, preCondition);

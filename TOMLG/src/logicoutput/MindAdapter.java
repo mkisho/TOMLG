@@ -16,13 +16,15 @@ import tomlg.Mind;
 
 public class MindAdapter extends TypeAdapter<Mind> {
 	private String intentionGen(String type, Goal goal) {
+		if(goal == null)
+			return type+"_{me}(\\oldemptyset)";
+		
 		List<String> effects = new ArrayList<String>(goal.getEffects().size());
 		for (Effect e : goal.getEffects()) {
-			effects.add(e.toLogicFormat());
+			effects.add(" \\gamma^+("+e.toLogicFormat()+")");
 		}
-
 		String str = type + "_{me}<me:" + goal.getAction().getName() + ">(" + String.join("\\land ", effects) + ")";
-		str += " 	\\ddagger" + goal.getMotivation() + " \\ddager";
+		//str += " 	\\ddagger" + goal.getMotivation() + " \\ddager";
 		return str;
 	}
 
@@ -40,10 +42,10 @@ public class MindAdapter extends TypeAdapter<Mind> {
 		}
 
 		///////////////////////////// FDI
-		if (mind.getChoosenFDI() != null) {
+//		if (mind.getChoosenFDI() != null) {
 			writer.name("FDI");
 			writer.value(intentionGen("FDI", mind.getChoosenFDI()));
-		}
+//		}
 
 		// goal -> present directed intention
 		Intention intention = mind.getLastIntention();

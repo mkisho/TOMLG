@@ -146,7 +146,7 @@ public class Experiment01 {
 			args[3] = "100000";
 			args[4] = "statistics";
 			args[5] = "../TOMLG-EXPERIMENTS/demo.mind";
-			args[6] = null;//"../TOMLG-EXPERIMENTS/trainned_minds/exp01-cenario-10x10-001.state.trainned.mind";
+			args[6] = "../TOMLG-EXPERIMENTS/trainned_minds/complete.trainned.exp01.1.mind";
 		}
 		System.out.println(Arrays.toString(args));
 		if (args.length < 4) {

@@ -36,11 +36,14 @@ function printGoals(datax){
 	text = _genericPrintLoop(datax.AchivementGoals);
     }
 
-    console.log(datax.intention);
     if(datax.intention != null){
 	text += " $$"+datax.intention+"$$";
     }
-      
+
+    if(datax.FDI != null){
+	text +=  _genericPrintLoop([datax.FDI]);
+    }
+    
     document.getElementById("reasoning").getElementsByClassName("text")[0].innerHTML = text;
 }
 
@@ -48,7 +51,10 @@ function _genericPrintLoop(array){
     text = "";
 
     for (var index in array){
-	text += "$$ "+ array[index]+ " $$ "; //+"</br>";
+	str = array[index].replace("<", "\mbox{<}");
+	str = str.replace(">", "\mbox{>}");
+	
+	text += "$$ "+ str + " $$ "; //+"</br>";
     }
 
     return text;
