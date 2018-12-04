@@ -7,7 +7,7 @@ exp_prefix = [
     'exp01-cenario-20x20-{}.state',
     'exp01-cenario-50x50-{}.state',
     'exp01-cenario-100x100-{}.state',
-    ]
+]
 
 
 index_variation = ["{0:0=3d}".format(x) for x in range(1, 101)]
@@ -32,7 +32,6 @@ def make_str_exp_all(exp_prefix, index_variation):
         break
         subprocess.call(os_line, shell=True)
 
-    
 if __name__ == "__main__":
     exp_prefix = [
     'exp01-cenario-10x10-{}.state',

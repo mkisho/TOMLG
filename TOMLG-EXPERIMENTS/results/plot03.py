@@ -2,8 +2,14 @@ import numpy as np
 import pandas as pd
 import seaborn as sb
 import csv
-import matplotlib.pyplot as plt                                                                
+import matplotlib.pyplot as plt  
+import matplotlib                                                              
                                            
+font = {'family' : 'normal',
+        'weight' : 'bold',
+        'size'   : 22}
+
+matplotlib.rc('font', **font)
 
 no_learning = []                                                                   
 with open("agent-no-learning.csv") as csvfile:                                 
@@ -32,5 +38,12 @@ line, = plt.plot(continous)
 line.set_label("Continuous Learning")
 line, = plt.plot(transfer)
 line.set_label("Observation Learning")
-plt.legend()
+plt.legend(loc="upper left", bbox_to_anchor=[0, 1],
+           ncol=2, shadow=True, title="Legend", fancybox=True)
+
+plt.xlabel('Scenaries')
+plt.ylabel('Steps')
+plt.title('Number of Steps Comparison Between Different Learning Methods')
+
+#plt.legend()
 plt.show()
